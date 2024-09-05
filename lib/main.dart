@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'pakage:diction_dash/screens/welcome_screen.dart';
 
 void main() {
   runApp(
@@ -9,11 +10,4 @@ void main() {
   );
 }
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
-  }
-}
