@@ -19,12 +19,11 @@ class FeedbackScreen extends StatelessWidget {
             Navigator.pop(context); // Navigate back when back arrow is clicked
           },
         ),
-          title: Container(
-            width: 100,
-            child: Image.asset('images/diction_dash.png',
-              fit: BoxFit.contain,
-            ),
-          )
+        title: Image.asset(
+          'images/diction_dash.png',
+          width: 220,
+        ),
+        centerTitle: true,
       ),
       body: Center(
         child: Padding(
@@ -32,8 +31,10 @@ class FeedbackScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('images/logo.png',
-              height: 100,),
+              Image.asset(
+                'images/logo.png',
+                height: 100,
+              ),
               SizedBox(height: 20),
               // Thank you message
               Text(
@@ -45,8 +46,8 @@ class FeedbackScreen extends StatelessWidget {
               // Proficiency level adjustment message
               Text(
                 'Your proficiency level will be adjusted accordingly, to '
-                    'provide a better learning interactivity. You can adjust '
-                    'the difficulty level in the settings later.',
+                'provide a better learning interactivity. You can adjust '
+                'the difficulty level in the settings later.',
                 textAlign: TextAlign.center,
                 style: kGraySubtext15,
               ),
@@ -55,7 +56,7 @@ class FeedbackScreen extends StatelessWidget {
               RoundedRectangleButton(
                 text: 'PROCEED',
                 color: kOrangeColor600,
-                onPressed: (){
+                onPressed: () {
                   print('Button was pressed!');
                 },
               ),

@@ -3,8 +3,8 @@ import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/profile_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegistrationScreen extends StatelessWidget {
+  const RegistrationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +43,20 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Text('  Register your account', style: kFormInstructionTextStyle),
                 ProfileTextField(
+                  icon: Icons.person,
+                  hintText: 'Username',
+                ),
+                ProfileTextField(
                   icon: Icons.mail,
                   hintText: 'Email',
                 ),
                 ProfileTextField(
                   icon: Icons.lock,
                   hintText: 'Password',
+                ),
+                ProfileTextField(
+                  icon: Icons.lock,
+                  hintText: 'Confirm Password',
                 ),
               ],
             ),

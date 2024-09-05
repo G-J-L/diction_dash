@@ -48,3 +48,8 @@ const kGraySubtext12 = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.normal,
 );
+
+const kFormInstructionTextStyle = TextStyle(
+  fontSize: 18,
+  fontFamily: 'Oswald',
+);
