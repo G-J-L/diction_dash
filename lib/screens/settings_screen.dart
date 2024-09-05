@@ -33,13 +33,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings',
-        style: Medium,),
+        title: Text(
+          'Settings',
+          style: kOswaldMedium,
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-
-          },
+          onPressed: () {},
         ),
       ),
       body: ListView(
@@ -47,16 +47,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             leading: Icon(Icons.person),
             title: Text('Profile'),
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.image),
             title: Text('Preferences'),
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
           SwitchListTile(
             secondary: Icon(Icons.notifications),
@@ -100,15 +96,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             leading: Icon(Icons.info),
             title: Text('FAQ & About'),
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.info),
             title: Text('Help & Support'),
-            onTap: () {
-            },
+            onTap: () {},
           ),
         ],
       ),
