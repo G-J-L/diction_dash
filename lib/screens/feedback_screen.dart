@@ -1,19 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FeedbackScreen(),
-      debugShowCheckedModeBanner: false, // Optional: Hide the debug banner
-    );
-  }
-}
+import 'package:diction_dash/widgets/buttons.dart';
 
 class FeedbackScreen extends StatelessWidget {
   const FeedbackScreen({super.key}); // Added key for consistency
@@ -52,7 +39,7 @@ class FeedbackScreen extends StatelessWidget {
               Text(
                 'THANK YOU\nFOR YOUR FEEDBACK!',
                 textAlign: TextAlign.center,
-                style: Medium,
+                style: kOswaldMedium,
               ),
               SizedBox(height: 20),
               // Proficiency level adjustment message
@@ -61,28 +48,16 @@ class FeedbackScreen extends StatelessWidget {
                     'provide a better learning interactivity. You can adjust '
                     'the difficulty level in the settings later.',
                 textAlign: TextAlign.center,
-                style: Small,
+                style: kGraySubtext15,
               ),
               SizedBox(height: 40),
               // Proceed button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    print("Proceed button clicked!"); // Action for the Proceed button
-                  },
-                  child: Text(
-                    'PROCEED',
-                    style: Buttons,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: kOrangeColor500, // Updated color property
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
+              RoundedRectangleButton(
+                text: 'PROCEED',
+                color: kOrangeColor600,
+                onPressed: (){
+                  print('Button was pressed!');
+                },
               ),
             ],
           ),
