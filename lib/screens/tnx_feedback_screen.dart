@@ -22,15 +22,16 @@ class FeedbackScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(context); // Navigate back when back arrow is clicked
-            },
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
           ),
+          onPressed: () {
+            Navigator.pop(context); // Navigate back when back arrow is clicked
+          },
+        ),
           title: Container(
             width: 100,
             child: Image.asset('images/diction_dash.png',
@@ -45,7 +46,7 @@ class FeedbackScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('images/logo.png',
-                height: 100,),
+              height: 100,),
               SizedBox(height: 20),
               // Thank you message
               Text(

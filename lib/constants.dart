@@ -19,9 +19,20 @@ const kGrayColor200 = Color(0xFFE9E8E8);
 const kGrayColor100 = Color(0xFFF8F8F8);
 
 // TEXT STYLES
-const fontOsw = TextStyle(
+const Buttons = TextStyle(
+  fontSize: 24,
+  fontWeight: FontWeight.normal,
+  color: Colors.white,
+);
+
+const Medium = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 30,
   fontWeight: FontWeight.bold,
 );
 
+const Small = TextStyle(
+  color: kGrayColor600,
+  fontSize: 15,
+  fontWeight: FontWeight.normal,
+);
