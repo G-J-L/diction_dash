@@ -21,20 +21,22 @@ class FeedbackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kOrangeColor200, // Make sure kOrangeColor200 is defined in constants
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context); // Navigate back when back arrow is clicked
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context); // Navigate back when back arrow is clicked
-          },
-        ),
-        title: Image.asset('diction_dash/images/diction_dash.png'),
+          title: Container(
+            width: 100,
+            child: Image.asset('images/diction_dash.png',
+              fit: BoxFit.contain,
+            ),
+          )
       ),
       body: Center(
         child: Padding(
@@ -42,14 +44,14 @@ class FeedbackScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('diction_dash/images/logo.png',
-              height: 100),
+              Image.asset('images/logo.png',
+                height: 100,),
               SizedBox(height: 20),
               // Thank you message
               Text(
                 'THANK YOU\nFOR YOUR FEEDBACK!',
                 textAlign: TextAlign.center,
-                style: fontOsw,
+                style: Medium,
               ),
               SizedBox(height: 20),
               // Proficiency level adjustment message
@@ -58,9 +60,7 @@ class FeedbackScreen extends StatelessWidget {
                     'provide a better learning interactivity. You can adjust '
                     'the difficulty level in the settings later.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: Small,
               ),
               SizedBox(height: 40),
               // Proceed button
@@ -72,7 +72,7 @@ class FeedbackScreen extends StatelessWidget {
                   },
                   child: Text(
                     'PROCEED',
-                    style: TextStyle(fontSize: 18),
+                    style: Buttons,
                   ),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
