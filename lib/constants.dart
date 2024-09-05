@@ -18,3 +18,10 @@ Color kGrayColor300 = Color(0xFFD9D9D9);
 Color kGrayColor200 = Color(0xFFE9E8E8);
 Color kGrayColor100 = Color(0xFFF8F8F8);
 
+// TEXTS
+TextStyle fontOsw = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 30,
+  fontWeight: FontWeight.bold,
+);
+
