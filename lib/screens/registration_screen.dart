@@ -30,33 +30,40 @@ class RegistrationScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Logo
-          Image(
-            image: AssetImage('images/logo.png'),
-            width: 250,
-          ),
-          // Forms
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+          Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('  Register your account', style: kFormInstructionTextStyle),
-                ProfileTextField(
-                  icon: Icons.person,
-                  hintText: 'Username',
+                // Logo
+                Image(
+                  image: AssetImage('images/logo.png'),
+                  width: 250,
                 ),
-                ProfileTextField(
-                  icon: Icons.mail,
-                  hintText: 'Email',
-                ),
-                ProfileTextField(
-                  icon: Icons.lock,
-                  hintText: 'Password',
-                ),
-                ProfileTextField(
-                  icon: Icons.lock,
-                  hintText: 'Confirm Password',
+                // Forms
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('  Register your account',
+                          style: kFormInstructionTextStyle),
+                      ProfileTextField(
+                        icon: Icons.person,
+                        hintText: 'Username',
+                      ),
+                      ProfileTextField(
+                        icon: Icons.mail,
+                        hintText: 'Email',
+                      ),
+                      ProfileTextField(
+                        icon: Icons.lock,
+                        hintText: 'Password',
+                      ),
+                      ProfileTextField(
+                        icon: Icons.lock,
+                        hintText: 'Confirm Password',
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

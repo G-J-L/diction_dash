@@ -30,32 +30,49 @@ class LoginScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Logo
-          Image(
-            image: AssetImage('images/logo.png'),
-            width: 250,
-          ),
-          // Forms
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+          Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('  Register your account', style: kFormInstructionTextStyle),
-                ProfileTextField(
-                  icon: Icons.mail,
-                  hintText: 'Email',
+                // Logo
+                Image(
+                  image: AssetImage('images/logo.png'),
+                  width: 250,
                 ),
-                ProfileTextField(
-                  icon: Icons.lock,
-                  hintText: 'Password',
+                // Forms
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('  Login your account',
+                          style: kFormInstructionTextStyle),
+                      ProfileTextField(
+                        icon: Icons.mail,
+                        hintText: 'Email',
+                      ),
+                      ProfileTextField(
+                        icon: Icons.lock,
+                        hintText: 'Password',
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          'Forgot password  ',
+                          style: kSubtext15.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           // Button
           RoundedRectangleButton(
-            text: 'REGISTER',
+            text: 'LOGIN',
             color: kOrangeColor600,
             onPressed: () {},
           ),
