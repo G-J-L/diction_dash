@@ -27,7 +27,7 @@ class TestScreen extends StatelessWidget {
               // Content that stays in the center
               Text(
                 'Circular Container',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 22),
               ),
             ],
           ),

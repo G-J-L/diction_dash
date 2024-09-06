@@ -33,32 +33,33 @@ class FluencyScreen extends StatelessWidget {
             image: AssetImage('images/logo.png'),
             width: 250,
           ),
-          Text('HOW FLUENT ARE YOU IN ENGLISH?'),
-          OvalButton(
+          Text('HOW FLUENT ARE\nYOU IN ENGLISH?', style: kOswaldMedium),
+          SizedBox(height: 15),
+          OvalInfoButton(
             text: 'BEGINNER',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){},
           ),
-          OvalButton(
+          OvalInfoButton(
             text: 'ELEMENTARY',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){},
           ),
-          OvalButton(
+          OvalInfoButton(
             text: 'INTERMEDIATE',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){},
           ),
-          OvalButton(
+          OvalInfoButton(
             text: 'ADVANCED',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){},
           ),
-          OvalButton(
+          OvalInfoButton(
             text: 'EXPERT',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,

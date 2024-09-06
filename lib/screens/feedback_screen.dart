@@ -40,7 +40,7 @@ class FeedbackScreen extends StatelessWidget {
               Text(
                 'THANK YOU\nFOR YOUR FEEDBACK!',
                 textAlign: TextAlign.center,
-                style: kOswaldMedium,
+                style: kOswaldMediumBold,
               ),
               SizedBox(height: 20),
               // Proficiency level adjustment message
