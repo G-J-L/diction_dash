@@ -6,11 +6,12 @@ import 'package:diction_dash/screens/test_screen.dart';
 import 'package:diction_dash/screens/registration_screen.dart';
 import 'package:diction_dash/screens/login_screen.dart';
 import 'package:diction_dash/screens/fluency_screen.dart';
+import 'package:diction_dash/screens/game/grammar_screen.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: FluencyScreen(),
+      home: VocabularyScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );

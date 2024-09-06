@@ -47,6 +47,11 @@ const kSubtext15 = TextStyle(
   fontWeight: FontWeight.normal,
 );
 
+const kSubtext20 = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.normal,
+);
+
 const kGraySubtext15 = TextStyle(
   color: kGrayColor600,
   fontSize: 15,
