@@ -5,11 +5,12 @@ import 'package:diction_dash/screens/welcome_screen.dart';
 import 'package:diction_dash/screens/test_screen.dart';
 import 'package:diction_dash/screens/registration_screen.dart';
 import 'package:diction_dash/screens/login_screen.dart';
+import 'package:diction_dash/screens/fluency_screen.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: LoginScreen(),
+      home: FluencyScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );
