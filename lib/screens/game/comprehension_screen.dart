@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
-class GrammarScreen extends StatefulWidget {
-  const GrammarScreen({super.key});
+class ComprehensionScreen extends StatefulWidget {
+  const ComprehensionScreen({super.key});
 
   @override
-  State<GrammarScreen> createState() => _GrammarScreenState();
+  State<ComprehensionScreen> createState() => _ComprehensionScreenState();
 }
 
-class _GrammarScreenState extends State<GrammarScreen> {
+class _ComprehensionScreenState extends State<ComprehensionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
