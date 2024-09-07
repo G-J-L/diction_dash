@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/screens/feedback_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/profile_text_field.dart';
 
@@ -39,31 +40,71 @@ class FluencyScreen extends StatelessWidget {
             text: 'BEGINNER',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
-            onPressed: (){},
+            onPressed: (){
+              print('BEGINNER');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackScreen(),
+                ),
+              );
+            },
           ),
           OvalInfoButton(
             text: 'ELEMENTARY',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
-            onPressed: (){},
+            onPressed: (){
+              print('ELEMENTARY');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackScreen(),
+                ),
+              );
+            },
           ),
           OvalInfoButton(
             text: 'INTERMEDIATE',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
-            onPressed: (){},
+            onPressed: (){
+              print('INTERMEDIATE');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackScreen(),
+                ),
+              );
+            },
           ),
           OvalInfoButton(
             text: 'ADVANCED',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
-            onPressed: (){},
+            onPressed: (){
+              print('ADVANCED');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackScreen(),
+                ),
+              );
+            },
           ),
           OvalInfoButton(
             text: 'EXPERT',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
-            onPressed: (){},
+            onPressed: (){
+              print('EXPERT');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedbackScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),

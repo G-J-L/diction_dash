@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/screens/fluency_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/profile_text_field.dart';
 
@@ -74,7 +75,15 @@ class LoginScreen extends StatelessWidget {
           RoundedRectangleButton(
             text: 'LOGIN',
             color: kOrangeColor600,
-            onPressed: () {},
+            onPressed: () {
+              print('REGISTER');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FluencyScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),

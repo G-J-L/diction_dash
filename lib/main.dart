@@ -11,7 +11,7 @@ import 'package:diction_dash/screens/game/grammar_screen.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: VocabularyScreen(),
+      home: WelcomeScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );

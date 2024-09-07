@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/screens/login_screen.dart';
+import 'package:diction_dash/screens/registration_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -16,47 +18,45 @@ class WelcomeScreen extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: double.infinity,
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Transform.scale(
-                    scale: 4.2, // Scale to make it larger than the screen
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 2, // Fixed size
-                      height: MediaQuery.of(context).size.width / 2, // Fixed size to ensure it's circular
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
+              child: Stack(alignment: Alignment.topCenter, children: [
+                Transform.scale(
+                  scale: 4.2, // Scale to make it larger than the screen
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2, // Fixed size
+                    height: MediaQuery.of(context).size.width /
+                        2, // Fixed size to ensure it's circular
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
                     ),
                   ),
-                  Column(
-                    children: [
-                      SizedBox(height: 80),
-                      Image(
-                        image: AssetImage('images/logo.png'),
-                        width: 300,
+                ),
+                Column(
+                  children: [
+                    SizedBox(height: 80),
+                    Image(
+                      image: AssetImage('images/logo.png'),
+                      width: 300,
+                    ),
+                    Text(
+                      'WELCOME TO',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Oswald',
+                        color: kGrayColor600,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 6,
                       ),
-                      Text(
-                        'WELCOME TO',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Oswald',
-                          color: kGrayColor600,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 6,
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Image(
+                        image: AssetImage('images/diction_dash.png'),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Image(
-                          image: AssetImage('images/diction_dash.png'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ]
-              ),
+                    ),
+                  ],
+                ),
+              ]),
             ),
           ),
           Expanded(
@@ -70,6 +70,12 @@ class WelcomeScreen extends StatelessWidget {
                     textStyle: kButtonTextStyleOrange,
                     color: Colors.white,
                     onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
+                      );
                       print('LOGIN');
                     },
                   ),
@@ -79,6 +85,12 @@ class WelcomeScreen extends StatelessWidget {
                     color: kOrangeColor600,
                     borderColor: Colors.white,
                     onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegistrationScreen(),
+                        ),
+                      );
                       print('REGISTER');
                     },
                   ),
@@ -91,7 +103,6 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 }
-
 
 // WELCOME SCREEN TESTING
 class WelcomeTestScreen extends StatelessWidget {
