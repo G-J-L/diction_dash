@@ -6,6 +6,7 @@ import 'package:diction_dash/screens/test_screen.dart';
 import 'package:diction_dash/screens/registration_screen.dart';
 import 'package:diction_dash/screens/login_screen.dart';
 import 'package:diction_dash/screens/fluency_screen.dart';
+import 'package:diction_dash/screens/home_screen.dart';
 import 'package:diction_dash/screens/game/grammar_screen.dart';
 import 'package:diction_dash/screens/game/vocabulary_screen.dart';
 import 'package:diction_dash/screens/game/spelling_screen.dart';
@@ -14,7 +15,7 @@ import 'package:diction_dash/screens/game/comprehension_screen.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: SettingsScreen(),
+      home: WelcomeScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );

@@ -77,7 +77,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ),
             Text(
               'distinct',
-              style: kOswaldMLarge,
+              style: kOswaldLarge,
               textAlign: TextAlign.center,
             ),
             Padding(

@@ -1,3 +1,4 @@
+import 'package:diction_dash/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -51,6 +52,12 @@ class FeedbackScreen extends StatelessWidget {
             text: 'PROCEED',
             color: kOrangeColor600,
             onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ),
+              );
               print('Button was pressed!');
             },
           ),

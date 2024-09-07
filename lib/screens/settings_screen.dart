@@ -39,69 +39,106 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: ListView(
         children: [
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
-            onTap: () {},
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Profile'),
+                onTap: () {},
+              ),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.image),
-            title: Text('Preferences'),
-            onTap: () {},
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.image),
+                title: Text('Preferences'),
+                onTap: () {},
+              ),
+            ),
           ),
-          SwitchListTile(
-            secondary: Icon(Icons.notifications),
-            title: Text('Notifications'),
-            value: _notifications,
-            onChanged: (bool value) {
-              setState(() {
-                _notifications = value;
-              });
-            },
-            activeTrackColor: kOrangeColor300,
-            inactiveThumbColor: Colors.grey,
-            inactiveTrackColor: Colors.grey.shade400,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: SwitchListTile(
+                secondary: Icon(Icons.notifications),
+                title: Text('Notifications'),
+                value: _notifications,
+                onChanged: (bool value) {
+                  setState(() {
+                    _notifications = value;
+                  });
+                },
+                activeTrackColor: kOrangeColor300,
+                inactiveThumbColor: Colors.grey,
+                inactiveTrackColor: Colors.grey.shade400,
+              ),
+            ),
           ),
-          SwitchListTile(
-            secondary: Icon(Icons.arrow_upward),
-            title: Text('Auto caps-lock'),
-            value: _autoCapsLock,
-            onChanged: (bool value) {
-              setState(() {
-                _autoCapsLock = value;
-              });
-            },
-            activeTrackColor: kOrangeColor300,
-            inactiveThumbColor: Colors.grey,
-            inactiveTrackColor: Colors.grey.shade400,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: SwitchListTile(
+                secondary: Icon(Icons.arrow_upward),
+                title: Text('Auto caps-lock'),
+                value: _autoCapsLock,
+                onChanged: (bool value) {
+                  setState(() {
+                    _autoCapsLock = value;
+                  });
+                },
+                activeTrackColor: kOrangeColor300,
+                inactiveThumbColor: Colors.grey,
+                inactiveTrackColor: Colors.grey.shade400,
+              ),
+            ),
           ),
-          SwitchListTile(
-            secondary: Icon(Icons.volume_up),
-            title: Text('Sounds'),
-            value: _sounds,
-            onChanged: (bool value) {
-              setState(() {
-                _sounds = value;
-              });
-            },
-            activeTrackColor: kOrangeColor300,
-            inactiveThumbColor: Colors.grey,
-            inactiveTrackColor: Colors.grey.shade400,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: SwitchListTile(
+                secondary: Icon(Icons.volume_up),
+                title: Text('Sounds'),
+                value: _sounds,
+                onChanged: (bool value) {
+                  setState(() {
+                    _sounds = value;
+                  });
+                },
+                activeTrackColor: kOrangeColor300,
+                inactiveThumbColor: Colors.grey,
+                inactiveTrackColor: Colors.grey.shade400,
+              ),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.info),
-            title: Text('FAQ & About'),
-            onTap: () {},
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.info),
+                title: Text('FAQ & About'),
+                onTap: () {},
+              ),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.info),
-            title: Text('Help & Support'),
-            onTap: () {},
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.info),
+                title: Text('Help & Support'),
+                onTap: () {},
+              ),
+            ),
           ),
         ],
       ),

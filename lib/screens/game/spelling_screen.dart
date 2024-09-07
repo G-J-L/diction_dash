@@ -119,6 +119,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
                             color: kOrangeColor600,
                           ),
                         ),
+                        contentPadding: EdgeInsets.all(18)
                       ),
                     ),
                   ),
