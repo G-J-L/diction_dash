@@ -1,3 +1,4 @@
+import 'package:diction_dash/screens/game/end_game_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/screens/settings_screen.dart';
 import 'package:diction_dash/screens/feedback_screen.dart';
@@ -15,7 +16,7 @@ import 'package:diction_dash/screens/game/comprehension_screen.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: WelcomeScreen(),
+      home: EndGameScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );

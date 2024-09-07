@@ -37,6 +37,11 @@ const kButtonTextStyleOrange = TextStyle(
   color: kOrangeColor600,
 );
 
+const kOswaldSmall = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 25,
+);
+
 const kOswaldMedium = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 30,

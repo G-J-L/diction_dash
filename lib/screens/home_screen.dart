@@ -138,7 +138,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Positioned(
             top: 120,
-            left: 110,
+            left: 150,
             child: CircleAvatar(
               radius: 80,
               backgroundColor: Colors.white,
