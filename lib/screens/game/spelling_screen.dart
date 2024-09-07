@@ -62,9 +62,17 @@ class _SpellingScreenState extends State<SpellingScreen> {
                 ],
               ),
             ),
-            Text(
-              'Spell the following word.',
-              style: kSubtext20,
+            RichText(
+              text: const TextSpan(
+                style: kSubtext20,
+                children: [
+                  TextSpan(
+                    text: 'Spell',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' the following word.'),
+                ],
+              ),
               textAlign: TextAlign.center,
             ),
             GestureDetector(
@@ -75,7 +83,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
                 child: Center(
                   child: Icon(
                     Icons.volume_up,
-                    size: 120,
+                    size: 130,
                     color: kOrangeColor200,
                   ),
                 ),
@@ -93,6 +101,9 @@ class _SpellingScreenState extends State<SpellingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
                       cursorColor: kOrangeColor500,
                       decoration: InputDecoration(
                         hintText: 'Answer',

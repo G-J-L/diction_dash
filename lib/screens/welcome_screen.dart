@@ -61,13 +61,12 @@ class WelcomeScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child: Container(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OvalButton(
-                    text: 'LOGIN',
-                    textStyle: kButtonTextStyleOrange,
                     color: Colors.white,
                     onPressed: () {
                       Navigator.push(
@@ -78,10 +77,14 @@ class WelcomeScreen extends StatelessWidget {
                       );
                       print('LOGIN');
                     },
+                    child: const Center(
+                      child: Text(
+                        'LOGIN',
+                        style: kButtonTextStyleOrange,
+                      ),
+                    ),
                   ),
                   OvalButton(
-                    text: 'REGISTER',
-                    textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     borderColor: Colors.white,
                     onPressed: () {
@@ -93,80 +96,12 @@ class WelcomeScreen extends StatelessWidget {
                       );
                       print('REGISTER');
                     },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// WELCOME SCREEN TESTING
-class WelcomeTestScreen extends StatelessWidget {
-  const WelcomeTestScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kOrangeColor600,
-      body: Column(
-        children: [
-          Expanded(
-            flex: 4,
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                children: [
-                  SizedBox(height: 50),
-                  Image(
-                    image: AssetImage('images/logo.png'),
-                    width: 300,
-                  ),
-                  Text(
-                    'WELCOME TO',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Oswald',
-                      color: kGrayColor600,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 6,
+                    child: const Center(
+                      child: Text(
+                        'REGISTER',
+                        style: kButtonTextStyleWhite,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Image(
-                      image: AssetImage('images/diction_dash.png'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OvalButton(
-                    text: 'LOGIN',
-                    textStyle: kButtonTextStyleOrange,
-                    color: Colors.white,
-                    onPressed: () {
-                      print('LOGIN');
-                    },
-                  ),
-                  OvalButton(
-                    text: 'REGISTER',
-                    textStyle: kButtonTextStyleWhite,
-                    color: kOrangeColor600,
-                    borderColor: Colors.white,
-                    onPressed: () {
-                      print('REGISTER');
-                    },
                   ),
                 ],
               ),

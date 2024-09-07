@@ -25,6 +25,12 @@ const kButtonTextStyleWhite = TextStyle(
   color: Colors.white,
 );
 
+const kButtonTextStyleWhite20 = TextStyle(
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+);
+
 const kButtonTextStyleOrange = TextStyle(
   fontSize: 24,
   fontWeight: FontWeight.bold,
@@ -50,11 +56,13 @@ const kOswaldMLarge = TextStyle(
 const kSubtext15 = TextStyle(
   fontSize: 15,
   fontWeight: FontWeight.normal,
+  color: Colors.black,
 );
 
 const kSubtext20 = TextStyle(
   fontSize: 20,
   fontWeight: FontWeight.normal,
+  color: Colors.black,
 );
 
 const kGraySubtext18 = TextStyle(

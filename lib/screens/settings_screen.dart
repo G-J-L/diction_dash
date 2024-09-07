@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: Text(
           'Settings',
-          style: kOswaldMediumBold,
+          style: kOswaldMedium,
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

@@ -62,9 +62,17 @@ class _GrammarScreenState extends State<GrammarScreen> {
                 ],
               ),
             ),
-            Text(
-              'Identify if the sentence\nis grammatically correct.',
-              style: kSubtext20,
+            RichText(
+              text: const TextSpan(
+                style: kSubtext20,
+                children: [
+                  TextSpan(text: 'Identify if the sentence\nis '),
+                  TextSpan(
+                    text: ' grammatically correct.',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
               textAlign: TextAlign.center,
             ),
             Text(
@@ -73,26 +81,34 @@ class _GrammarScreenState extends State<GrammarScreen> {
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.symmetric(vertical: 30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OvalButton(
-                    text: 'CORRECT',
-                    textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     onPressed: () {
                       print('CORRECT');
                     },
+                    child: const Center(
+                      child: Text(
+                        'CORRECT',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                   OvalButton(
-                    text: 'INCORRECT',
-                    textStyle: kButtonTextStyleOrange,
                     color: Colors.white,
                     borderColor: kOrangeColor600,
                     onPressed: () {
                       print('INCORRECT');
                     },
+                    child: const Center(
+                      child: Text(
+                        'INCORRECT',
+                        style: kButtonTextStyleOrange,
+                      ),
+                    ),
                   ),
                 ],
               ),

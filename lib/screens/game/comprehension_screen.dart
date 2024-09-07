@@ -62,42 +62,71 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                 ],
               ),
             ),
-            Text(
-              'Identify if the sentence\nis grammatically correct.',
-              style: kSubtext20,
+            RichText(
+              text: const TextSpan(
+                style: kSubtext20,
+                children: [
+                  TextSpan(
+                    text: 'Comprehend',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' the sentence\nand answer the given question.'),
+                ],
+              ),
               textAlign: TextAlign.center,
             ),
-            Text(
-              "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
+            const Text(
+              'The cat jumped onto the\nand answer the given question.\n\nWhat did the cat do?',
               style: kSubtext20,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 15.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  OvalButton(
-                    text: 'CORRECT',
-                    textStyle: kButtonTextStyleWhite,
-                    color: kOrangeColor600,
-                    onPressed: () {
-                      print('CORRECT');
-                    },
+                  ChoiceButton(
+                    text: 'enjoyed the view',
+                    onPressed: () {},
                   ),
-                  OvalButton(
-                    text: 'INCORRECT',
-                    textStyle: kButtonTextStyleOrange,
-                    color: Colors.white,
-                    borderColor: kOrangeColor600,
-                    onPressed: () {
-                      print('INCORRECT');
-                    },
+                  ChoiceButton(
+                    text: 'leaped from a window',
+                    onPressed: () {},
+                  ),
+                  ChoiceButton(
+                    text: 'hissed at the dog',
+                    onPressed: () {},
+                  ),
+                  ChoiceButton(
+                    text: 'washed the brids',
+                    onPressed: () {},
                   ),
                 ],
               ),
-            ),
+            )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChoiceButton extends StatelessWidget {
+  ChoiceButton({this.text, this.onPressed});
+
+  final String? text;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return OvalButton(
+      color: kOrangeColor600,
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 18),
+        child: Text(
+          text!,
+          style: kButtonTextStyleWhite20,
         ),
       ),
     );

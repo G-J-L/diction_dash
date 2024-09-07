@@ -62,9 +62,17 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 ],
               ),
             ),
-            Text(
-              'Select the appropriate\nsynonym.',
-              style: kSubtext20,
+            RichText(
+              text: const TextSpan(
+                style: kSubtext20,
+                children: [
+                  TextSpan(text: 'Select the appropriate\n'),
+                  TextSpan(
+                    text: 'synonym.',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
               textAlign: TextAlign.center,
             ),
             Text(
@@ -78,36 +86,52 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OvalButton(
-                    text: 'mystic',
-                    textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     onPressed: () {
                       print('mystic');
                     },
+                    child: Center(
+                      child: Text(
+                        'mystic',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                   OvalButton(
-                    text: 'demure',
-                    textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     onPressed: () {
                       print('demure');
                     },
+                    child: Center(
+                      child: Text(
+                        'demure',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                   OvalButton(
-                    text: 'unique',
-                    textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     onPressed: () {
                       print('unique');
                     },
+                    child: Center(
+                      child: Text(
+                        'unique',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                   OvalButton(
-                    text: 'exhausted',
-                    textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     onPressed: () {
                       print('exhausted');
                     },
+                    child: Center(
+                      child: Text(
+                        'exhausted',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                 ],
               ),

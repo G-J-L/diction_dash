@@ -9,11 +9,12 @@ import 'package:diction_dash/screens/fluency_screen.dart';
 import 'package:diction_dash/screens/game/grammar_screen.dart';
 import 'package:diction_dash/screens/game/vocabulary_screen.dart';
 import 'package:diction_dash/screens/game/spelling_screen.dart';
+import 'package:diction_dash/screens/game/comprehension_screen.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: SpellingScreen(),
+      home: SettingsScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );
