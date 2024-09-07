@@ -63,35 +63,59 @@ class _SpellingScreenState extends State<SpellingScreen> {
               ),
             ),
             Text(
-              'Identify if the sentence\nis grammatically correct.',
+              'Spell the following word.',
               style: kSubtext20,
               textAlign: TextAlign.center,
             ),
-            Text(
-              "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
-              style: kSubtext20,
-              textAlign: TextAlign.center,
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 200,
+                height: 200,
+                child: Center(
+                  child: Icon(
+                    Icons.volume_up,
+                    size: 120,
+                    color: kOrangeColor200,
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: kOrangeColor600,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+              ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  OvalButton(
-                    text: 'CORRECT',
-                    textStyle: kButtonTextStyleWhite,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      cursorColor: kOrangeColor500,
+                      decoration: InputDecoration(
+                        hintText: 'Answer',
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 4,
+                            color: kOrangeColor600,
+                          ),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 4,
+                            color: kOrangeColor600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  RoundedRectangleButton(
+                    text: 'Submit',
                     color: kOrangeColor600,
                     onPressed: () {
-                      print('CORRECT');
-                    },
-                  ),
-                  OvalButton(
-                    text: 'INCORRECT',
-                    textStyle: kButtonTextStyleOrange,
-                    color: Colors.white,
-                    borderColor: kOrangeColor600,
-                    onPressed: () {
-                      print('INCORRECT');
+                      print('Submit');
                     },
                   ),
                 ],

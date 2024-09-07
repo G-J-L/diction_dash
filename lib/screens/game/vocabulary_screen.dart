@@ -63,13 +63,13 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               ),
             ),
             Text(
-              'Identify if the sentence\nis grammatically correct.',
+              'Select the appropriate\nsynonym.',
               style: kSubtext20,
               textAlign: TextAlign.center,
             ),
             Text(
-              "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
-              style: kSubtext20,
+              'distinct',
+              style: kOswaldMLarge,
               textAlign: TextAlign.center,
             ),
             Padding(
@@ -78,20 +78,35 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OvalButton(
-                    text: 'CORRECT',
+                    text: 'mystic',
                     textStyle: kButtonTextStyleWhite,
                     color: kOrangeColor600,
                     onPressed: () {
-                      print('CORRECT');
+                      print('mystic');
                     },
                   ),
                   OvalButton(
-                    text: 'INCORRECT',
-                    textStyle: kButtonTextStyleOrange,
-                    color: Colors.white,
-                    borderColor: kOrangeColor600,
+                    text: 'demure',
+                    textStyle: kButtonTextStyleWhite,
+                    color: kOrangeColor600,
                     onPressed: () {
-                      print('INCORRECT');
+                      print('demure');
+                    },
+                  ),
+                  OvalButton(
+                    text: 'unique',
+                    textStyle: kButtonTextStyleWhite,
+                    color: kOrangeColor600,
+                    onPressed: () {
+                      print('unique');
+                    },
+                  ),
+                  OvalButton(
+                    text: 'exhausted',
+                    textStyle: kButtonTextStyleWhite,
+                    color: kOrangeColor600,
+                    onPressed: () {
+                      print('exhausted');
                     },
                   ),
                 ],

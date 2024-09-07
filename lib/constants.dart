@@ -42,6 +42,11 @@ const kOswaldMediumBold = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const kOswaldMLarge = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 46,
+);
+
 const kSubtext15 = TextStyle(
   fontSize: 15,
   fontWeight: FontWeight.normal,
@@ -49,6 +54,12 @@ const kSubtext15 = TextStyle(
 
 const kSubtext20 = TextStyle(
   fontSize: 20,
+  fontWeight: FontWeight.normal,
+);
+
+const kGraySubtext18 = TextStyle(
+  color: kGrayColor600,
+  fontSize: 18,
   fontWeight: FontWeight.normal,
 );
 
