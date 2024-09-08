@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/screens/fluency_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:diction_dash/widgets/profile_text_field.dart';
+import 'package:diction_dash/widgets/text_fields.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});

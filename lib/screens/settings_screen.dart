@@ -1,22 +1,6 @@
-import 'package:diction_dash/constants.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Settings Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SettingsScreen(),
-    );
-  }
-}
+import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/screens/profile_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -43,104 +27,116 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Navigator.pop(context);
           },
         ),
+        centerTitle: true,
       ),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Profile'),
-                onTap: () {},
-              ),
+          SettingCard(
+            child: ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(),
+                  ),
+                );
+              },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.image),
-                title: Text('Preferences'),
-                onTap: () {},
-              ),
+          SettingCard(
+            child: ListTile(
+              leading: Icon(Icons.image),
+              title: Text('Preferences'),
+              onTap: () {},
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: SwitchListTile(
-                secondary: Icon(Icons.notifications),
-                title: Text('Notifications'),
-                value: _notifications,
-                onChanged: (bool value) {
-                  setState(() {
-                    _notifications = value;
-                  });
-                },
-                activeTrackColor: kOrangeColor300,
-                inactiveThumbColor: Colors.grey,
-                inactiveTrackColor: Colors.grey.shade400,
-              ),
+          SettingCard(
+            child: SwitchListTile(
+              secondary: Icon(Icons.notifications),
+              title: Text('Notifications'),
+              value: _notifications,
+              onChanged: (bool value) {
+                setState(() {
+                  _notifications = value;
+                });
+              },
+              activeTrackColor: kOrangeColor300,
+              inactiveThumbColor: Colors.grey,
+              inactiveTrackColor: Colors.grey.shade400,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: SwitchListTile(
-                secondary: Icon(Icons.arrow_upward),
-                title: Text('Auto caps-lock'),
-                value: _autoCapsLock,
-                onChanged: (bool value) {
-                  setState(() {
-                    _autoCapsLock = value;
-                  });
-                },
-                activeTrackColor: kOrangeColor300,
-                inactiveThumbColor: Colors.grey,
-                inactiveTrackColor: Colors.grey.shade400,
-              ),
+          SettingCard(
+            child: SwitchListTile(
+              secondary: Icon(Icons.arrow_upward),
+              title: Text('Auto caps-lock'),
+              value: _autoCapsLock,
+              onChanged: (bool value) {
+                setState(() {
+                  _autoCapsLock = value;
+                });
+              },
+              activeTrackColor: kOrangeColor300,
+              inactiveThumbColor: Colors.grey,
+              inactiveTrackColor: Colors.grey.shade400,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: SwitchListTile(
-                secondary: Icon(Icons.volume_up),
-                title: Text('Sounds'),
-                value: _sounds,
-                onChanged: (bool value) {
-                  setState(() {
-                    _sounds = value;
-                  });
-                },
-                activeTrackColor: kOrangeColor300,
-                inactiveThumbColor: Colors.grey,
-                inactiveTrackColor: Colors.grey.shade400,
-              ),
+          SettingCard(
+            child: SwitchListTile(
+              secondary: Icon(Icons.volume_up),
+              title: Text('Sounds'),
+              value: _sounds,
+              onChanged: (bool value) {
+                setState(() {
+                  _sounds = value;
+                });
+              },
+              activeTrackColor: kOrangeColor300,
+              inactiveThumbColor: Colors.grey,
+              inactiveTrackColor: Colors.grey.shade400,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.info),
-                title: Text('FAQ & About'),
-                onTap: () {},
-              ),
+          SettingCard(
+            child: ListTile(
+              leading: Icon(Icons.info),
+              title: Text('FAQ & About'),
+              onTap: () {},
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.info),
-                title: Text('Help & Support'),
-                onTap: () {},
-              ),
+          SettingCard(
+            child: ListTile(
+              leading: Icon(Icons.info),
+              title: Text('Help & Support'),
+              onTap: () {},
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SettingCard extends StatelessWidget {
+  const SettingCard({this.child, this.onPressed});
+
+  final Widget? child;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: kGrayColor200,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: child,
+        ),
       ),
     );
   }

@@ -136,16 +136,15 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
+          const Positioned(
             top: 120,
-            left: 150,
+            left: 110,
             child: CircleAvatar(
               radius: 80,
               backgroundColor: Colors.white,
               child: CircleAvatar(
                 radius: 70,
-                backgroundImage: NetworkImage(
-                    'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'),
+                backgroundImage: AssetImage('images/placeholder_profile.png'),
               ),
             ),
           ),

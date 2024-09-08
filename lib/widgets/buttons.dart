@@ -6,7 +6,11 @@ class RoundedRectangleButton extends StatelessWidget {
   final Color? color;
   final void Function()? onPressed;
 
-  const RoundedRectangleButton({this.text, this.onPressed, this.color});
+  const RoundedRectangleButton({
+    this.text,
+    this.onPressed,
+    this.color
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,49 +65,6 @@ class OvalButton extends StatelessWidget {
     );
   }
 }
-
-// class OvalButton extends StatelessWidget {
-//   final String? text;
-//   final TextStyle? textStyle;
-//   final Color? color;
-//   final Color? borderColor;
-//   final void Function()? onPressed;
-//
-//   const OvalButton(
-//       {this.text,
-//       this.textStyle,
-//       this.onPressed,
-//       this.color,
-//       this.borderColor});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-//       child: TextButton(
-//         onPressed: onPressed,
-//         child: Container(
-//           width: double.infinity,
-//           padding: EdgeInsets.symmetric(vertical: 16),
-//           decoration: BoxDecoration(
-//             color: color,
-//             borderRadius: BorderRadius.circular(90),
-//             border: Border.all(
-//               width: 5,
-//               color: (borderColor == null) ? color! : borderColor!,
-//             ),
-//           ),
-//           child: Center(
-//             child: Text(
-//               text!,
-//               style: textStyle!,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class OvalInfoButton extends StatelessWidget {
   final String? text;
