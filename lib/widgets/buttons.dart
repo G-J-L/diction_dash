@@ -6,11 +6,7 @@ class RoundedRectangleButton extends StatelessWidget {
   final Color? color;
   final void Function()? onPressed;
 
-  const RoundedRectangleButton({
-    this.text,
-    this.onPressed,
-    this.color
-  });
+  const RoundedRectangleButton({this.text, this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +107,94 @@ class OvalInfoButton extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ProfileEditButton extends StatelessWidget {
+  ProfileEditButton({this.text, this.labelText, this.onPressed});
+
+  final String? text;
+  final String? labelText;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 5, bottom: 5),
+            child: Text(
+              text!,
+              style: TextStyle(
+                fontSize: 13,
+                color: kGrayColor600,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: onPressed,
+            child: Container(
+              width: double.infinity,
+              height: 60,
+              decoration: BoxDecoration(
+                color: kGrayColor100,
+                border: Border.all(
+                  color: kGrayColor300,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListTile(
+                title: Text(
+                  labelText!,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.edit,
+                  size: 30,
+                  color: kGrayColor500,
+                ),
+              ),
+              // child: TextField(
+              //   cursorColor: kOrangeColor500,
+              //   decoration: InputDecoration(
+              //     suffixIcon: Icon(
+              //       Icons.edit,
+              //       size: 30,
+              //       color: kGrayColor500,
+              //     ),
+              //     labelText: labelText,
+              //     labelStyle: TextStyle(
+              //       fontSize: 18,
+              //       color: Colors.black,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     border: const OutlineInputBorder(
+              //       borderSide: BorderSide(
+              //         width: 1,
+              //         color: kGrayColor300,
+              //       ),
+              //     ),
+              //     focusedBorder: const OutlineInputBorder(
+              //       borderSide: BorderSide(
+              //         width: 1,
+              //         color: kGrayColor300,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+            ),
+          ),
+        ],
       ),
     );
   }
