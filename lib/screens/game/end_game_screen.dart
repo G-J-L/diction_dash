@@ -136,7 +136,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RoundedRectangleButton(
-                    text: 'Submit',
+                    text: 'Continue',
                     color: kOrangeColor600,
                     onPressed: () {
                       print('Continue');
