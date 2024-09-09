@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/bottom_sheets.dart';
+import 'package:diction_dash/screens/game/end_game_screen.dart';
 
 class GrammarScreen extends StatefulWidget {
   const GrammarScreen({super.key});
@@ -25,10 +27,15 @@ class _GrammarScreenState extends State<GrammarScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.close,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -53,10 +60,15 @@ class _GrammarScreenState extends State<GrammarScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.help,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: (){
+                        showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
+                      },
+                      child: Icon(
+                        Icons.help,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ],
@@ -89,6 +101,12 @@ class _GrammarScreenState extends State<GrammarScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('CORRECT');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                     child: const Center(
                       child: Text(
@@ -102,6 +120,12 @@ class _GrammarScreenState extends State<GrammarScreen> {
                     borderColor: kOrangeColor600,
                     onPressed: () {
                       print('INCORRECT');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                     child: const Center(
                       child: Text(

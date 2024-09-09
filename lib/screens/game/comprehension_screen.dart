@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/screens/game/end_game_screen.dart';
+import 'package:diction_dash/widgets/bottom_sheets.dart';
 
 class ComprehensionScreen extends StatefulWidget {
   const ComprehensionScreen({super.key});
@@ -25,10 +27,15 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.close,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -53,10 +60,18 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.help,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: () {
+                        showGameDescription(context,
+                            title: 'Comprehension',
+                            description:
+                                'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
+                      },
+                      child: Icon(
+                        Icons.help,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ],
@@ -70,7 +85,8 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                     text: 'Comprehend',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  TextSpan(text: ' the sentence\nand answer the given question.'),
+                  TextSpan(
+                      text: ' the sentence\nand answer the given question.'),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -87,19 +103,47 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                 children: [
                   ChoiceButton(
                     text: 'enjoyed the view',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
+                    },
                   ),
                   ChoiceButton(
                     text: 'leaped from a window',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
+                    },
                   ),
                   ChoiceButton(
                     text: 'hissed at the dog',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
+                    },
                   ),
                   ChoiceButton(
                     text: 'washed the brids',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

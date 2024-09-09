@@ -33,7 +33,7 @@ class FeedbackScreen extends StatelessWidget {
           Column(
             children: [
               Image(
-                image: AssetImage('images/logo.png'),
+                image: AssetImage('images/logo_eyes_closed.png'),
                 width: 250,
               ),
               Text(

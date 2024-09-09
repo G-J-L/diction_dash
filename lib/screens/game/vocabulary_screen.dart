@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/bottom_sheets.dart';
+import 'package:diction_dash/screens/game/end_game_screen.dart';
 
 class VocabularyScreen extends StatefulWidget {
   const VocabularyScreen({super.key});
@@ -25,10 +27,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.close,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -53,10 +60,15 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.help,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: (){
+                        showGameDescription(context, title: 'Vocabulary', description: 'Select which of the four\noptions you believe to be\nthe best response.');
+                      },
+                      child: Icon(
+                        Icons.help,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ],
@@ -89,6 +101,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('mystic');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                     child: Center(
                       child: Text(
@@ -101,6 +119,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('demure');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                     child: Center(
                       child: Text(
@@ -113,6 +137,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('unique');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                     child: Center(
                       child: Text(
@@ -125,6 +155,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('exhausted');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                     child: Center(
                       child: Text(

@@ -10,7 +10,8 @@ void showGameDescription(BuildContext context,
     builder: (context) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-        height: 600,
+        width: double.infinity,
+        height: 300,
         child: Column(
           children: [
             Container(
@@ -21,14 +22,17 @@ void showGameDescription(BuildContext context,
                 color: kGrayColor500,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
               title!,
-              style: kOswaldMedium,
+              style: kSubtext32.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
+            SizedBox(height: 20),
             Text(
               description!,
               style: kSubtext20,
+              textAlign: TextAlign.center,
             )
           ],
         ),

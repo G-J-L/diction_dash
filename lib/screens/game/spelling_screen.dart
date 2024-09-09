@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/bottom_sheets.dart';
+import 'package:diction_dash/screens/game/end_game_screen.dart';
 
 class SpellingScreen extends StatefulWidget {
   const SpellingScreen({super.key});
@@ -25,10 +27,15 @@ class _SpellingScreenState extends State<SpellingScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.close,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -53,10 +60,15 @@ class _SpellingScreenState extends State<SpellingScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Icon(
-                      Icons.help,
-                      color: kGrayColor500,
-                      size: 35,
+                    child: GestureDetector(
+                      onTap: (){
+                        showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully\nand make sure to type the\nword in the answer box.');
+                      },
+                      child: Icon(
+                        Icons.help,
+                        color: kGrayColor500,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ],
@@ -128,6 +140,12 @@ class _SpellingScreenState extends State<SpellingScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('Submit');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EndGameScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],
