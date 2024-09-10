@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -35,18 +35,18 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               children: [
                 // Logo
-                Image(
+                const Image(
                   image: AssetImage('images/logo.png'),
                   width: 250,
                 ),
                 // Forms
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('  Login your account',
+                      const Text('  Login your account',
                           style: kFormInstructionTextStyle),
                       ProfileTextField(
                         icon: Icons.mail,
@@ -73,17 +73,22 @@ class LoginScreen extends StatelessWidget {
           ),
           // Button
           RoundedRectangleButton(
-            text: 'LOGIN',
             color: kOrangeColor600,
             onPressed: () {
-              print('REGISTER');
+              print('LOGIN');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FluencyScreen(),
+                  builder: (context) => const FluencyScreen(),
                 ),
               );
             },
+            child: const Center(
+              child: Text(
+                'LOGIN',
+                style: kButtonTextStyleWhite,
+              ),
+            ),
           ),
         ],
       ),

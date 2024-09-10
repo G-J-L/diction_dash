@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.settings,
                           color: Colors.white,
                           size: 35,
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 flex: 3,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -54,12 +54,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: 60),
-                      Text('USERNAME', style: kOswaldLarge),
+                      const SizedBox(height: 60),
+                      const Text('USERNAME', style: kOswaldLarge),
                       Stack(
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 10.0),
                             width: double.infinity,
                             height: 30,
                             decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            margin: const EdgeInsets.symmetric(horizontal: 10.0),
                             width: 230,
                             height: 30,
                             decoration: BoxDecoration(
@@ -80,19 +80,19 @@ class HomeScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(200),
                             ),
                           ),
-                          Center(
+                          const Center(
                             child: Text('Level 1', style: kSubtext20),
                           ),
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5.0),
                       StatCard(
                         text: 'SPELLING',
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SpellingScreen(),
+                              builder: (context) => const SpellingScreen(),
                             ),
                           );
                         },
@@ -103,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VocabularyScreen(),
+                              builder: (context) => const VocabularyScreen(),
                             ),
                           );
                         },
@@ -114,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GrammarScreen(),
+                              builder: (context) => const GrammarScreen(),
                             ),
                           );
                         },
@@ -125,11 +125,11 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ComprehensionScreen(),
+                                builder: (context) => const ComprehensionScreen(),
                               ),
                             );
                           }),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10.0),
                     ],
                   ),
                 ),
@@ -155,7 +155,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class StatCard extends StatelessWidget {
-  StatCard({this.text, this.onPressed});
+  const StatCard({super.key, this.text, this.onPressed});
 
   final String? text;
   final void Function()? onPressed;
@@ -164,7 +164,7 @@ class StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         child: GestureDetector(
           onTap: onPressed,
           child: Container(
@@ -173,34 +173,32 @@ class StatCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundImage: NetworkImage(
                         'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'),
                     radius: 30,
                   ),
                   Expanded(
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(text!, style: kOswaldMedium),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: double.infinity,
-                            height: 20,
-                            decoration: BoxDecoration(
-                              color: kGrayColor100,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Center(
-                              child: Text('Level 1'),
-                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(text!, style: kOswaldMedium),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                          width: double.infinity,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: kGrayColor100,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ],
-                      ),
+                          child: const Center(
+                            child: Text('Level 1'),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

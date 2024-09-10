@@ -7,6 +7,9 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'dart:math';
 
 class EndGameScreen extends StatefulWidget {
+
+  const EndGameScreen({super.key});
+
   @override
   _EndGameScreenState createState() => _EndGameScreenState();
 }
@@ -39,7 +42,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
               children: [
                 // Top Bar
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -49,7 +52,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.close,
                             color: kGrayColor500,
                             size: 35,
@@ -64,7 +67,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                             color: kOrangeColor600,
                             borderRadius: BorderRadius.circular(90),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               '20 / 20',
                               style: TextStyle(
@@ -76,7 +79,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                           ),
                         ),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Icon(
                           Icons.help,
@@ -88,13 +91,13 @@ class _EndGameScreenState extends State<EndGameScreen> {
                   ),
                 ),
 
-                Text('EXCELLENT!', style: kOswaldExtraLarge),
+                const Text('EXCELLENT!', style: kOswaldExtraLarge),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Column(
                     children: [
-                      Text('SCORE', style: kOswaldMedium),
+                      const Text('SCORE', style: kOswaldMedium),
                       Container(
                         width: double.infinity,
                         height: 30,
@@ -102,7 +105,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                           color: kOrangeColor600,
                           borderRadius: BorderRadius.circular(90),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             '20 / 20',
                             style: TextStyle(
@@ -113,8 +116,8 @@ class _EndGameScreenState extends State<EndGameScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Text('EXPERIENCE POINTS', style: kOswaldMedium),
+                      const SizedBox(height: 10),
+                      const Text('EXPERIENCE POINTS', style: kOswaldMedium),
                       Text(
                         '+1028 XP',
                         style: kButtonTextStyleOrange.copyWith(fontSize: 36),
@@ -123,7 +126,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                   ),
                 ),
 
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.star, size: 120, color: Colors.yellow),
@@ -136,17 +139,22 @@ class _EndGameScreenState extends State<EndGameScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RoundedRectangleButton(
-                    text: 'Continue',
                     color: kOrangeColor600,
                     onPressed: () {
                       print('Continue');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
+                          builder: (context) => const HomeScreen(),
                         ),
                       );
                     },
+                    child: const Center(
+                      child: Text(
+                        'Continue',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                 ),
               ],

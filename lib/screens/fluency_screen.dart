@@ -14,7 +14,7 @@ class FluencyScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -30,12 +30,12 @@ class FluencyScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Image(
+          const Image(
             image: AssetImage('images/logo.png'),
             width: 250,
           ),
-          Text('HOW FLUENT ARE\nYOU IN ENGLISH?', style: kOswaldMedium),
-          SizedBox(height: 15),
+          const Text('HOW FLUENT ARE\nYOU IN ENGLISH?', style: kOswaldMedium),
+          const SizedBox(height: 15),
           OvalInfoButton(
             text: 'BEGINNER',
             textStyle: kButtonTextStyleWhite,

@@ -21,17 +21,17 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
           children: [
             // Top Bar
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: kGrayColor500,
                         size: 35,
@@ -46,7 +46,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         color: kOrangeColor600,
                         borderRadius: BorderRadius.circular(90),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '20 / 20',
                           style: TextStyle(
@@ -59,12 +59,12 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
                         showGameDescription(context, title: 'Vocabulary', description: 'Select which of the four\noptions you believe to be\nthe best response.');
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.help,
                         color: kGrayColor500,
                         size: 35,
@@ -87,13 +87,13 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            Text(
+            const Text(
               'distinct',
               style: kOswaldLarge,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -104,11 +104,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'mystic',
                         style: kButtonTextStyleWhite,
@@ -122,11 +122,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'demure',
                         style: kButtonTextStyleWhite,
@@ -140,11 +140,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'unique',
                         style: kButtonTextStyleWhite,
@@ -158,11 +158,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'exhausted',
                         style: kButtonTextStyleWhite,

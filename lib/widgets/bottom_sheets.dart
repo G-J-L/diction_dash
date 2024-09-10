@@ -9,7 +9,7 @@ void showGameDescription(BuildContext context,
     context: context,
     builder: (context) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         width: double.infinity,
         height: 300,
         child: Column(
@@ -22,13 +22,13 @@ void showGameDescription(BuildContext context,
                 color: kGrayColor500,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               title!,
               style: kSubtext32.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               description!,
               style: kSubtext20,
@@ -46,7 +46,7 @@ void showChangeUsernameInterface(BuildContext context) {
     context: context,
     builder: (context) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
         height: 600,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +61,7 @@ void showChangeUsernameInterface(BuildContext context) {
                     color: kGrayColor500,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Change Username',
                   style: kSubtext20.copyWith(fontWeight: FontWeight.bold),
@@ -73,9 +73,14 @@ void showChangeUsernameInterface(BuildContext context) {
               ],
             ),
             RoundedRectangleButton(
-              text: 'CONTINUE',
               color: kOrangeColor600,
               onPressed: () {},
+              child: const Center(
+                child: Text(
+                  'CONTINUE',
+                  style: kButtonTextStyleWhite,
+                ),
+              ),
             ),
           ],
         ),
@@ -89,7 +94,7 @@ void showChangePasswordInterface(BuildContext context) {
     context: context,
     builder: (context) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         height: 600,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +109,7 @@ void showChangePasswordInterface(BuildContext context) {
                     color: kGrayColor500,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Change Password',
                   style: kSubtext20.copyWith(fontWeight: FontWeight.bold),
@@ -124,9 +129,14 @@ void showChangePasswordInterface(BuildContext context) {
               ],
             ),
             RoundedRectangleButton(
-              text: 'CONTINUE',
               color: kOrangeColor600,
               onPressed: () {},
+              child: const Center(
+                child: Text(
+                  'CONTINUE',
+                  style: kButtonTextStyleWhite,
+                ),
+              ),
             ),
           ],
         ),
@@ -140,7 +150,7 @@ void showDeleteAccountInterface(BuildContext context) {
     context: context,
     builder: (context) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         height: 600,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,7 +165,7 @@ void showDeleteAccountInterface(BuildContext context) {
                     color: kGrayColor500,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Account Deletion',
                   style: kSubtext20.copyWith(fontWeight: FontWeight.bold),
@@ -172,9 +182,14 @@ void showDeleteAccountInterface(BuildContext context) {
               labelText: '*********',
             ),
             RoundedRectangleButton(
-              text: 'DELETE',
               color: Colors.redAccent,
               onPressed: () {},
+              child: const Center(
+                child: Text(
+                  'DELETE',
+                  style: kButtonTextStyleWhite,
+                ),
+              ),
             ),
           ],
         ),

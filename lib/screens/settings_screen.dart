@@ -17,12 +17,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Settings',
           style: kOswaldMedium,
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -33,13 +33,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           SettingCard(
             child: ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
+                    builder: (context) => const ProfileScreen(),
                   ),
                 );
               },
@@ -47,15 +47,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           SettingCard(
             child: ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Preferences'),
+              leading: const Icon(Icons.image),
+              title: const Text('Preferences'),
               onTap: () {},
             ),
           ),
           SettingCard(
             child: SwitchListTile(
-              secondary: Icon(Icons.notifications),
-              title: Text('Notifications'),
+              secondary: const Icon(Icons.notifications),
+              title: const Text('Notifications'),
               value: _notifications,
               onChanged: (bool value) {
                 setState(() {
@@ -69,8 +69,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           SettingCard(
             child: SwitchListTile(
-              secondary: Icon(Icons.arrow_upward),
-              title: Text('Auto caps-lock'),
+              secondary: const Icon(Icons.arrow_upward),
+              title: const Text('Auto caps-lock'),
               value: _autoCapsLock,
               onChanged: (bool value) {
                 setState(() {
@@ -84,8 +84,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           SettingCard(
             child: SwitchListTile(
-              secondary: Icon(Icons.volume_up),
-              title: Text('Sounds'),
+              secondary: const Icon(Icons.volume_up),
+              title: const Text('Sounds'),
               value: _sounds,
               onChanged: (bool value) {
                 setState(() {
@@ -99,15 +99,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           SettingCard(
             child: ListTile(
-              leading: Icon(Icons.info),
-              title: Text('FAQ & About'),
+              leading: const Icon(Icons.info),
+              title: const Text('FAQ & About'),
               onTap: () {},
             ),
           ),
           SettingCard(
             child: ListTile(
-              leading: Icon(Icons.info),
-              title: Text('Help & Support'),
+              leading: const Icon(Icons.info),
+              title: const Text('Help & Support'),
               onTap: () {},
             ),
           ),
@@ -118,7 +118,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 }
 
 class SettingCard extends StatelessWidget {
-  const SettingCard({this.child, this.onPressed});
+  const SettingCard({super.key, this.child, this.onPressed});
 
   final Widget? child;
   final void Function()? onPressed;

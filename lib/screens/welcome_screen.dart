@@ -25,13 +25,13 @@ class WelcomeScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width / 2, // Fixed size
                     height: MediaQuery.of(context).size.width /
                         2, // Fixed size to ensure it's circular
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                   ),
                 ),
-                Column(
+                const Column(
                   children: [
                     SizedBox(height: 80),
                     Image(
@@ -62,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -72,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
+                          builder: (context) => const LoginScreen(),
                         ),
                       );
                       print('LOGIN');

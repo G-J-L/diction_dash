@@ -42,7 +42,8 @@ class ProfileTextField extends StatelessWidget {
 }
 
 class ProfileEditTextField extends StatelessWidget {
-  ProfileEditTextField({this.text, this.labelText});
+
+  const ProfileEditTextField({super.key, this.text, this.labelText});
 
   final String? text;
   final String? labelText;
@@ -58,7 +59,7 @@ class ProfileEditTextField extends StatelessWidget {
             padding: const EdgeInsets.only(left: 5, bottom: 5),
             child: Text(
               text!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 color: kGrayColor600,
               ),
@@ -69,13 +70,13 @@ class ProfileEditTextField extends StatelessWidget {
             child: TextField(
               cursorColor: kOrangeColor500,
               decoration: InputDecoration(
-                suffixIcon: Icon(
+                suffixIcon: const Icon(
                   Icons.edit,
                   size: 30,
                   color: kGrayColor500,
                 ),
                 labelText: labelText,
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   fontSize: 18,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,

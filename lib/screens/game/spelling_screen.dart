@@ -21,17 +21,17 @@ class _SpellingScreenState extends State<SpellingScreen> {
           children: [
             // Top Bar
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: kGrayColor500,
                         size: 35,
@@ -44,9 +44,9 @@ class _SpellingScreenState extends State<SpellingScreen> {
                       height: 30,
                       decoration: BoxDecoration(
                         color: kOrangeColor600,
-                        borderRadius: BorderRadius.circular(90),
+                        borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '20 / 20',
                           style: TextStyle(
@@ -59,12 +59,12 @@ class _SpellingScreenState extends State<SpellingScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
                         showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully\nand make sure to type the\nword in the answer box.');
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.help,
                         color: kGrayColor500,
                         size: 35,
@@ -92,16 +92,16 @@ class _SpellingScreenState extends State<SpellingScreen> {
               child: Container(
                 width: 200,
                 height: 200,
-                child: Center(
+                decoration: BoxDecoration(
+                  color: kOrangeColor600,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: const Center(
                   child: Icon(
                     Icons.volume_up,
                     size: 130,
                     color: kOrangeColor200,
                   ),
-                ),
-                decoration: BoxDecoration(
-                  color: kOrangeColor600,
-                  borderRadius: BorderRadius.circular(24),
                 ),
               ),
             ),
@@ -110,7 +110,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       style: TextStyle(
@@ -136,17 +136,22 @@ class _SpellingScreenState extends State<SpellingScreen> {
                     ),
                   ),
                   RoundedRectangleButton(
-                    text: 'Submit',
                     color: kOrangeColor600,
                     onPressed: () {
                       print('Submit');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
+                    child: const Center(
+                      child: Text(
+                        'Submit',
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                 ],
               ),

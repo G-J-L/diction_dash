@@ -21,17 +21,17 @@ class _GrammarScreenState extends State<GrammarScreen> {
           children: [
             // Top Bar
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
                         Navigator.pop(context);
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: kGrayColor500,
                         size: 35,
@@ -44,9 +44,9 @@ class _GrammarScreenState extends State<GrammarScreen> {
                       height: 30,
                       decoration: BoxDecoration(
                         color: kOrangeColor600,
-                        borderRadius: BorderRadius.circular(90),
+                        borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '20 / 20',
                           style: TextStyle(
@@ -59,12 +59,12 @@ class _GrammarScreenState extends State<GrammarScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
                         showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.help,
                         color: kGrayColor500,
                         size: 35,
@@ -87,13 +87,13 @@ class _GrammarScreenState extends State<GrammarScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            Text(
+            const Text(
               "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
               style: kSubtext20,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -104,7 +104,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
@@ -123,7 +123,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },

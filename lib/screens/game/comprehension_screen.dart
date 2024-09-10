@@ -21,17 +21,17 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
           children: [
             // Top Bar
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.close,
                         color: kGrayColor500,
                         size: 35,
@@ -46,7 +46,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         color: kOrangeColor600,
                         borderRadius: BorderRadius.circular(90),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           '20 / 20',
                           style: TextStyle(
@@ -59,7 +59,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: () {
                         showGameDescription(context,
@@ -67,7 +67,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                             description:
                                 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.help,
                         color: kGrayColor500,
                         size: 35,
@@ -98,7 +98,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 15.0),
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
               child: Column(
                 children: [
                   ChoiceButton(
@@ -107,7 +107,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
@@ -118,7 +118,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
@@ -129,7 +129,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
@@ -140,7 +140,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EndGameScreen(),
+                          builder: (context) => const EndGameScreen(),
                         ),
                       );
                     },
@@ -156,7 +156,8 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
 }
 
 class ChoiceButton extends StatelessWidget {
-  ChoiceButton({this.text, this.onPressed});
+
+  const ChoiceButton({super.key, this.text, this.onPressed});
 
   final String? text;
   final void Function()? onPressed;
@@ -167,7 +168,7 @@ class ChoiceButton extends StatelessWidget {
       color: kOrangeColor600,
       onPressed: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(left: 18),
+        padding: const EdgeInsets.only(left: 18.0),
         child: Text(
           text!,
           style: kButtonTextStyleWhite20,

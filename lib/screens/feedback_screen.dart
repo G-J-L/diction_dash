@@ -13,7 +13,7 @@ class FeedbackScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -30,7 +30,7 @@ class FeedbackScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
+          const Column(
             children: [
               Image(
                 image: AssetImage('images/logo_eyes_closed.png'),
@@ -43,23 +43,28 @@ class FeedbackScreen extends StatelessWidget {
               ),
             ],
           ),
-          Text(
+          const Text(
             'Your proficiency level will be\nadjusted accordingly, to provide\na better learning interactivity. You can\nadjust the difficulty level in the settings\nlater.',
             textAlign: TextAlign.center,
             style: kGraySubtext18,
           ),
           RoundedRectangleButton(
-            text: 'PROCEED',
             color: kOrangeColor600,
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => const HomeScreen(),
                 ),
               );
               print('Button was pressed!');
             },
+            child: const Center(
+              child: Text(
+                'PROCEED',
+                style: kButtonTextStyleWhite,
+              ),
+            ),
           ),
         ],
       ),

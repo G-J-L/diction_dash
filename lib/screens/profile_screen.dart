@@ -7,17 +7,20 @@ import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
 class ProfileScreen extends StatelessWidget {
+
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Profile',
           style: kOswaldMedium,
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -33,18 +36,18 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage('images/placeholder_profile.png'),
+                  backgroundImage: const AssetImage('images/placeholder_profile.png'),
                   radius: 80,
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
                       width: 40,
                       height: 40,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: kGrayColor600,
                       ),
-                      child: Icon(Icons.edit, color: Colors.white, size: 28),
+                      child: const Icon(Icons.edit, color: Colors.white, size: 28),
                     ),
                   ),
                 ),
@@ -63,38 +66,53 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 RoundedRectangleButton(
-                  text: 'ADJUST FLUENCY',
                   color: kGrayColor300,
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FluencyScreen(),
+                        builder: (context) => const FluencyScreen(),
                       ),
                     );
                   },
+                  child: const Center(
+                    child: Text(
+                      'ADJUST FLUENCY',
+                      style: kButtonTextStyleBlack,
+                    ),
+                  ),
                 ),
                 RoundedRectangleButton(
-                  text: 'DELETE ACCOUNT',
                   color: kGrayColor300,
                   onPressed: () {
                     showDeleteAccountInterface(context);
                   },
+                  child: const Center(
+                    child: Text(
+                      'DELETE ACCOUNT',
+                      style: kButtonTextStyleBlack,
+                    ),
+                  ),
                 ),
               ],
             ),
             RoundedRectangleButton(
-              text: 'LOGOUT',
               color: kOrangeColor600,
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WelcomeScreen(),
+                    builder: (context) => const WelcomeScreen(),
                   ),
                 );
               },
-            )
+              child: const Center(
+                child: Text(
+                  'LOGOUT',
+                  style: kButtonTextStyleWhite,
+                ),
+              ),
+            ),
           ],
         ),
       ),

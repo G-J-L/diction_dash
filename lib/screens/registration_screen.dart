@@ -14,7 +14,7 @@ class RegistrationScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -35,7 +35,7 @@ class RegistrationScreen extends StatelessWidget {
             child: Column(
               children: [
                 // Logo
-                Image(
+                const Image(
                   image: AssetImage('images/logo.png'),
                   width: 250,
                 ),
@@ -45,7 +45,7 @@ class RegistrationScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('  Register your account',
+                      const Text('  Register your account',
                           style: kFormInstructionTextStyle),
                       ProfileTextField(
                         icon: Icons.person,
@@ -71,7 +71,6 @@ class RegistrationScreen extends StatelessWidget {
           ),
           // Button
           RoundedRectangleButton(
-            text: 'REGISTER',
             color: kOrangeColor600,
             onPressed: () {
               print('REGISTER');
@@ -82,6 +81,12 @@ class RegistrationScreen extends StatelessWidget {
                 ),
               );
             },
+            child: const Center(
+              child: Text(
+                'REGISTER',
+                style: kButtonTextStyleWhite,
+              ),
+            ),
           ),
         ],
       ),

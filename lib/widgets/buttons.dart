@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 
 class RoundedRectangleButton extends StatelessWidget {
-  final String? text;
+  final Widget? child;
   final Color? color;
   final void Function()? onPressed;
 
-  const RoundedRectangleButton({this.text, this.onPressed, this.color});
+  const RoundedRectangleButton({this.child, this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,7 @@ class RoundedRectangleButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 16),
           width: double.infinity,
-          child: Center(
-            child: Text(
-              text!,
-              style: kButtonTextStyleWhite,
-            ),
-          ),
+          child: child,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(8),
@@ -32,6 +27,38 @@ class RoundedRectangleButton extends StatelessWidget {
     );
   }
 }
+
+// class RoundedRectangleButton extends StatelessWidget {
+//   final String? text;
+//   final Color? color;
+//   final void Function()? onPressed;
+//
+//   const RoundedRectangleButton({this.text, this.onPressed, this.color});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: GestureDetector(
+//         onTap: onPressed,
+//         child: Container(
+//           padding: EdgeInsets.symmetric(vertical: 16),
+//           width: double.infinity,
+//           child: Center(
+//             child: Text(
+//               text!,
+//               style: kButtonTextStyleWhite,
+//             ),
+//           ),
+//           decoration: BoxDecoration(
+//             color: color,
+//             borderRadius: BorderRadius.circular(8),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class OvalButton extends StatelessWidget {
   final Widget? child;
