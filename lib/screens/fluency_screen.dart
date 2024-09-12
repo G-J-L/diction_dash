@@ -49,6 +49,8 @@ class FluencyScreen extends StatelessWidget {
                 ),
               );
             },
+            infoTitle: 'BEGINNER',
+            infoDescription: 'I know a few words and phrases but struggle with basic sentences.',
           ),
           OvalInfoButton(
             text: 'ELEMENTARY',
@@ -63,6 +65,8 @@ class FluencyScreen extends StatelessWidget {
                 ),
               );
             },
+            infoTitle: 'ELEMENTARY',
+            infoDescription: 'I can understand simple spoken English and basic written texts.',
           ),
           OvalInfoButton(
             text: 'INTERMEDIATE',
@@ -77,6 +81,8 @@ class FluencyScreen extends StatelessWidget {
                 ),
               );
             },
+            infoTitle: 'INTERMEDIATE',
+            infoDescription: 'I can hold basic conversations, read, and write with some errors.',
           ),
           OvalInfoButton(
             text: 'ADVANCED',
@@ -91,6 +97,8 @@ class FluencyScreen extends StatelessWidget {
                 ),
               );
             },
+            infoTitle: 'ADVANCED',
+            infoDescription: 'I can understand and engage in various topics, and read and write effectively with minimal errors.',
           ),
           OvalInfoButton(
             text: 'EXPERT',
@@ -105,6 +113,8 @@ class FluencyScreen extends StatelessWidget {
                 ),
               );
             },
+            infoTitle: 'EXPERT',
+            infoDescription: 'I am fluent in English, capable of understanding complex texts and engaging in advanced conversations effortlessly.',
           ),
         ],
       ),

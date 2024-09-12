@@ -51,10 +51,12 @@ class LoginScreen extends StatelessWidget {
                       ProfileTextField(
                         icon: Icons.mail,
                         hintText: 'Email',
+                        keyboardType: TextInputType.emailAddress,
                       ),
                       ProfileTextField(
                         icon: Icons.lock,
                         hintText: 'Password',
+                        obscureText: true,
                       ),
                       Align(
                         alignment: Alignment.centerRight,

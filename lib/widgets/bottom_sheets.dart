@@ -67,8 +67,8 @@ void showChangeUsernameInterface(BuildContext context) {
                   style: kSubtext20.copyWith(fontWeight: FontWeight.bold),
                 ),
                 ProfileEditTextField(
-                  text: 'NEW USERNAME',
-                  labelText: 'New Username',
+                  labelText: 'NEW USERNAME',
+                  initialValue: 'Alice Guo',
                 ),
               ],
             ),
@@ -115,16 +115,16 @@ void showChangePasswordInterface(BuildContext context) {
                   style: kSubtext20.copyWith(fontWeight: FontWeight.bold),
                 ),
                 ProfileEditTextField(
-                  text: 'CURRENT PASSWORD',
-                  labelText: '*********',
+                  labelText: 'CURRENT PASSWORD',
+                  initialValue: '*********',
                 ),
                 ProfileEditTextField(
-                  text: 'NEW PASSWORD',
-                  labelText: '*********',
+                  labelText: 'NEW PASSWORD',
+                  initialValue: '*********',
                 ),
                 ProfileEditTextField(
-                  text: 'CONFIRM PASSWORD',
-                  labelText: '*********',
+                  labelText: 'CONFIRM PASSWORD',
+                  initialValue: '*********',
                 ),
               ],
             ),
@@ -178,8 +178,8 @@ void showDeleteAccountInterface(BuildContext context) {
               textAlign: TextAlign.center,
             ),
             ProfileEditTextField(
-              text: 'PASSWORD',
-              labelText: '*********',
+              labelText: 'PASSWORD',
+              initialValue: '*********',
             ),
             RoundedRectangleButton(
               color: Colors.redAccent,

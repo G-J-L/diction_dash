@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 
 class ProfileTextField extends StatelessWidget {
-  ProfileTextField({this.icon, this.hintText});
+  ProfileTextField(
+      {this.icon, this.hintText, this.keyboardType, this.obscureText = false});
 
   final IconData? icon;
   final String? hintText;
+  final TextInputType? keyboardType;
+  final bool? obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +17,8 @@ class ProfileTextField extends StatelessWidget {
       child: Container(
         color: kGrayColor100,
         child: TextField(
+          keyboardType: keyboardType,
+          obscureText: obscureText!,
           cursorColor: kOrangeColor500,
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -41,12 +46,32 @@ class ProfileTextField extends StatelessWidget {
   }
 }
 
-class ProfileEditTextField extends StatelessWidget {
+class ProfileEditTextField extends StatefulWidget {
+  const ProfileEditTextField(
+      {super.key,
+      this.labelText,
+      this.initialValue = '',
+      this.keyboardType,
+      this.obscureText = false});
 
-  const ProfileEditTextField({super.key, this.text, this.labelText});
-
-  final String? text;
   final String? labelText;
+  final String? initialValue;
+  final TextInputType? keyboardType;
+  final bool? obscureText;
+
+  @override
+  State<ProfileEditTextField> createState() => _ProfileEditTextFieldState();
+}
+
+class _ProfileEditTextFieldState extends State<ProfileEditTextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +83,7 @@ class ProfileEditTextField extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 5, bottom: 5),
             child: Text(
-              text!,
+              widget.labelText!,
               style: const TextStyle(
                 fontSize: 13,
                 color: kGrayColor600,
@@ -68,26 +93,28 @@ class ProfileEditTextField extends StatelessWidget {
           Container(
             color: kGrayColor100,
             child: TextField(
+              controller: _controller,
+              keyboardType: widget.keyboardType,
+              obscureText: widget.obscureText!,
               cursorColor: kOrangeColor500,
-              decoration: InputDecoration(
-                suffixIcon: const Icon(
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              decoration: const InputDecoration(
+                suffixIcon: Icon(
                   Icons.edit,
                   size: 30,
                   color: kGrayColor500,
                 ),
-                labelText: labelText,
-                labelStyle: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-                border: const OutlineInputBorder(
+                border: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1,
                     color: kGrayColor300,
                   ),
                 ),
-                focusedBorder: const OutlineInputBorder(
+                focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1,
                     color: kGrayColor300,

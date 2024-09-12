@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:diction_dash/constants.dart';
 
 class RoundedRectangleButton extends StatelessWidget {
@@ -27,38 +28,6 @@ class RoundedRectangleButton extends StatelessWidget {
     );
   }
 }
-
-// class RoundedRectangleButton extends StatelessWidget {
-//   final String? text;
-//   final Color? color;
-//   final void Function()? onPressed;
-//
-//   const RoundedRectangleButton({this.text, this.onPressed, this.color});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: GestureDetector(
-//         onTap: onPressed,
-//         child: Container(
-//           padding: EdgeInsets.symmetric(vertical: 16),
-//           width: double.infinity,
-//           child: Center(
-//             child: Text(
-//               text!,
-//               style: kButtonTextStyleWhite,
-//             ),
-//           ),
-//           decoration: BoxDecoration(
-//             color: color,
-//             borderRadius: BorderRadius.circular(8),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class OvalButton extends StatelessWidget {
   final Widget? child;
@@ -90,12 +59,20 @@ class OvalButton extends StatelessWidget {
 }
 
 class OvalInfoButton extends StatelessWidget {
+  const OvalInfoButton(
+      {this.text,
+      this.textStyle,
+      this.onPressed,
+      this.color,
+      this.infoTitle,
+      this.infoDescription});
+
   final String? text;
   final TextStyle? textStyle;
   final Color? color;
   final void Function()? onPressed;
-
-  const OvalInfoButton({this.text, this.textStyle, this.onPressed, this.color});
+  final String? infoTitle;
+  final String? infoDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -125,10 +102,40 @@ class OvalInfoButton extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Icon(
-                  Icons.info,
-                  size: 35,
-                  color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Alert(
+                      context: context,
+                      title: infoTitle,
+                      desc: infoDescription,
+                      style: AlertStyle(
+                        titleStyle: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        descStyle: TextStyle(
+                          fontSize: 18,
+                        ),
+                        backgroundColor: kGrayColor200,
+                        overlayColor: Colors.black26,
+                        alertBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      buttons: [
+                        DialogButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('CANCEL', style: kButtonTextStyleWhite),
+                          color: kOrangeColor600,
+                        ),
+                      ]
+                    ).show();
+                  },
+                  child: const Icon(
+                    Icons.info,
+                    size: 35,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),

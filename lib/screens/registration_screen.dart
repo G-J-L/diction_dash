@@ -54,14 +54,17 @@ class RegistrationScreen extends StatelessWidget {
                       ProfileTextField(
                         icon: Icons.mail,
                         hintText: 'Email',
+                        keyboardType: TextInputType.emailAddress,
                       ),
                       ProfileTextField(
                         icon: Icons.lock,
                         hintText: 'Password',
+                        obscureText: true,
                       ),
                       ProfileTextField(
                         icon: Icons.lock,
                         hintText: 'Confirm Password',
+                        obscureText: true,
                       ),
                     ],
                   ),
