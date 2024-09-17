@@ -17,7 +17,7 @@ import 'package:diction_dash/screens/game/end_game_screen.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: HomeScreen(),
+      home: WelcomeScreen(),
       debugShowCheckedModeBanner: false,
     ),
   );
