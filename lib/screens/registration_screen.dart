@@ -4,15 +4,22 @@ import 'package:diction_dash/screens/fluency_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
+
+  @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+
+  final _formGlobalKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        elevation: 0,
+        scrolledUnderElevation: 0.0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -28,70 +35,72 @@ class RegistrationScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                // Logo
-                const Image(
-                  image: AssetImage('images/logo.png'),
-                  width: 250,
+      body: Form(
+        key: _formGlobalKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Image(
+                      image: AssetImage('images/logo.png'),
+                      width: 250,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('  Register your account',
+                              style: kFormInstructionTextStyle),
+                          ProfileTextFormField(
+                            icon: Icons.person,
+                            hintText: 'Username',
+                          ),
+                          ProfileTextFormField(
+                            icon: Icons.mail,
+                            hintText: 'Email',
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          ProfileTextFormField(
+                            icon: Icons.lock,
+                            hintText: 'Password',
+                            obscureText: true,
+                          ),
+                          ProfileTextFormField(
+                            icon: Icons.lock,
+                            hintText: 'Confirm Password',
+                            obscureText: true,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                // Forms
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('  Register your account',
-                          style: kFormInstructionTextStyle),
-                      ProfileTextField(
-                        icon: Icons.person,
-                        hintText: 'Username',
-                      ),
-                      ProfileTextField(
-                        icon: Icons.mail,
-                        hintText: 'Email',
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      ProfileTextField(
-                        icon: Icons.lock,
-                        hintText: 'Password',
-                        obscureText: true,
-                      ),
-                      ProfileTextField(
-                        icon: Icons.lock,
-                        hintText: 'Confirm Password',
-                        obscureText: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Button
-          RoundedRectangleButton(
-            color: kOrangeColor600,
-            onPressed: () {
-              print('REGISTER');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FluencyScreen(),
-                ),
-              );
-            },
-            child: const Center(
-              child: Text(
-                'REGISTER',
-                style: kButtonTextStyleWhite,
               ),
             ),
-          ),
-        ],
+            RoundedRectangleButton(
+              color: kOrangeColor600,
+              onPressed: () {
+                print('REGISTER');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FluencyScreen(),
+                  ),
+                );
+              },
+              child: const Center(
+                child: Text(
+                  'REGISTER',
+                  style: kButtonTextStyleWhite,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
