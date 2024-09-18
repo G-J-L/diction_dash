@@ -47,11 +47,19 @@ class ProfileTextField extends StatelessWidget {
 }
 
 class ProfileTextFormField extends StatelessWidget {
-  ProfileTextFormField(
-      {this.icon, this.hintText, this.keyboardType, this.obscureText = false});
+  ProfileTextFormField({
+    this.icon,
+    this.hintText,
+    this.keyboardType,
+    this.obscureText = false,
+    this.validator,
+    this.onSaved,
+  });
 
   final IconData? icon;
   final String? hintText;
+  final FormFieldValidator<String>? validator;
+  final FormFieldSetter<String>? onSaved;
   final TextInputType? keyboardType;
   final bool? obscureText;
 
@@ -62,6 +70,8 @@ class ProfileTextFormField extends StatelessWidget {
       child: Container(
         color: kGrayColor100,
         child: TextFormField(
+          validator: validator,
+          onSaved: onSaved,
           keyboardType: keyboardType,
           obscureText: obscureText!,
           cursorColor: kOrangeColor500,

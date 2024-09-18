@@ -14,6 +14,10 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
 
   final _formGlobalKey = GlobalKey<FormState>();
+  String _username = '';
+  String _email = '';
+  String _password = '';
+  String _confirmPassword = '';
 
   @override
   Widget build(BuildContext context) {
@@ -58,21 +62,57 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ProfileTextFormField(
                             icon: Icons.person,
                             hintText: 'Username',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please provide a username.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _username = value!;
+                            },
                           ),
                           ProfileTextFormField(
                             icon: Icons.mail,
                             hintText: 'Email',
                             keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please provide a valid email.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _email = value!;
+                            },
                           ),
                           ProfileTextFormField(
                             icon: Icons.lock,
                             hintText: 'Password',
                             obscureText: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please provide a valid password.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _password = value!;
+                            },
                           ),
                           ProfileTextFormField(
                             icon: Icons.lock,
                             hintText: 'Confirm Password',
                             obscureText: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please provide a valid password.';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _confirmPassword = value!;
+                            },
                           ),
                         ],
                       ),
@@ -84,11 +124,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () {
-                print('REGISTER');
+                if (_formGlobalKey.currentState!.validate()) {
+                  _formGlobalKey.currentState!.save();
+                  print(_username);
+                  print(_email);
+                  print(_password);
+                  print(_confirmPassword);
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FluencyScreen(),
+                    builder: (context) => const FluencyScreen(),
                   ),
                 );
               },
