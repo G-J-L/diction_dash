@@ -46,9 +46,12 @@ class _LoginScreenState extends State<LoginScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Image(
-                      image: AssetImage('images/logo.png'),
-                      width: 250,
+                    const Hero(
+                      tag: 'app-logo',
+                      child: Image(
+                        image: AssetImage('images/logo.png'),
+                        width: 250,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),

@@ -34,9 +34,12 @@ class WelcomeScreen extends StatelessWidget {
                 const Column(
                   children: [
                     SizedBox(height: 80),
-                    Image(
-                      image: AssetImage('images/logo.png'),
-                      width: 300,
+                    Hero(
+                      tag: 'app-logo',
+                      child: Image(
+                        image: AssetImage('images/logo.png'),
+                        width: 300,
+                      ),
                     ),
                     Text(
                       'WELCOME TO',
@@ -50,8 +53,11 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: Image(
-                        image: AssetImage('images/diction_dash.png'),
+                      child: Hero(
+                        tag: 'app-title',
+                        child: Image(
+                          image: AssetImage('images/diction_dash.png'),
+                        ),
                       ),
                     ),
                   ],

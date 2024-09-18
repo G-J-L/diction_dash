@@ -33,8 +33,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Navigator.pop(context); // Navigate back when back arrow is clicked
           },
         ),
-        title: Image.asset(
-          'images/diction_dash.png',
+        title: Image(
+          image: AssetImage('images/diction_dash.png'),
           width: 220,
         ),
         centerTitle: true,
@@ -48,9 +48,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Image(
-                      image: AssetImage('images/logo.png'),
-                      width: 250,
+                    const Hero(
+                      tag: 'app-logo',
+                      child: Image(
+                        image: AssetImage('images/logo.png'),
+                        width: 250,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
