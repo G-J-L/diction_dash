@@ -91,6 +91,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 5.0),
                   StatCard(
                     text: 'SPELLING',
+                    image: AssetImage('images/spelling.png'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -102,6 +103,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   StatCard(
                     text: 'VOCABULARY',
+                    image: AssetImage('images/vocabulary.png'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -113,6 +115,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   StatCard(
                     text: 'GRAMMAR',
+                    image: AssetImage('images/grammar.png'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -124,6 +127,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   StatCard(
                       text: 'COMPREHENSION',
+                      image: AssetImage('images/comprehension.png'),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -159,9 +163,10 @@ class HomeScreen extends StatelessWidget {
 }
 
 class StatCard extends StatelessWidget {
-  const StatCard({super.key, this.text, this.onPressed});
+  const StatCard({super.key, this.text, this.image, this.onPressed});
 
   final String? text;
+  final ImageProvider<Object>? image;
   final void Function()? onPressed;
 
   @override
@@ -182,8 +187,7 @@ class StatCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg'),
+                      backgroundImage: image!,
                       radius: 40,
                     ),
                   ),
