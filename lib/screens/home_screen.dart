@@ -4,7 +4,7 @@ import 'package:diction_dash/screens/game/spelling_screen.dart';
 import 'package:diction_dash/screens/game/vocabulary_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/screens/settings_screen.dart';
+import 'package:diction_dash/screens/settings/settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

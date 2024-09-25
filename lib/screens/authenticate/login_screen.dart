@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   print(_password);
                 }
                 await loginUser();
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const AuthManager(),

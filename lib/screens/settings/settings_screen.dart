@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/screens/profile_screen.dart';
+import 'package:diction_dash/screens/settings/profile_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

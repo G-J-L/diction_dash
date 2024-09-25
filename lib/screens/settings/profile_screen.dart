@@ -9,7 +9,6 @@ import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
 class ProfileScreen extends StatelessWidget {
-
   const ProfileScreen({super.key});
 
   void logout() async {
@@ -42,7 +41,8 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CircleAvatar(
-                  backgroundImage: const AssetImage('images/placeholder_profile.png'),
+                  backgroundImage:
+                      const AssetImage('images/placeholder_profile.png'),
                   radius: 80,
                   child: Align(
                     alignment: Alignment.bottomRight,
@@ -53,14 +53,15 @@ class ProfileScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: kGrayColor600,
                       ),
-                      child: const Icon(Icons.edit, color: Colors.white, size: 28),
+                      child:
+                          const Icon(Icons.edit, color: Colors.white, size: 28),
                     ),
                   ),
                 ),
                 ProfileEditButton(
                   text: 'USERNAME',
                   labelText: 'Alice Guo',
-                  onPressed: (){
+                  onPressed: () {
                     showChangeUsernameInterface(context);
                   },
                 ),
@@ -106,11 +107,11 @@ class ProfileScreen extends StatelessWidget {
               color: kOrangeColor600,
               onPressed: () {
                 logout();
-                Navigator.push(
-                  context,
+                Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => const AuthManager(),
                   ),
+                  (Route<dynamic> route) => false,
                 );
               },
               child: const Center(

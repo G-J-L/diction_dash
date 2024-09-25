@@ -152,7 +152,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(_confirmPassword);
                 }
                 await registerUser();
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const AuthManager(),
