@@ -1,4 +1,6 @@
+import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/screens/home_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -16,6 +18,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formGlobalKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+
+  Future<void> loginUser() async {
+    print('Registering New User!');
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,16 +108,17 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             RoundedRectangleButton(
               color: kOrangeColor600,
-              onPressed: () {
+              onPressed: () async {
                 if (_formGlobalKey.currentState!.validate()) {
                   _formGlobalKey.currentState!.save();
                   print(_email);
                   print(_password);
                 }
+                await loginUser();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const AuthManager(),
                   ),
                 );
               },

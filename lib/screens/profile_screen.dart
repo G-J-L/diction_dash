@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:diction_dash/screens/fluency_screen.dart';
-import 'package:diction_dash/screens/welcome_screen.dart';
+import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -9,6 +11,10 @@ import 'package:diction_dash/widgets/buttons.dart';
 class ProfileScreen extends StatelessWidget {
 
   const ProfileScreen({super.key});
+
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +105,11 @@ class ProfileScreen extends StatelessWidget {
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () {
+                logout();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const WelcomeScreen(),
+                    builder: (context) => const AuthManager(),
                   ),
                 );
               },

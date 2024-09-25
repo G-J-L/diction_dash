@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/screens/login_screen.dart';
-import 'package:diction_dash/screens/registration_screen.dart';
+import 'package:diction_dash/screens/authenticate/login_screen.dart';
+import 'package:diction_dash/screens/authenticate/registration_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
 class WelcomeScreen extends StatelessWidget {

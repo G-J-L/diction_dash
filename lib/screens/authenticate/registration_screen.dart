@@ -1,4 +1,7 @@
+import 'package:diction_dash/screens/authenticate/auth_manager.dart';
+import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/screens/fluency_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -12,12 +15,25 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   final _formGlobalKey = GlobalKey<FormState>();
   String _username = '';
   String _email = '';
   String _password = '';
   String _confirmPassword = '';
+
+  Future<void> registerUser() async {
+    print('Registering New User!');
+    if (_password != _confirmPassword) {
+      print('Passwords Do Not Match!');
+    } else {
+      try {
+        UserCredential? userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _email, password: _password);
+      } on FirebaseAuthException catch (e) {
+        print(e.code);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +72,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40.0, vertical: 30.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -126,7 +143,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             RoundedRectangleButton(
               color: kOrangeColor600,
-              onPressed: () {
+              onPressed: () async {
                 if (_formGlobalKey.currentState!.validate()) {
                   _formGlobalKey.currentState!.save();
                   print(_username);
@@ -134,10 +151,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(_password);
                   print(_confirmPassword);
                 }
+                await registerUser();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const FluencyScreen(),
+                    builder: (context) => const AuthManager(),
                   ),
                 );
               },

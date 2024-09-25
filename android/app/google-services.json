@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:766597729911:android:99492318727c8ecc8b8072",
+        "android_client_info": {
+          "package_name": "com.diction_dash.diction_dash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHfy8wBG1hQ_ZZYtbcJk-MtH-J_ecJ2r4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:766597729911:android:90af22c282ab601b8b8072",
         "android_client_info": {
           "package_name": "diction_dash.com.diction_dash"
