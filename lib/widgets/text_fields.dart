@@ -104,11 +104,13 @@ class ProfileTextFormField extends StatelessWidget {
 class ProfileEditTextField extends StatefulWidget {
   const ProfileEditTextField(
       {super.key,
+      this.controller,
       this.labelText,
       this.initialValue = '',
       this.keyboardType,
       this.obscureText = false});
 
+  final TextEditingController? controller;
   final String? labelText;
   final String? initialValue;
   final TextInputType? keyboardType;
@@ -119,13 +121,14 @@ class ProfileEditTextField extends StatefulWidget {
 }
 
 class _ProfileEditTextFieldState extends State<ProfileEditTextField> {
-  late TextEditingController _controller;
-
+  // late TextEditingController _controller;
+  //
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = TextEditingController(text: widget.initialValue);
+    widget.controller!.text = widget.initialValue!;
+    // _controller = TextEditingController(text: widget.initialValue);
   }
 
   @override
@@ -148,7 +151,7 @@ class _ProfileEditTextFieldState extends State<ProfileEditTextField> {
           Container(
             color: kGrayColor100,
             child: TextField(
-              controller: _controller,
+              controller: widget.controller,
               keyboardType: widget.keyboardType,
               obscureText: widget.obscureText!,
               cursorColor: kOrangeColor500,

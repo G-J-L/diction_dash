@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           'Profile',
@@ -73,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                   },
                 ),
                 RoundedRectangleButton(
-                  color: kGrayColor300,
+                  color: kGrayColor400,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -90,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 RoundedRectangleButton(
-                  color: kGrayColor300,
+                  color: kGrayColor400,
                   onPressed: () {
                     showDeleteAccountInterface(context);
                   },
