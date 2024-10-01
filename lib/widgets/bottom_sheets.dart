@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
 
+// Show Game Description
 void showGameDescription(BuildContext context, {String? title, String? description}) {
   showModalBottomSheet(
     isScrollControlled: true,
@@ -47,6 +49,7 @@ void showGameDescription(BuildContext context, {String? title, String? descripti
   );
 }
 
+// Show Change Username Interface
 void showChangeUsernameInterface(BuildContext context) {
   showModalBottomSheet(
     isScrollControlled: true,
@@ -63,7 +66,8 @@ class ChangeUsernameInterface extends StatefulWidget {
   });
 
   @override
-  State<ChangeUsernameInterface> createState() => _ChangeUsernameInterfaceState();
+  State<ChangeUsernameInterface> createState() =>
+      _ChangeUsernameInterfaceState();
 }
 
 class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
@@ -106,7 +110,6 @@ class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () {
-                // TODO: ADD CHANGE USERNAME USING CLOUD FIRESTORE
                 print(_newUsernameController.text);
               },
               child: const Center(
@@ -123,6 +126,7 @@ class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
   }
 }
 
+// Show Change Password Interface
 void showChangePasswordInterface(BuildContext context) {
   showModalBottomSheet(
     isScrollControlled: true,
@@ -139,13 +143,38 @@ class ChangePasswordInterface extends StatefulWidget {
   });
 
   @override
-  State<ChangePasswordInterface> createState() => _ChangePasswordInterfaceState();
+  State<ChangePasswordInterface> createState() =>
+      _ChangePasswordInterfaceState();
 }
 
 class _ChangePasswordInterfaceState extends State<ChangePasswordInterface> {
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  Future<void> reauthenticateAndChangePassword(
+      {String? currentPassword, String? newPassword}) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user!.email!,
+        password: currentPassword!,
+      );
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPassword!);
+      // TODO: Let the user know that the password was updated successfully
+      print('Password changed succesfully!');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        // TODO: Let the user know that the current password is incorrect
+        print('The current password is incorrect');
+      } else {
+        print('Error: ${e.message}');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,27 +206,33 @@ class _ChangePasswordInterfaceState extends State<ChangePasswordInterface> {
                 ProfileEditTextField(
                   controller: _currentPasswordController,
                   labelText: 'CURRENT PASSWORD',
-                  initialValue: '*********',
+                  obscureText: true,
                 ),
                 ProfileEditTextField(
                   controller: _newPasswordController,
                   labelText: 'NEW PASSWORD',
-                  initialValue: '*********',
+                  obscureText: true,
                 ),
                 ProfileEditTextField(
                   controller: _confirmPasswordController,
                   labelText: 'CONFIRM PASSWORD',
-                  initialValue: '*********',
+                  obscureText: true,
                 ),
               ],
             ),
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () {
-                // TODO: CREATE CHANGE PASSWORD WITH FIREBASE AUTH
-                print(_currentPasswordController.text);
-                print(_newPasswordController.text);
-                print(_confirmPasswordController.text);
+                if (_newPasswordController.text ==
+                    _confirmPasswordController.text) {
+                  reauthenticateAndChangePassword(
+                    currentPassword: _currentPasswordController.text,
+                    newPassword: _newPasswordController.text,
+                  );
+                } else {
+                  // TODO: Let the user know that the new password and confirmed password do not match
+                  print('Passowrds do not match!');
+                }
               },
               child: const Center(
                 child: Text(
@@ -213,6 +248,7 @@ class _ChangePasswordInterfaceState extends State<ChangePasswordInterface> {
   }
 }
 
+// Show Delete Account Interface
 void showDeleteAccountInterface(BuildContext context) {
   showModalBottomSheet(
     isScrollControlled: true,
@@ -234,6 +270,27 @@ class DeleteAccountInterface extends StatefulWidget {
 
 class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> reauthenticateAndDelete(String password) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user!.email!,
+        password: password,
+      );
+      await user.reauthenticateWithCredential(credential);
+      await user.delete();
+      // TODO: Let the user know that the account was deleted succesfully
+      print('User reauthenticated and deleted succesfully');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        // TODO: Let the user know that they inputted the wrong password
+        print('Incorrect password');
+      } else {
+        print(e.code);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -272,19 +329,19 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
             ProfileEditTextField(
               controller: _passwordController,
               labelText: 'PASSWORD',
-              initialValue: '*********',
+              obscureText: true,
             ),
             RoundedRectangleButton(
               color: Colors.redAccent,
               onPressed: () async {
-                // TODO: CREATE DELETE ACCOUTN WITH FIREBASE AUTH
-                print(_passwordController.text);
-                // try {
-                //   User? user = FirebaseAuth.instance.currentUser;
-                //   AuthCredential credential = EmailAuthProvider.credential(email: user!.email!, password: password)
-                // } on FirebaseAuthException catch (e) {
-                //
-                // }
+                // Deletes current user's account and navigates them back to the welcome screen.
+                await reauthenticateAndDelete(_passwordController.text);
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const AuthManager(),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
               },
               child: const Center(
                 child: Text(
