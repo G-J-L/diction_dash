@@ -1,5 +1,6 @@
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
+import 'package:diction_dash/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
@@ -15,25 +16,14 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+  FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+
   final _formGlobalKey = GlobalKey<FormState>();
   String _username = '';
   String _email = '';
   String _password = '';
   String _confirmPassword = '';
-
-  Future<void> registerUser() async {
-    print('Registering New User!');
-    if (_password != _confirmPassword) {
-      print('Passwords Do Not Match!');
-    } else {
-      try {
-        UserCredential? userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: _email, password: _password);
-      } on FirebaseAuthException catch (e) {
-        print(e.code);
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +141,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(_password);
                   print(_confirmPassword);
                 }
-                await registerUser();
+                await firebaseAuthService.registerUser(
+                  email: _email,
+                  password: _password,
+                  confirmPassword: _confirmPassword,
+                );
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

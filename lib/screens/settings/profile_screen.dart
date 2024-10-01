@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
@@ -9,11 +10,10 @@ import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
 
-  void logout() async {
-    await FirebaseAuth.instance.signOut();
-  }
+  ProfileScreen({super.key});
+
+  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +105,8 @@ class ProfileScreen extends StatelessWidget {
             ),
             RoundedRectangleButton(
               color: kOrangeColor600,
-              onPressed: () {
-                logout();
+              onPressed: () async {
+                await firebaseAuthService.logout();
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => const AuthManager(),

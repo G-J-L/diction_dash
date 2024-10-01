@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
@@ -148,33 +149,14 @@ class ChangePasswordInterface extends StatefulWidget {
 }
 
 class _ChangePasswordInterfaceState extends State<ChangePasswordInterface> {
+
+  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+
   final TextEditingController _currentPasswordController =
       TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-
-  Future<void> reauthenticateAndChangePassword(
-      {String? currentPassword, String? newPassword}) async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      AuthCredential credential = EmailAuthProvider.credential(
-        email: user!.email!,
-        password: currentPassword!,
-      );
-      await user.reauthenticateWithCredential(credential);
-      await user.updatePassword(newPassword!);
-      // TODO: Let the user know that the password was updated successfully
-      print('Password changed succesfully!');
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password') {
-        // TODO: Let the user know that the current password is incorrect
-        print('The current password is incorrect');
-      } else {
-        print('Error: ${e.message}');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,17 +204,21 @@ class _ChangePasswordInterfaceState extends State<ChangePasswordInterface> {
             ),
             RoundedRectangleButton(
               color: kOrangeColor600,
-              onPressed: () {
+              onPressed: () async {
                 if (_newPasswordController.text ==
                     _confirmPasswordController.text) {
-                  reauthenticateAndChangePassword(
+                  await firebaseAuthService.reauthenticateAndChangePassword(
                     currentPassword: _currentPasswordController.text,
                     newPassword: _newPasswordController.text,
                   );
                 } else {
                   // TODO: Let the user know that the new password and confirmed password do not match
-                  print('Passowrds do not match!');
+                  print('Passwords do not match!');
                 }
+                FocusScope.of(context).unfocus();
+                // Slight delay to avoid renderflex error with keyboard
+                await Future.delayed(Duration(milliseconds: 1000));
+                Navigator.pop(context);
               },
               child: const Center(
                 child: Text(
@@ -269,28 +255,10 @@ class DeleteAccountInterface extends StatefulWidget {
 }
 
 class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
-  final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> reauthenticateAndDelete(String password) async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      AuthCredential credential = EmailAuthProvider.credential(
-        email: user!.email!,
-        password: password,
-      );
-      await user.reauthenticateWithCredential(credential);
-      await user.delete();
-      // TODO: Let the user know that the account was deleted succesfully
-      print('User reauthenticated and deleted succesfully');
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password') {
-        // TODO: Let the user know that they inputted the wrong password
-        print('Incorrect password');
-      } else {
-        print(e.code);
-      }
-    }
-  }
+  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +303,8 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
               color: Colors.redAccent,
               onPressed: () async {
                 // Deletes current user's account and navigates them back to the welcome screen.
-                await reauthenticateAndDelete(_passwordController.text);
+                await firebaseAuthService.reauthenticateAndDelete(password: _passwordController.text);
+                Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => const AuthManager(),

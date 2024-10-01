@@ -1,4 +1,5 @@
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
+import 'package:diction_dash/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
@@ -15,18 +16,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+
   final _formGlobalKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-
-  Future<void> loginUser() async {
-    print('Registering New User!');
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-    } on FirebaseAuthException catch (e) {
-      print(e.code);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   print(_email);
                   print(_password);
                 }
-                await loginUser();
+                await firebaseAuthService.loginUser(
+                  email: _email,
+                  password: _password,
+                );
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
