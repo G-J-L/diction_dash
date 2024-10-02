@@ -1,6 +1,7 @@
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
 import 'package:diction_dash/services/authentication.dart';
+import 'package:diction_dash/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
@@ -17,7 +18,9 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
 
-  FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+
+  final FirestoreService firestoreService = FirestoreService();
 
   final _formGlobalKey = GlobalKey<FormState>();
   String _username = '';
@@ -140,18 +143,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(_email);
                   print(_password);
                   print(_confirmPassword);
+
+                  FocusScope.of(context).unfocus();
+
+                  // Register user in firebase auth
+                  User? user = await firebaseAuthService.registerUser(
+                    email: _email,
+                    password: _password,
+                    confirmPassword: _confirmPassword,
+                  );
+
+                  // Store user data in firestore
+                  await firestoreService.addNewUser(
+                    userID: user!.uid,
+                    username: _username,
+                    email: _email,
+                  );
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthManager(),
+                    ),
+                  );
+
                 }
-                await firebaseAuthService.registerUser(
-                  email: _email,
-                  password: _password,
-                  confirmPassword: _confirmPassword,
-                );
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AuthManager(),
-                  ),
-                );
               },
               child: const Center(
                 child: Text(

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseAuthenticationService {
 
   // Register User
-  Future<void> registerUser({String? email, String? password, String? confirmPassword}) async {
+  Future<User?> registerUser({String? email, String? password, String? confirmPassword}) async {
     print('Registering New User!');
     if (password != confirmPassword) {
       print('Passwords Do Not Match!');
@@ -11,6 +11,7 @@ class FirebaseAuthenticationService {
       try {
         UserCredential? userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email!, password: password!);
+        return userCredential.user;
       } on FirebaseAuthException catch (e) {
         print(e.code);
       }

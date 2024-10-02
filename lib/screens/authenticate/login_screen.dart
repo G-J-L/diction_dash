@@ -107,17 +107,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   _formGlobalKey.currentState!.save();
                   print(_email);
                   print(_password);
+                  await firebaseAuthService.loginUser(
+                    email: _email,
+                    password: _password,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AuthManager(),
+                    ),
+                  );
                 }
-                await firebaseAuthService.loginUser(
-                  email: _email,
-                  password: _password,
-                );
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AuthManager(),
-                  ),
-                );
               },
               child: const Center(
                 child: Text(
