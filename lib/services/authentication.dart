@@ -28,6 +28,16 @@ class FirebaseAuthenticationService {
     }
   }
 
+  // Get UserID
+  Future<String?> getCurrentUserID() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      return user!.uid;
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+    }
+  }
+
   // Logout User
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();

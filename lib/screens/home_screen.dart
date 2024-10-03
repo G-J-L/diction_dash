@@ -15,9 +15,6 @@ class HomeScreen extends StatelessWidget {
     double cardSize = (screenHeight / 6.7).toInt() * 5;
     double profileOffset = cardSize - 70;
 
-    print(cardSize);
-    print(profileOffset);
-
     return Scaffold(
       backgroundColor: kOrangeColor600,
       appBar: AppBar(
@@ -91,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 5.0),
                   StatCard(
                     text: 'SPELLING',
-                    image: AssetImage('images/spelling.png'),
+                    image: const AssetImage('images/spelling.png'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -103,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   StatCard(
                     text: 'VOCABULARY',
-                    image: AssetImage('images/vocabulary.png'),
+                    image: const AssetImage('images/vocabulary.png'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -115,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   StatCard(
                     text: 'GRAMMAR',
-                    image: AssetImage('images/grammar.png'),
+                    image: const AssetImage('images/grammar.png'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -127,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   StatCard(
                       text: 'COMPREHENSION',
-                      image: AssetImage('images/comprehension.png'),
+                      image: const AssetImage('images/comprehension.png'),
                       onPressed: () {
                         Navigator.push(
                           context,

@@ -76,8 +76,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             icon: Icons.person,
                             hintText: 'Username',
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null || value.isEmpty || value.trim().isEmpty) {
                                 return 'Please provide a username.';
+                              } else if (value.length < 3) {
+                                return 'Please provide a longer username';
                               }
                               return null;
                             },
@@ -91,6 +93,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
+                                return 'Please provide an email.';
+                              } else if (!RegExp(r'[\w+]*@[\w.]*').hasMatch(value)) {
                                 return 'Please provide a valid email.';
                               }
                               return null;
@@ -105,7 +109,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             obscureText: true,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please provide a valid password.';
+                                return 'Please provide a password.';
+                              } else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                                return 'Please provide a valid password.\n'
+                                    '- Minimum 8 Characters\n'
+                                    '- Minimum 1 Upper case\n'
+                                    '- Minimum 1 Lowercase\n'
+                                    '- Minimum 1 Number\n'
+                                    '- Minimum 1 Special Character';
                               }
                               return null;
                             },
@@ -119,7 +130,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             obscureText: true,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please provide a valid password.';
+                                return 'Please provide a password.';
+                              } else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                                return 'Please provide a valid password.\n'
+                                    '- Minimum 8 Characters\n'
+                                    '- Minimum 1 Upper case\n'
+                                    '- Minimum 1 Lowercase\n'
+                                    '- Minimum 1 Number\n'
+                                    '- Minimum 1 Special Character';
                               }
                               return null;
                             },
@@ -139,6 +157,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onPressed: () async {
                 if (_formGlobalKey.currentState!.validate()) {
                   _formGlobalKey.currentState!.save();
+
                   print(_username);
                   print(_email);
                   print(_password);
@@ -166,7 +185,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       builder: (context) => const AuthManager(),
                     ),
                   );
-
                 }
               },
               child: const Center(

@@ -49,6 +49,12 @@ class FirestoreService {
 
   }
 
+  // TODO: Create get username method
+  Future<String?> getUsername(String userID) async {
+    DocumentSnapshot<Object?> snapshot = await users.doc(userID).get();
+    print(snapshot.data());
+  }
+
   // TODO: Create update username method
 
   // TODO: Create select fluency method

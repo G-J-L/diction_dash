@@ -1,5 +1,6 @@
 import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
 import 'package:diction_dash/screens/home_screen.dart';
+import 'package:diction_dash/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
