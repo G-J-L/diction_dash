@@ -145,7 +145,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => HomeScreen(),
                         ),
                       );
                     },

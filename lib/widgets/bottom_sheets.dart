@@ -1,4 +1,5 @@
 import 'package:diction_dash/services/authentication.dart';
+import 'package:diction_dash/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
@@ -51,12 +52,12 @@ void showGameDescription(BuildContext context, {String? title, String? descripti
 }
 
 // Show Change Username Interface
-void showChangeUsernameInterface(BuildContext context) {
+void showChangeUsernameInterface(BuildContext context, String username) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
     builder: (context) {
-      return const ChangeUsernameInterface();
+      return ChangeUsernameInterface(username: username);
     },
   );
 }
@@ -64,7 +65,10 @@ void showChangeUsernameInterface(BuildContext context) {
 class ChangeUsernameInterface extends StatefulWidget {
   const ChangeUsernameInterface({
     super.key,
+    this.username,
   });
+
+  final String? username;
 
   @override
   State<ChangeUsernameInterface> createState() =>
@@ -72,6 +76,11 @@ class ChangeUsernameInterface extends StatefulWidget {
 }
 
 class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
+
+  final FirestoreService firestoreService = FirestoreService();
+
+  final String userID = FirebaseAuth.instance.currentUser!.uid;
+
   final TextEditingController _newUsernameController = TextEditingController();
 
   @override
@@ -104,7 +113,7 @@ class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
                 ProfileEditTextField(
                   controller: _newUsernameController,
                   labelText: 'NEW USERNAME',
-                  initialValue: 'Alice Guo',
+                  initialValue: widget.username,
                 ),
               ],
             ),
@@ -112,6 +121,7 @@ class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
               color: kOrangeColor600,
               onPressed: () {
                 print(_newUsernameController.text);
+                firestoreService.updateUsername(userID: userID, newUsername: _newUsernameController.text);
               },
               child: const Center(
                 child: Text(
@@ -304,6 +314,7 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
               onPressed: () async {
                 // Deletes current user's account and navigates them back to the welcome screen.
                 await firebaseAuthService.reauthenticateAndDelete(password: _passwordController.text);
+                // TODO: Delete cloud firestore user ID document
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

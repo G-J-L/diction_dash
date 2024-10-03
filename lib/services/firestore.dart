@@ -5,6 +5,7 @@ class FirestoreService {
   // Initialize Cloud Firestore Instance For Users
   final CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+  // Add new user method
   Future<void> addNewUser({String? userID, String? username, String? email}) async {
     // Initialize new user document
     final newUser = users.doc(userID);
@@ -49,13 +50,17 @@ class FirestoreService {
 
   }
 
-  // TODO: Create get username method
-  Future<String?> getUsername(String userID) async {
-    DocumentSnapshot<Object?> snapshot = await users.doc(userID).get();
-    print(snapshot.data());
+  // Fetch user data method
+  Stream<DocumentSnapshot<Object?>> fetchUserData(String userID) {
+    return users.doc(userID).snapshots();
   }
 
-  // TODO: Create update username method
+  // Update username method
+  Future<void> updateUsername({String? userID, String? newUsername}) async {
+    await users.doc(userID).update({
+      'username': newUsername!,
+    });
+  }
 
   // TODO: Create select fluency method
 
