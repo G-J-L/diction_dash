@@ -122,6 +122,7 @@ class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
               onPressed: () {
                 print(_newUsernameController.text);
                 firestoreService.updateUsername(userID: userID, newUsername: _newUsernameController.text);
+                Navigator.pop(context);
               },
               child: const Center(
                 child: Text(

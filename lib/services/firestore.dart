@@ -14,6 +14,7 @@ class FirestoreService {
     await newUser.set({
       'username': username!,
       'email': email!,
+      'profile_picture': null,
       'level': 1,
       'exp': 0,
     });
@@ -59,6 +60,13 @@ class FirestoreService {
   Future<void> updateUsername({String? userID, String? newUsername}) async {
     await users.doc(userID).update({
       'username': newUsername!,
+    });
+  }
+
+  // Update username method
+  Future<void> updateProfilePicture({String? userID, String? imageUrl}) async {
+    await users.doc(userID).update({
+      'profile_picture': imageUrl!,
     });
   }
 

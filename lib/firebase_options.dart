@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'dictiondash-3721a.appspot.com',
     iosBundleId: 'dictiondash.com.dictionDash',
   );
+
 }

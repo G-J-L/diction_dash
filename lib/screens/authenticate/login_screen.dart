@@ -1,9 +1,7 @@
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:diction_dash/services/authentication.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/screens/home_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
 
