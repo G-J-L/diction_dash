@@ -318,6 +318,7 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
                 // Deletes current user's account and navigates them back to the welcome screen.
                 await firebaseAuthService.reauthenticateAndDelete(password: _passwordController.text);
                 String? userID = firebaseAuthService.getCurrentUserID();
+                // TODO: FIX DELETE FIRESTORE DOCUMENT
                 await firestoreService.deleteUser(userID!);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
