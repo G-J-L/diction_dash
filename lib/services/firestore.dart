@@ -82,7 +82,8 @@ class FirestoreService {
 
   // Delete document ID
   Future<void> deleteUser(String userID) async {
-      await users.doc(userID).delete();
+    print(userID);
+    await users.doc(userID).delete();
   }
 
   // TODO: Create add XP method (Overall, Spelling, Grammar, Vocab, Comprehension)
