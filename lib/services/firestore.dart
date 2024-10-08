@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
@@ -78,7 +80,10 @@ class FirestoreService {
     });
   }
 
-  // TODO: Create select fluency method
+  // Delete document ID
+  Future<void> deleteUser(String userID) async {
+      await users.doc(userID).delete();
+  }
 
   // TODO: Create add XP method (Overall, Spelling, Grammar, Vocab, Comprehension)
 

@@ -269,6 +269,8 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
 
   final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
 
+  final FirestoreService firestoreService = FirestoreService();
+
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -315,7 +317,8 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
               onPressed: () async {
                 // Deletes current user's account and navigates them back to the welcome screen.
                 await firebaseAuthService.reauthenticateAndDelete(password: _passwordController.text);
-                // TODO: Delete cloud firestore user ID document
+                String? userID = firebaseAuthService.getCurrentUserID();
+                await firestoreService.deleteUser(userID!);
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

@@ -29,7 +29,7 @@ class FirebaseAuthenticationService {
   }
 
   // Get UserID
-  Future<String?> getCurrentUserID() async {
+  String? getCurrentUserID() {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       return user!.uid;
