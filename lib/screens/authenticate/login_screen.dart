@@ -1,9 +1,9 @@
-import 'package:diction_dash/screens/authenticate/auth_manager.dart';
-import 'package:diction_dash/services/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
+import 'package:diction_dash/services/authentication.dart';
+import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AuthManager(),
+                      builder: (context) => AuthManager(),
                     ),
                   );
                 }

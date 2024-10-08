@@ -1,10 +1,10 @@
-import 'package:confetti/confetti.dart';
-import 'package:diction_dash/screens/home_screen.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'dart:math';
+import 'package:diction_dash/screens/home_screen.dart';
+import 'package:confetti/confetti.dart';
+
 
 class EndGameScreen extends StatefulWidget {
 

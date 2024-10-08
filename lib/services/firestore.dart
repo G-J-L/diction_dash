@@ -17,6 +17,7 @@ class FirestoreService {
       'profile_picture': null,
       'level': 1,
       'exp': 0,
+      'cefr_level': null,
     });
 
     // TODO: Assign each minigame with xp and level
@@ -63,10 +64,17 @@ class FirestoreService {
     });
   }
 
-  // Update username method
+  // Update profile picture method
   Future<void> updateProfilePicture({String? userID, String? imageUrl}) async {
     await users.doc(userID).update({
       'profile_picture': imageUrl!,
+    });
+  }
+
+  // Update CEFR level method
+  Future<void> updateCEFR({String? userID, String? newLevel}) async {
+    await users.doc(userID).update({
+      'cefr_level': newLevel!,
     });
   }
 

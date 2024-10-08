@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/screens/feedback_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:diction_dash/widgets/text_fields.dart';
+import 'package:diction_dash/services/firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FluencyScreen extends StatelessWidget {
-  const FluencyScreen({super.key});
+
+  final FirestoreService firestoreService = FirestoreService();
+  final String? userID = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +45,11 @@ class FluencyScreen extends StatelessWidget {
             color: kOrangeColor600,
             onPressed: (){
               print('BEGINNER');
+              firestoreService.updateCEFR(userID: userID, newLevel: 'A1');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackScreen(),
+                  builder: (context) => const FeedbackScreen(),
                 ),
               );
             },
@@ -58,10 +62,11 @@ class FluencyScreen extends StatelessWidget {
             color: kOrangeColor600,
             onPressed: (){
               print('ELEMENTARY');
+              firestoreService.updateCEFR(userID: userID, newLevel: 'A2');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackScreen(),
+                  builder: (context) => const FeedbackScreen(),
                 ),
               );
             },
@@ -73,11 +78,12 @@ class FluencyScreen extends StatelessWidget {
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){
+              firestoreService.updateCEFR(userID: userID, newLevel: 'B1');
               print('INTERMEDIATE');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackScreen(),
+                  builder: (context) => const FeedbackScreen(),
                 ),
               );
             },
@@ -90,10 +96,11 @@ class FluencyScreen extends StatelessWidget {
             color: kOrangeColor600,
             onPressed: (){
               print('ADVANCED');
+              firestoreService.updateCEFR(userID: userID, newLevel: 'B2');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackScreen(),
+                  builder: (context) => const FeedbackScreen(),
                 ),
               );
             },
@@ -106,10 +113,11 @@ class FluencyScreen extends StatelessWidget {
             color: kOrangeColor600,
             onPressed: (){
               print('EXPERT');
+              firestoreService.updateCEFR(userID: userID, newLevel: 'C1');
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedbackScreen(),
+                  builder: (context) => const FeedbackScreen(),
                 ),
               );
             },

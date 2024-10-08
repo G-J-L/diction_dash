@@ -1,15 +1,14 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/widgets/bottom_sheets.dart';
+import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/services/authentication.dart';
 import 'package:diction_dash/services/firestore.dart';
 import 'package:diction_dash/services/profile_picture.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 import 'package:diction_dash/screens/fluency_screen.dart';
-import 'package:diction_dash/widgets/bottom_sheets.dart';
-import 'package:diction_dash/widgets/buttons.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -26,7 +25,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final ProfilePicture profilePicture = ProfilePicture();
 
-  File? image;
   String? downloadUrl;
 
   @override
@@ -34,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      image = profilePicture.getImage();
       downloadUrl = profilePicture.getDownloadUrl();
       print(downloadUrl);
     });
@@ -47,8 +44,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // TODO: Display fox loading animation
-          return const CircularProgressIndicator();
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white70,
+            ),
+          );
         } else if (snapshot.hasError) {
           return const Center(child: Text('Error loading user data.'));
         } else if (snapshot.hasData && snapshot.data!.exists) {
@@ -81,42 +81,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        backgroundImage: imageUrl != null
-                            ? NetworkImage(imageUrl)
-                            : const AssetImage('images/placeholder_profile.png'),
-                        radius: 80,
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: kGrayColor600,
-                            ),
-                            child: InkWell(
-                              onTap: () async {
-                                profilePicture.showImageSourceActionSheet(
-                                  context,
-                                  () {
-                                    setState(() {
-                                      image = profilePicture.getImage();
-                                      downloadUrl = profilePicture.getDownloadUrl();
-                                    });
-                                    firestoreService.updateProfilePicture(
-                                      userID: userID,
-                                      imageUrl: downloadUrl,
-                                    );
-                                  },
-                                );
-                                print('================');
-                                print(profilePicture.getImage());
-                                print(image);
-                                print('================');
-                              },
+                      GestureDetector(
+                        onTap: () async {
+                          profilePicture.showImageSourceActionSheet(
+                            context,
+                                () {
+                              setState(() {
+                                downloadUrl =
+                                    profilePicture.getDownloadUrl();
+                              });
+                              firestoreService.updateProfilePicture(
+                                userID: userID,
+                                imageUrl: downloadUrl,
+                              );
+                            },
+                          );
+                          print('================');
+                          print(profilePicture.getImage());
+                          print('================');
+                        },
+                        child: CircleAvatar(
+                          backgroundImage: imageUrl != null
+                              ? NetworkImage(imageUrl)
+                              : const AssetImage(
+                                  'images/placeholder_profile.png'),
+                          radius: 80,
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: kGrayColor600,
+                              ),
                               child: const Icon(Icons.edit,
-                                  color: Colors.white, size: 28),
+                                    color: Colors.white, size: 28),
                             ),
                           ),
                         ),
@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FluencyScreen(),
+                              builder: (context) => FluencyScreen(),
                             ),
                           );
                         },
@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       await firebaseAuthService.logout();
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                          builder: (context) => const AuthManager(),
+                          builder: (context) => AuthManager(),
                         ),
                         (Route<dynamic> route) => false,
                       );

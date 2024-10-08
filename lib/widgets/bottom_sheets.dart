@@ -319,7 +319,7 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
                 Navigator.pop(context);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => const AuthManager(),
+                    builder: (context) => AuthManager(),
                   ),
                   (Route<dynamic> route) => false,
                 );

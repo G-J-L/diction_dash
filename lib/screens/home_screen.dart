@@ -48,7 +48,11 @@ class HomeScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // TODO: Display fox loading animation
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white70,
+              ),
+            );
           } else if (snapshot.hasError) {
             return const Center(child: Text('Error loading user data.'));
           } else if (snapshot.hasData && snapshot.data!.exists) {

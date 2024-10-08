@@ -1,7 +1,7 @@
-import 'package:diction_dash/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/screens/authenticate/auth_manager.dart';
 
 class FeedbackScreen extends StatelessWidget {
   const FeedbackScreen({super.key});
@@ -51,11 +51,11 @@ class FeedbackScreen extends StatelessWidget {
           RoundedRectangleButton(
             color: kOrangeColor600,
             onPressed: () {
-              Navigator.push(
-                context,
+              Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => AuthManager(),
                 ),
+                    (Route<dynamic> route) => false,
               );
               print('Button was pressed!');
             },
