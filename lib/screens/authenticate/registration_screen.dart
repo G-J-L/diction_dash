@@ -15,9 +15,7 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-
   final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
-
   final FirestoreService firestoreService = FirestoreService();
 
   final _formGlobalKey = GlobalKey<FormState>();
@@ -108,7 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please provide a password.';
-                              } else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                              } else if (value.length < 8 || !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
                                 return 'Please provide a valid password.\n'
                                     '- Minimum 8 Characters\n'
                                     '- Minimum 1 Upper case\n'
@@ -128,15 +126,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             obscureText: true,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please provide a password.';
-                              } else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
-                                return 'Please provide a valid password.\n'
-                                    '- Minimum 8 Characters\n'
-                                    '- Minimum 1 Upper case\n'
-                                    '- Minimum 1 Lowercase\n'
-                                    '- Minimum 1 Number\n'
-                                    '- Minimum 1 Special Character';
+                                return 'Please confirm password.';
+                              } else if (_password != value && _password.isNotEmpty) {
+                                return 'Passwords are not matching.';
                               }
+                              // else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                              //   return 'Please provide a valid password.\n'
+                              //       '- Minimum 8 Characters\n'
+                              //       '- Minimum 1 Upper case\n'
+                              //       '- Minimum 1 Lowercase\n'
+                              //       '- Minimum 1 Number\n'
+                              //       '- Minimum 1 Special Character';
+                              // } removed cs no need in confirm.
                               return null;
                             },
                             onSaved: (value) {
