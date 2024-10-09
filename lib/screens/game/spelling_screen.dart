@@ -12,6 +12,7 @@ class SpellingScreen extends StatefulWidget {
 }
 
 class _SpellingScreenState extends State<SpellingScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +29,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       child: const Icon(
@@ -43,25 +44,39 @@ class _SpellingScreenState extends State<SpellingScreen> {
                       width: double.infinity,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: kOrangeColor600,
+                        color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: const Center(
-                        child: Text(
-                          '20 / 20',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(90.0),
+                            child: LinearProgressIndicator(
+                              value: 0.8,
+                              backgroundColor: Colors.transparent,
+                              valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
+                              minHeight: 30,
+                            ),
                           ),
-                        ),
+                          // Centered Text
+                          Center(
+                            child: Text(
+                              '20 / 20',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully\nand make sure to type the\nword in the answer box.');
                       },
                       child: const Icon(
@@ -74,6 +89,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
                 ],
               ),
             ),
+            // Instruction Text
             RichText(
               text: const TextSpan(
                 style: kSubtext20,
@@ -87,8 +103,11 @@ class _SpellingScreenState extends State<SpellingScreen> {
               ),
               textAlign: TextAlign.center,
             ),
+            // Audio Button
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                // Implement audio playback functionality here
+              },
               child: Container(
                 width: 200,
                 height: 200,
@@ -105,13 +124,14 @@ class _SpellingScreenState extends State<SpellingScreen> {
                 ),
               ),
             ),
+            // Answer Input and Submit Button
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: TextField(
                       style: TextStyle(
                         fontSize: 24,
@@ -119,19 +139,19 @@ class _SpellingScreenState extends State<SpellingScreen> {
                       cursorColor: kOrangeColor500,
                       decoration: InputDecoration(
                         hintText: 'Answer',
-                        border: const OutlineInputBorder(
+                        border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 4,
                             color: kOrangeColor600,
                           ),
                         ),
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 4,
                             color: kOrangeColor600,
                           ),
                         ),
-                        contentPadding: EdgeInsets.all(18)
+                        contentPadding: EdgeInsets.all(18),
                       ),
                     ),
                   ),
@@ -139,6 +159,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
                     color: kOrangeColor600,
                     onPressed: () {
                       print('Submit');
+                      // Implement your submit logic here
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -162,3 +183,5 @@ class _SpellingScreenState extends State<SpellingScreen> {
     );
   }
 }
+
+

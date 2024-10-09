@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
     double screenHeight = MediaQuery.sizeOf(context).height;
     double cardSize = (screenHeight / 6.7).toInt() * 5;
     double profileOffset = cardSize - 70;
+    double progressValue = 0.8;
 
     return Scaffold(
       backgroundColor: kOrangeColor600,
@@ -80,28 +81,30 @@ class HomeScreen extends StatelessWidget {
                         Text(username, style: kOswaldLarge),
                         Stack(
                           children: [
+                            // Background container
                             Container(
                               margin: const EdgeInsets.symmetric(horizontal: 10.0),
                               width: double.infinity,
                               height: 30,
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white, // Background color for the container
+                                borderRadius: BorderRadius.circular(30), // Rounded corners
                                 border: Border.all(
-                                  color: kGrayColor500,
-                                  width: 1,
+                                  color: Colors.white, // Border color
+                                  width: 1, // Border width
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30), // Match the rounded corners
+                                child: LinearProgressIndicator(
+                                  value: progressValue,
+                                  backgroundColor: kGrayColor200,
+                                  valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor500),
+                                  minHeight: 30,
                                 ),
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                              width: 230,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: kOrangeColor500,
-                                borderRadius: BorderRadius.circular(200),
-                              ),
-                            ),
+
                             const Center(
                               child: Text('Level 1', style: kSubtext20),
                             ),
@@ -119,6 +122,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
+                          progressValue: progressValue,
                         ),
                         StatCard(
                           text: 'VOCABULARY',
@@ -131,6 +135,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
+                          progressValue: progressValue,
                         ),
                         StatCard(
                           text: 'GRAMMAR',
@@ -143,6 +148,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
+                          progressValue: progressValue,
                         ),
                         StatCard(
                             text: 'COMPREHENSION',
@@ -154,7 +160,9 @@ class HomeScreen extends StatelessWidget {
                                   builder: (context) => const ComprehensionScreen(),
                                 ),
                               );
-                            }),
+                            },
+                          progressValue: progressValue,
+                        ),
                         const SizedBox(height: 10.0),
                       ],
                     ),

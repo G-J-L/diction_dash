@@ -43,18 +43,32 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                       width: double.infinity,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: kOrangeColor600,
-                        borderRadius: BorderRadius.circular(90),
+                        color: kGrayColor300,
+                        borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: const Center(
-                        child: Text(
-                          '20 / 20',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(90.0),
+                            child: LinearProgressIndicator(
+                              value: 0.2,
+                              backgroundColor: Colors.transparent,
+                              valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
+                              minHeight: 30,
+                            ),
                           ),
-                        ),
+                          // Centered Text
+                          Center(
+                            child: Text(
+                              '20 / 20',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

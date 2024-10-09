@@ -16,6 +16,7 @@ class EndGameScreen extends StatefulWidget {
 
 class _EndGameScreenState extends State<EndGameScreen> {
   late ConfettiController _confettiController;
+  double progVal = 0.9;
 
   @override
   void initState() {
@@ -64,18 +65,32 @@ class _EndGameScreenState extends State<EndGameScreen> {
                           width: double.infinity,
                           height: 30,
                           decoration: BoxDecoration(
-                            color: kOrangeColor600,
-                            borderRadius: BorderRadius.circular(90),
+                            color: kGrayColor300,
+                            borderRadius: BorderRadius.circular(90.0),
                           ),
-                          child: const Center(
-                            child: Text(
-                              '20 / 20',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(90.0),
+                                child: LinearProgressIndicator(
+                                  value: progVal,
+                                  backgroundColor: Colors.transparent,
+                                  valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
+                                  minHeight: 30,
+                                ),
                               ),
-                            ),
+                              // Centered Text
+                              Center(
+                                child: Text(
+                                  '20 / 20',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -98,22 +113,37 @@ class _EndGameScreenState extends State<EndGameScreen> {
                   child: Column(
                     children: [
                       const Text('SCORE', style: kOswaldMedium),
+                      // Linear Progress Indicator for Score
                       Container(
                         width: double.infinity,
                         height: 30,
                         decoration: BoxDecoration(
-                          color: kOrangeColor600,
+                          color: kGrayColor300,
                           borderRadius: BorderRadius.circular(90),
                         ),
-                        child: const Center(
-                          child: Text(
-                            '20 / 20',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(90.0),
+                              child: LinearProgressIndicator(
+                                value: progVal, // Change this to your desired value (0.0 to 1.0)
+                                backgroundColor: Colors.transparent,
+                                valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
+                                minHeight: 30,
+                              ),
                             ),
-                          ),
+                            // Centered Text
+                            Center(
+                              child: Text(
+                                '20 / 20',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -125,6 +155,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                     ],
                   ),
                 ),
+
 
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

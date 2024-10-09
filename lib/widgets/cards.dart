@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 
 class StatCard extends StatelessWidget {
-  const StatCard({super.key, this.text, this.image, this.onPressed});
+  const StatCard({
+    super.key,
+    this.text,
+    this.image,
+    this.onPressed,
+    required this.progressValue, // Progress value between 0.0 and 1.0
+  });
 
   final String? text;
   final ImageProvider<Object>? image;
   final void Function()? onPressed;
+  final double progressValue;
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +43,33 @@ class StatCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(text!, style: kOswaldSmall),
+                        // Use Stack to overlay text on the progress bar
                         Container(
-                          margin:
-                          const EdgeInsets.symmetric(horizontal: 10.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
                           width: double.infinity,
-                          height: 20,
+                          height: 20, // Set the height for the progress bar
                           decoration: BoxDecoration(
-                            color: kGrayColor100,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20), // Set the border radius
+                            color: kGrayColor100, // Background color of the progress bar
                           ),
-                          child: const Center(
-                            child: Text('Level 1'),
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20), // Clip for rounded corners
+                                child: LinearProgressIndicator(
+                                  value: progressValue,
+                                  backgroundColor: Colors.transparent, // Make background transparent
+                                  valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor500),
+                                  minHeight: 20,
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  'Level 1', // Text inside the progress bar
+                                  style: const TextStyle(color: Colors.black), // Adjust text color
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -61,3 +84,5 @@ class StatCard extends StatelessWidget {
     );
   }
 }
+
+
