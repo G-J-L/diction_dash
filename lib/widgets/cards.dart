@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 
 class StatCard extends StatelessWidget {
   const StatCard({
@@ -52,25 +53,7 @@ class StatCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20), // Set the border radius
                             color: kGrayColor100, // Background color of the progress bar
                           ),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20), // Clip for rounded corners
-                                child: LinearProgressIndicator(
-                                  value: progressValue,
-                                  backgroundColor: Colors.transparent, // Make background transparent
-                                  valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor500),
-                                  minHeight: 20,
-                                ),
-                              ),
-                              Center(
-                                child: Text(
-                                  'Level 1', // Text inside the progress bar
-                                  style: const TextStyle(color: Colors.black), // Adjust text color
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: MinigameLevelBar(progressValue: progressValue),
                         ),
                       ],
                     ),

@@ -4,6 +4,7 @@ import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/screens/home_screen.dart';
 import 'package:confetti/confetti.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 
 
 class EndGameScreen extends StatefulWidget {
@@ -68,30 +69,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                             color: kGrayColor300,
                             borderRadius: BorderRadius.circular(90.0),
                           ),
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(90.0),
-                                child: LinearProgressIndicator(
-                                  value: progVal,
-                                  backgroundColor: Colors.transparent,
-                                  valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
-                                  minHeight: 30,
-                                ),
-                              ),
-                              // Centered Text
-                              Center(
-                                child: Text(
-                                  '20 / 20',
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: QuestionBar(),
                         ),
                       ),
                       const Padding(

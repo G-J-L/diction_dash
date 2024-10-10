@@ -106,7 +106,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please provide a password.';
-                              } else if (value.length < 8 || !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                              } else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
                                 return 'Please provide a valid password.\n'
                                     '- Minimum 8 Characters\n'
                                     '- Minimum 1 Upper case\n'

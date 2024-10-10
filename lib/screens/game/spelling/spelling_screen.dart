@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
+
+// TODO: TRANSFORM THE SPELLING SCREEN INTO A QUESTION MANAGER
+// Calculate word difficulty based on user level and CEFR level
+// Generate 10 words using Words API
+// Create 10 SpellingQuestion widgets and store them in a list
+// Return the first question. When the user submits an answer, keep track of it and return the next question
+// When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
+
+// TODO: ACCOUNT FOR SPACED REPETITION
 
 class SpellingScreen extends StatefulWidget {
   const SpellingScreen({super.key});
@@ -12,6 +22,8 @@ class SpellingScreen extends StatefulWidget {
 }
 
 class _SpellingScreenState extends State<SpellingScreen> {
+
+  String? word = 'Mississippi';
 
   @override
   Widget build(BuildContext context) {
@@ -47,30 +59,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(90.0),
-                            child: LinearProgressIndicator(
-                              value: 0.8,
-                              backgroundColor: Colors.transparent,
-                              valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
-                              minHeight: 30,
-                            ),
-                          ),
-                          // Centered Text
-                          Center(
-                            child: Text(
-                              '20 / 20',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: QuestionBar(questionNumber: 6),
                     ),
                   ),
                   Padding(
@@ -107,6 +96,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
             GestureDetector(
               onTap: () {
                 // Implement audio playback functionality here
+                print(word!);
               },
               child: Container(
                 width: 200,
@@ -183,5 +173,4 @@ class _SpellingScreenState extends State<SpellingScreen> {
     );
   }
 }
-
 

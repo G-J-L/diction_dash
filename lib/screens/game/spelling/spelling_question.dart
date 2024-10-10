@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
 
-class GrammarScreen extends StatefulWidget {
-  const GrammarScreen({super.key});
+class SpellingQuestion extends StatefulWidget {
+  const SpellingQuestion({super.key, this.questionNumber, this.word});
+  final int? questionNumber;
+  final String? word;
 
   @override
-  State<GrammarScreen> createState() => _GrammarScreenState();
+  State<SpellingQuestion> createState() => _SpellingQuestionState();
 }
 
-class _GrammarScreenState extends State<GrammarScreen> {
+class _SpellingQuestionState extends State<SpellingQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       child: const Icon(
@@ -46,37 +49,14 @@ class _GrammarScreenState extends State<GrammarScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(90.0),
-                            child: LinearProgressIndicator(
-                              value: 0.2,
-                              backgroundColor: Colors.transparent,
-                              valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
-                              minHeight: 30,
-                            ),
-                          ),
-                          // Centered Text
-                          Center(
-                            child: Text(
-                              '20 / 20',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: QuestionBar(questionNumber: widget.questionNumber),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
-                      onTap: (){
-                        showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
+                      onTap: () {
+                        showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully\nand make sure to type the\nword in the answer box.');
                       },
                       child: const Icon(
                         Icons.help,
@@ -88,52 +68,78 @@ class _GrammarScreenState extends State<GrammarScreen> {
                 ],
               ),
             ),
+            // Instruction Text
             RichText(
               text: const TextSpan(
                 style: kSubtext20,
                 children: [
-                  TextSpan(text: 'Identify if the sentence\nis '),
                   TextSpan(
-                    text: ' grammatically correct.',
+                    text: 'Spell',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  TextSpan(text: ' the following word.'),
                 ],
               ),
               textAlign: TextAlign.center,
             ),
-            const Text(
-              "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
-              style: kSubtext20,
-              textAlign: TextAlign.center,
+            // Audio Button
+            GestureDetector(
+              onTap: () {
+                // Implement audio playback functionality here
+                print(widget.word!);
+              },
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  color: kOrangeColor600,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.volume_up,
+                    size: 130,
+                    color: kOrangeColor200,
+                  ),
+                ),
+              ),
             ),
+            // Answer Input and Submit Button
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  OvalButton(
-                    color: kOrangeColor600,
-                    onPressed: () {
-                      print('CORRECT');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: TextField(
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                      cursorColor: kOrangeColor500,
+                      decoration: InputDecoration(
+                        hintText: 'Answer',
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 4,
+                            color: kOrangeColor600,
+                          ),
                         ),
-                      );
-                    },
-                    child: const Center(
-                      child: Text(
-                        'CORRECT',
-                        style: kButtonTextStyleWhite,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 4,
+                            color: kOrangeColor600,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(18),
                       ),
                     ),
                   ),
-                  OvalButton(
-                    color: Colors.white,
-                    borderColor: kOrangeColor600,
+                  RoundedRectangleButton(
+                    color: kOrangeColor600,
                     onPressed: () {
-                      print('INCORRECT');
+                      print('Submit');
+                      // Implement your submit logic here
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -143,8 +149,8 @@ class _GrammarScreenState extends State<GrammarScreen> {
                     },
                     child: const Center(
                       child: Text(
-                        'INCORRECT',
-                        style: kButtonTextStyleOrange,
+                        'Submit',
+                        style: kButtonTextStyleWhite,
                       ),
                     ),
                   ),
@@ -157,3 +163,4 @@ class _GrammarScreenState extends State<GrammarScreen> {
     );
   }
 }
+

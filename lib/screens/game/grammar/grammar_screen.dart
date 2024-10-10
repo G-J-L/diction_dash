@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
 
-class VocabularyScreen extends StatefulWidget {
-  const VocabularyScreen({super.key});
+// TODO: TRANSFORM THE GRAMMAR SCREEN INTO A QUESTION MANAGER
+// Generate 10 phrases
+  // Include whether or not they are grammatically correct or incorrect
+// Create 10 GrammarQuestion widgets and store them in a list
+// Return the first question. When the user submits an answer, keep track of it and return the next question
+// When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
+
+// TODO: ACCOUNT FOR SPACED REPETITION
+
+class GrammarScreen extends StatefulWidget {
+  const GrammarScreen({super.key});
 
   @override
-  State<VocabularyScreen> createState() => _VocabularyScreenState();
+  State<GrammarScreen> createState() => _GrammarScreenState();
 }
 
-class _VocabularyScreenState extends State<VocabularyScreen> {
+class _GrammarScreenState extends State<GrammarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,37 +56,14 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(90.0),
-                            child: LinearProgressIndicator(
-                              value: 0.2,
-                              backgroundColor: Colors.transparent,
-                              valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
-                              minHeight: 30,
-                            ),
-                          ),
-                          // Centered Text
-                          Center(
-                            child: Text(
-                              '20 / 20',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: QuestionBar(questionNumber: 6),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
                       onTap: (){
-                        showGameDescription(context, title: 'Vocabulary', description: 'Select which of the four\noptions you believe to be\nthe best response.');
+                        showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
                       },
                       child: const Icon(
                         Icons.help,
@@ -92,9 +79,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               text: const TextSpan(
                 style: kSubtext20,
                 children: [
-                  TextSpan(text: 'Select the appropriate\n'),
+                  TextSpan(text: 'Identify if the sentence\nis '),
                   TextSpan(
-                    text: 'synonym.',
+                    text: ' grammatically correct.',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -102,19 +89,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
               textAlign: TextAlign.center,
             ),
             const Text(
-              'distinct',
-              style: kOswaldLarge,
+              "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
+              style: kSubtext20,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OvalButton(
                     color: kOrangeColor600,
                     onPressed: () {
-                      print('mystic');
+                      print('CORRECT');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -124,15 +111,16 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     },
                     child: const Center(
                       child: Text(
-                        'mystic',
+                        'CORRECT',
                         style: kButtonTextStyleWhite,
                       ),
                     ),
                   ),
                   OvalButton(
-                    color: kOrangeColor600,
+                    color: Colors.white,
+                    borderColor: kOrangeColor600,
                     onPressed: () {
-                      print('demure');
+                      print('INCORRECT');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -142,44 +130,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                     },
                     child: const Center(
                       child: Text(
-                        'demure',
-                        style: kButtonTextStyleWhite,
-                      ),
-                    ),
-                  ),
-                  OvalButton(
-                    color: kOrangeColor600,
-                    onPressed: () {
-                      print('unique');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                    child: const Center(
-                      child: Text(
-                        'unique',
-                        style: kButtonTextStyleWhite,
-                      ),
-                    ),
-                  ),
-                  OvalButton(
-                    color: kOrangeColor600,
-                    onPressed: () {
-                      print('exhausted');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                    child: const Center(
-                      child: Text(
-                        'exhausted',
-                        style: kButtonTextStyleWhite,
+                        'INCORRECT',
+                        style: kButtonTextStyleOrange,
                       ),
                     ),
                   ),

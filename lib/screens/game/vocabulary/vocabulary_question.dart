@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:diction_dash/screens/game/end_game_screen.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
+import 'package:diction_dash/screens/game/end_game_screen.dart';
 
-class ComprehensionScreen extends StatefulWidget {
-  const ComprehensionScreen({super.key});
+class VocabularyQuestion extends StatefulWidget {
+  const VocabularyQuestion({super.key, this.questionNumber, this.word, this.choices, this.answer});
+  final int? questionNumber;
+  final String? word;
+  final List<String?>? choices;
+  final String? answer;
 
   @override
-  State<ComprehensionScreen> createState() => _ComprehensionScreenState();
+  State<VocabularyQuestion> createState() => _VocabularyQuestionState();
 }
 
-class _ComprehensionScreenState extends State<ComprehensionScreen> {
+class _VocabularyQuestionState extends State<VocabularyQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +33,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: (){
                         Navigator.pop(context);
                       },
                       child: const Icon(
@@ -46,40 +51,14 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(90.0),
-                            child: LinearProgressIndicator(
-                              value: 0.2,
-                              backgroundColor: Colors.transparent,
-                              valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
-                              minHeight: 30,
-                            ),
-                          ),
-                          // Centered Text
-                          Center(
-                            child: Text(
-                              '20 / 20',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: QuestionBar(questionNumber: widget.questionNumber),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: GestureDetector(
-                      onTap: () {
-                        showGameDescription(context,
-                            title: 'Comprehension',
-                            description:
-                                'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
+                      onTap: (){
+                        showGameDescription(context, title: 'Vocabulary', description: 'Select which of the four\noptions you believe to be\nthe best response.');
                       },
                       child: const Icon(
                         Icons.help,
@@ -95,29 +74,30 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
               text: const TextSpan(
                 style: kSubtext20,
                 children: [
+                  TextSpan(text: 'Select the appropriate\n'),
                   TextSpan(
-                    text: 'Comprehend',
+                    text: 'synonym.',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  TextSpan(
-                      text: ' the sentence\nand answer the given question.'),
                 ],
               ),
               textAlign: TextAlign.center,
             ),
-            const Text(
-              'The cat jumped onto the\nand answer the given question.\n\nWhat did the cat do?',
-              style: kSubtext20,
+            Text(
+              widget.word!,
+              style: kOswaldLarge,
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ChoiceButton(
-                    text: 'enjoyed the view',
+                  OvalButton(
+                    color: kOrangeColor600,
                     onPressed: () {
+                      print(widget.choices![0]!);
+                      // TODO: CHECK IF CHOICE IS EQUAL TO ANSWER
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -125,10 +105,18 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         ),
                       );
                     },
+                    child: Center(
+                      child: Text(
+                        widget.choices![0]!,
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
-                  ChoiceButton(
-                    text: 'leaped from a window',
+                  OvalButton(
+                    color: kOrangeColor600,
                     onPressed: () {
+                      print(widget.choices![1]!);
+                      // TODO: CHECK IF CHOICE IS EQUAL TO ANSWER
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -136,10 +124,18 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         ),
                       );
                     },
+                    child: Center(
+                      child: Text(
+                        widget.choices![1]!,
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
-                  ChoiceButton(
-                    text: 'hissed at the dog',
+                  OvalButton(
+                    color: kOrangeColor600,
                     onPressed: () {
+                      print(widget.choices![2]!);
+                      // TODO: CHECK IF CHOICE IS EQUAL TO ANSWER
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -147,10 +143,18 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         ),
                       );
                     },
+                    child: Center(
+                      child: Text(
+                        widget.choices![2]!,
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
-                  ChoiceButton(
-                    text: 'washed the brids',
+                  OvalButton(
+                    color: kOrangeColor600,
                     onPressed: () {
+                      print(widget.choices![3]!);
+                      // TODO: CHECK IF CHOICE IS EQUAL TO ANSWER
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -158,34 +162,17 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         ),
                       );
                     },
+                    child: Center(
+                      child: Text(
+                        widget.choices![3]!,
+                        style: kButtonTextStyleWhite,
+                      ),
+                    ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ChoiceButton extends StatelessWidget {
-
-  const ChoiceButton({super.key, this.text, this.onPressed});
-
-  final String? text;
-  final void Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return OvalButton(
-      color: kOrangeColor600,
-      onPressed: onPressed,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 18.0),
-        child: Text(
-          text!,
-          style: kButtonTextStyleWhite20,
         ),
       ),
     );

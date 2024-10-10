@@ -2,11 +2,12 @@ import 'package:diction_dash/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/screens/game/comprehension_screen.dart';
-import 'package:diction_dash/screens/game/grammar_screen.dart';
-import 'package:diction_dash/screens/game/spelling_screen.dart';
-import 'package:diction_dash/screens/game/vocabulary_screen.dart';
+import 'package:diction_dash/screens/game/comprehension/comprehension_screen.dart';
+import 'package:diction_dash/screens/game/grammar/grammar_screen.dart';
+import 'package:diction_dash/screens/game/spelling/spelling_screen.dart';
+import 'package:diction_dash/screens/game/vocabulary/vocabulary_screen.dart';
 import 'package:diction_dash/screens/settings/settings_screen.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/cards.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -79,37 +80,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         const SizedBox(height: 60),
                         Text(username, style: kOswaldLarge),
-                        Stack(
-                          children: [
-                            // Background container
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                              width: double.infinity,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.white, // Background color for the container
-                                borderRadius: BorderRadius.circular(30), // Rounded corners
-                                border: Border.all(
-                                  color: Colors.white, // Border color
-                                  width: 1, // Border width
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30), // Match the rounded corners
-                                child: LinearProgressIndicator(
-                                  value: progressValue,
-                                  backgroundColor: kGrayColor200,
-                                  valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor500),
-                                  minHeight: 30,
-                                ),
-                              ),
-                            ),
-
-                            const Center(
-                              child: Text('Level 1', style: kSubtext20),
-                            ),
-                          ],
-                        ),
+                        UserLevelBar(progressValue: progressValue),
                         const SizedBox(height: 5.0),
                         StatCard(
                           text: 'SPELLING',
