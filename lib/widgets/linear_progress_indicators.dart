@@ -99,9 +99,9 @@ class QuestionBar extends StatelessWidget {
           ),
         ),
         // Centered Text
-        Center(
+        const Center(
           child: Text(
-            '20 / 20',
+            '10 / 10',
             style: const TextStyle(
               fontSize: 20,
               color: Colors.white,

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:diction_dash/widgets/linear_progress_indicators.dart';
-import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
 
 class GrammarQuestion extends StatefulWidget {
-  const GrammarQuestion({super.key, this.questionNumber, this.phrase, this.isCorrect});
-  final int? questionNumber;
+  const GrammarQuestion({super.key, this.phrase, this.isCorrect});
   final String? phrase;
   final bool? isCorrect;
 
@@ -18,57 +15,11 @@ class GrammarQuestion extends StatefulWidget {
 class _GrammarQuestionState extends State<GrammarQuestion> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return Expanded(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Top Bar
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        color: kGrayColor500,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: kGrayColor300,
-                        borderRadius: BorderRadius.circular(90.0),
-                      ),
-                      child: QuestionBar(questionNumber: widget.questionNumber),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
-                      },
-                      child: const Icon(
-                        Icons.help,
-                        color: kGrayColor500,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const SizedBox(),
             RichText(
               text: const TextSpan(
                 style: kSubtext20,
@@ -95,8 +46,8 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
                   OvalButton(
                     color: kOrangeColor600,
                     onPressed: () {
+                      // TODO: CHECK IF TRUE == isCorrect
                       print('CORRECT');
-                      // TODO: CHECK IF isCORRECT == true
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -115,8 +66,8 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
                     color: Colors.white,
                     borderColor: kOrangeColor600,
                     onPressed: () {
+                      // TODO: CHECK IF FALSE == isCorrect
                       print('INCORRECT');
-                      // TODO: CHECK IF isCORRECT == false
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -136,7 +87,6 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
             ),
           ],
         ),
-      ),
     );
   }
 }

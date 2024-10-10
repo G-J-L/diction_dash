@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
-import 'package:diction_dash/screens/game/end_game_screen.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
+import 'package:diction_dash/screens/game/comprehension/comprehension_question.dart';
 
 // TODO: TRANSFORM THE COMPREHENSION SCREEN INTO A QUESTION MANAGER
 // Generate 10 of the following
@@ -25,6 +25,9 @@ class ComprehensionScreen extends StatefulWidget {
 }
 
 class _ComprehensionScreenState extends State<ComprehensionScreen> {
+
+  int questionNumber = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +35,8 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Top Bar
+
+            // TOP BAR
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -59,7 +63,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: QuestionBar(questionNumber: 6),
+                      child: QuestionBar(questionNumber: questionNumber),
                     ),
                   ),
                   Padding(
@@ -81,77 +85,19 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                 ],
               ),
             ),
-            RichText(
-              text: const TextSpan(
-                style: kSubtext20,
-                children: [
-                  TextSpan(
-                    text: 'Comprehend',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(
-                      text: ' the sentence\nand answer the given question.'),
-                ],
-              ),
-              textAlign: TextAlign.center,
+
+            // BODY
+            const ComprehensionQuestion(
+              paragraph: 'The cat jumped onto the\nand answer the given question.',
+              question: 'What did the cat do?',
+              choices: [
+                'enjoyed the view',
+                'leaped from a window',
+                'hissed at the dog',
+                'watched the birds',
+              ],
+              answer: 'watched the birds',
             ),
-            const Text(
-              'The cat jumped onto the\nand answer the given question.\n\nWhat did the cat do?',
-              style: kSubtext20,
-              textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 15.0),
-              child: Column(
-                children: [
-                  ChoiceButton(
-                    text: 'enjoyed the view',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ChoiceButton(
-                    text: 'leaped from a window',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ChoiceButton(
-                    text: 'hissed at the dog',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                  ChoiceButton(
-                    text: 'washed the brids',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),

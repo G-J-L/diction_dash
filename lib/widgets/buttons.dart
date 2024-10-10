@@ -147,7 +147,7 @@ class OvalInfoButton extends StatelessWidget {
 }
 
 class ProfileEditButton extends StatelessWidget {
-  ProfileEditButton({this.text, this.labelText, this.onPressed});
+  const ProfileEditButton({this.text, this.labelText, this.onPressed});
 
   final String? text;
   final String? labelText;
@@ -164,7 +164,7 @@ class ProfileEditButton extends StatelessWidget {
             padding: const EdgeInsets.only(left: 5, bottom: 5),
             child: Text(
               text!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 color: kGrayColor600,
               ),
@@ -186,49 +186,44 @@ class ProfileEditButton extends StatelessWidget {
               child: ListTile(
                 title: Text(
                   labelText!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.edit,
                   size: 30,
                   color: kGrayColor500,
                 ),
               ),
-              // child: TextField(
-              //   cursorColor: kOrangeColor500,
-              //   decoration: InputDecoration(
-              //     suffixIcon: Icon(
-              //       Icons.edit,
-              //       size: 30,
-              //       color: kGrayColor500,
-              //     ),
-              //     labelText: labelText,
-              //     labelStyle: TextStyle(
-              //       fontSize: 18,
-              //       color: Colors.black,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //     border: const OutlineInputBorder(
-              //       borderSide: BorderSide(
-              //         width: 1,
-              //         color: kGrayColor300,
-              //       ),
-              //     ),
-              //     focusedBorder: const OutlineInputBorder(
-              //       borderSide: BorderSide(
-              //         width: 1,
-              //         color: kGrayColor300,
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ChoiceButton extends StatelessWidget {
+
+  const ChoiceButton({super.key, this.text, this.onPressed});
+
+  final String? text;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return OvalButton(
+      color: kOrangeColor600,
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 18.0),
+        child: Text(
+          text!,
+          style: kButtonTextStyleWhite20,
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
+import 'package:diction_dash/screens/game/grammar/grammar_question.dart';
 
 // TODO: TRANSFORM THE GRAMMAR SCREEN INTO A QUESTION MANAGER
 // Generate 10 phrases
@@ -29,7 +30,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Top Bar
+            // TOP BAR
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -75,69 +76,13 @@ class _GrammarScreenState extends State<GrammarScreen> {
                 ],
               ),
             ),
-            RichText(
-              text: const TextSpan(
-                style: kSubtext20,
-                children: [
-                  TextSpan(text: 'Identify if the sentence\nis '),
-                  TextSpan(
-                    text: ' grammatically correct.',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.center,
+
+            // BODY
+            const GrammarQuestion(
+              phrase: "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
+              isCorrect: false,
             ),
-            const Text(
-              "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
-              style: kSubtext20,
-              textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OvalButton(
-                    color: kOrangeColor600,
-                    onPressed: () {
-                      print('CORRECT');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                    child: const Center(
-                      child: Text(
-                        'CORRECT',
-                        style: kButtonTextStyleWhite,
-                      ),
-                    ),
-                  ),
-                  OvalButton(
-                    color: Colors.white,
-                    borderColor: kOrangeColor600,
-                    onPressed: () {
-                      print('INCORRECT');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
-                        ),
-                      );
-                    },
-                    child: const Center(
-                      child: Text(
-                        'INCORRECT',
-                        style: kButtonTextStyleOrange,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+
           ],
         ),
       ),
