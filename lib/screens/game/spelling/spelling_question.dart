@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:diction_dash/widgets/linear_progress_indicators.dart';
-import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
 
 class SpellingQuestion extends StatefulWidget {

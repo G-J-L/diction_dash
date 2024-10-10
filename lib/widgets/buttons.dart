@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/services/constants.dart';
 
 class RoundedRectangleButton extends StatelessWidget {
   final Widget? child;

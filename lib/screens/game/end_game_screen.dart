@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/screens/home_screen.dart';
 import 'package:confetti/confetti.dart';

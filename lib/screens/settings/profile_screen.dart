@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/services/authentication.dart';
@@ -8,7 +8,7 @@ import 'package:diction_dash/services/firestore.dart';
 import 'package:diction_dash/services/profile_picture.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
-import 'package:diction_dash/screens/fluency_screen.dart';
+import 'package:diction_dash/screens/fluency/fluency_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override

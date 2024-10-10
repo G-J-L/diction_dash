@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/services/firestore.dart';
 import 'package:diction_dash/services/authentication.dart';
 import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
-import 'package:diction_dash/screens/fluency_screen.dart';
+import 'package:diction_dash/screens/fluency/fluency_screen.dart';
 import 'package:diction_dash/screens/home_screen.dart';
 
 class AuthManager extends StatefulWidget {

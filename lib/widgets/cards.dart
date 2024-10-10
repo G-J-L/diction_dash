@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 
 class StatCard extends StatelessWidget {

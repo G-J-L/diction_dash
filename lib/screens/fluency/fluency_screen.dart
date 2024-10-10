@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:diction_dash/constants.dart';
-import 'package:diction_dash/screens/feedback_screen.dart';
+import 'package:diction_dash/services/constants.dart';
+import 'package:diction_dash/screens/fluency/feedback_screen.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

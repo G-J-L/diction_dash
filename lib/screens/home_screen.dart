@@ -1,7 +1,7 @@
 import 'package:diction_dash/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:diction_dash/constants.dart';
+import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/screens/game/comprehension/comprehension_screen.dart';
 import 'package:diction_dash/screens/game/grammar/grammar_screen.dart';
 import 'package:diction_dash/screens/game/spelling/spelling_screen.dart';
