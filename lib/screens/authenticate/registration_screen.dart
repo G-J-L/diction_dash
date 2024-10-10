@@ -127,9 +127,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please confirm password.';
-                              } else if (_password != value && _password.isNotEmpty) {
-                                return 'Passwords are not matching.';
+                              } else if (_password != value && value.isNotEmpty){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text('Passwords not matching!')
+                                    )
+                                );
                               }
+                              //  else if (_password != value && _password.isNotEmpty) {
+                              //   return 'Passwords are not matching.';
+                              // } changing to snackbar
+
                               // else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
                               //   return 'Please provide a valid password.\n'
                               //       '- Minimum 8 Characters\n'
