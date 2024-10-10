@@ -6,6 +6,8 @@ import 'package:diction_dash/screens/authenticate/welcome_screen.dart';
 import 'package:diction_dash/screens/fluency/fluency_screen.dart';
 import 'package:diction_dash/screens/home_screen.dart';
 
+import 'package:diction_dash/services/words_api.dart';
+
 class AuthManager extends StatefulWidget {
   @override
   State<AuthManager> createState() => _AuthManagerState();
@@ -14,6 +16,15 @@ class AuthManager extends StatefulWidget {
 class _AuthManagerState extends State<AuthManager> {
   final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
   final FirestoreService firestoreService = FirestoreService();
+
+  final WordsAPI wordsAPI = WordsAPI();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    wordsAPI.fetchWordsWithFrequency(5, 5);
+  }
 
   @override
   Widget build(BuildContext context) {
