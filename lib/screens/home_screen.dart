@@ -11,7 +11,6 @@ import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/cards.dart';
 
 class HomeScreen extends StatelessWidget {
-
   FirestoreService firestoreService = FirestoreService();
 
   String userID = FirebaseAuth.instance.currentUser!.uid;
@@ -58,7 +57,7 @@ class HomeScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Error loading user data.'));
           } else if (snapshot.hasData && snapshot.data!.exists) {
-            var userData = snapshot.data!.data()  as Map<String, dynamic>;
+            var userData = snapshot.data!.data() as Map<String, dynamic>;
             String username = userData['username'];
             var imageUrl = userData['profile_picture'];
             return Stack(
@@ -79,7 +78,11 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 60),
-                        Text(username, style: kOswaldLarge),
+                        Text(
+                          username,
+                          textAlign: TextAlign.center,
+                          style: kOswaldLarge,
+                        ),
                         UserLevelBar(progressValue: progressValue),
                         const SizedBox(height: 5.0),
                         StatCard(
@@ -122,16 +125,17 @@ class HomeScreen extends StatelessWidget {
                           progressValue: progressValue,
                         ),
                         StatCard(
-                            text: 'COMPREHENSION',
-                            image: const AssetImage('images/comprehension.png'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ComprehensionScreen(),
-                                ),
-                              );
-                            },
+                          text: 'COMPREHENSION',
+                          image: const AssetImage('images/comprehension.png'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ComprehensionScreen(),
+                              ),
+                            );
+                          },
                           progressValue: progressValue,
                         ),
                         const SizedBox(height: 10.0),
@@ -149,7 +153,10 @@ class HomeScreen extends StatelessWidget {
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
                         radius: 70,
-                        backgroundImage: imageUrl != null ? NetworkImage(imageUrl) : const AssetImage('images/placeholder_profile.png'),
+                        backgroundImage: imageUrl != null
+                            ? NetworkImage(imageUrl)
+                            : const AssetImage(
+                                'images/placeholder_profile.png'),
                       ),
                     ),
                   ),
