@@ -27,8 +27,8 @@ class _AuthManagerState extends State<AuthManager> {
 
   @override
   Widget build(BuildContext context) {
-    // wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
-    wordsAPI.fetchWordsWithFrequency(5, 5);
+    wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
+    // wordsAPI.fetchWordsWithFrequency(5, 5);
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

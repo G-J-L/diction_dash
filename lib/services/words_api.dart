@@ -18,11 +18,11 @@ class WordsAPI {
   };
 
   // TODO: Create a method for fetching words with a certain frequency
-  Future<void> fetchWordsWithFrequency(double minFrequency, double maxFrequency) async {
+  Future<void> fetchWordsWithFrequency(double frequency) async {
     // API URL for words with a minimum and frequency
     var url = Uri.https(baseURL, '/words', {
-      'frequencyMin': minFrequency.toString(),
-      'frequencyMax': maxFrequency.toString(),
+      'frequencyMin': frequency.toString(),
+      'frequencyMax': frequency.toString(),
       // 'partOfSpeech': 'noun',
       // 'syllables': '10',
       // 'page': '10',
@@ -60,7 +60,7 @@ class WordsAPI {
   Future<void> fetchWord({String? cefrLevel, int? level}) async {
     var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level! * 0.05);
     var finalFrequency = double.parse(frequency.toStringAsFixed(2));
-    await fetchWordsWithFrequency(5, 5);
+    await fetchWordsWithFrequency(finalFrequency);
   }
 
   // TODO: Create a method for fetching random words (choices)
