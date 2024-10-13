@@ -51,7 +51,7 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
+                          builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                         ),
                       );
                     },
@@ -66,12 +66,11 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
                     color: Colors.white,
                     borderColor: kOrangeColor600,
                     onPressed: () {
-                      // TODO: CHECK IF FALSE == isCorrect
                       print('INCORRECT');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const EndGameScreen(),
+                          builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                         ),
                       );
                     },
