@@ -51,7 +51,7 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
@@ -69,7 +69,7 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
@@ -87,7 +87,7 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
@@ -106,7 +106,7 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },

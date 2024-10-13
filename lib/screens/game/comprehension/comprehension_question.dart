@@ -53,7 +53,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
@@ -65,7 +65,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
@@ -77,7 +77,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
@@ -89,7 +89,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const EndGameScreen(),
+                        builder: (context) => EndGameScreen(correctScore: 0, onCorrect: () {  }),
                       ),
                     );
                   },
