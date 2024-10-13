@@ -128,11 +128,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               if (value == null || value.isEmpty) {
                                 return 'Please confirm password.';
                               } else if (_password != value && value.isNotEmpty){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text('Passwords not matching!')
-                                    )
-                                );
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //     SnackBar(
+                                //         content: Text('Passwords not matching!')
+                                //     )
+                                // );
                               }
                               //  else if (_password != value && _password.isNotEmpty) {
                               //   return 'Passwords are not matching.';
