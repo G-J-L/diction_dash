@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:flutter_tts/flutter_tts.dart'; // Import flutter_tts
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:diction_dash/services/words_api.dart';
 
 class SpellingQuestion extends StatefulWidget {
   const SpellingQuestion({super.key, required this.wordData, required this.onAnswer});
@@ -14,25 +15,57 @@ class SpellingQuestion extends StatefulWidget {
 
 class _SpellingQuestionState extends State<SpellingQuestion> {
   final TextEditingController _controller = TextEditingController();
-  final FlutterTts flutterTts = FlutterTts(); // Initialize TTS
+  final FlutterTts _flutterTts = FlutterTts();
+  String? definition; // Definition of the word
 
-  // Function to play audio using TTS
-  Future<void> playAudio() async {
-    try {
-      String word = widget.wordData['word']; // Get the actual word
+  @override
+  void initState() {
+    super.initState();
+    _initializeTts();
+    _getDefinition(widget.wordData['word']); // Fetch the definition on init
+  }
 
-      print(word);
+  // This method is called whenever the widget is updated
+  @override
+  void didUpdateWidget(SpellingQuestion oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-      await flutterTts.setLanguage("en-US"); // Set the language
-      await flutterTts.setPitch(1.0); // Adjust pitch if necessary
-      await flutterTts.speak(word); // Speak the word
-    } catch (e) {
-      print('Error playing audio: $e');
+    // Fetch the definition whenever the word data changes
+    if (oldWidget.wordData['word'] != widget.wordData['word']) {
+      _getDefinition(widget.wordData['word']);
+    }
+  }
+
+  // Get definition
+  Future<void> _getDefinition(String word) async {
+    WordsAPI api = WordsAPI();
+    String? fetchedDefinition = await api.fetchDefinition(word);
+
+    setState(() {
+      definition = fetchedDefinition ?? 'Definition not found'; // Update state
+    });
+  }
+
+  // Initialize text-to-speech settings
+  Future<void> _initializeTts() async {
+    await _flutterTts.setLanguage("en-US"); // Set the desired language
+    await _flutterTts.setPitch(1.0); // Set pitch
+    await _flutterTts.setSpeechRate(0.5); // Optionally set speech rate
+  }
+
+  // Plays the audio of a word
+  Future<void> _playAudio(String word) async {
+    print(word);
+
+    if (word.isNotEmpty) {
+      await _flutterTts.speak(word);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    String word = widget.wordData['word'];
+
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,16 +81,31 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                 ),
                 const TextSpan(text: ' the following word: '),
                 TextSpan(
-                  text: ('*' * widget.wordData['word'].length),
+                  text: ('\n') + ('_ ' * word.length),
                   style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
                 ),
               ],
             ),
             textAlign: TextAlign.center,
           ),
+
+          // Definition
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: definition == null
+                ? const CircularProgressIndicator() // Show loading indicator while fetching the definition
+                : Text(
+              definition!,
+              textAlign: TextAlign.center,
+              style: kSubtext20,
+            ),
+          ),
+
           // Audio Button
           GestureDetector(
-            onTap: playAudio, // Play audio using TTS
+            onTap: () {
+              _playAudio(word);
+            }, // Play audio using TTS
             child: Container(
               width: 200,
               height: 200,
@@ -74,6 +122,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
               ),
             ),
           ),
+
           // Answer Input and Submit Button
           Padding(
             padding: const EdgeInsets.all(8),

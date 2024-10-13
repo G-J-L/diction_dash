@@ -5,15 +5,7 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
-
 import '../../../services/words_api.dart';
-
-// TODO: TRANSFORM THE SPELLING SCREEN INTO A QUESTION MANAGER
-// Calculate word difficulty based on user level and CEFR level
-// Generate 10 words using Words API
-// Create 10 SpellingQuestion widgets and store them in a list
-// Return the first question. When the user submits an answer, keep track of it and return the next question
-// When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
 
 // TODO: ACCOUNT FOR SPACED REPETITION
 
