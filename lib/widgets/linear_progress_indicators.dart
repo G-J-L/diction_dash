@@ -87,21 +87,24 @@ class QuestionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final displayNumber = questionNumber ?? 0;
+
     return Stack(
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(90.0),
           child: LinearProgressIndicator(
-            value: questionNumber! / 10,
+            value: displayNumber / 10.0,
             backgroundColor: Colors.transparent,
             valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor600),
             minHeight: 30,
           ),
         ),
         // Centered Text
-        const Center(
+        Center(
           child: Text(
-            '10 / 10',
+            '${displayNumber.toString()} / 10',
             style: const TextStyle(
               fontSize: 20,
               color: Colors.white,
