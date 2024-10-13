@@ -39,7 +39,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   Future<void> fetchWords() async {
     try {
-      List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWordsWithFrequency(1, 2);
+      List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
       setState(() {
         words = fetchedWords;
         isLoading = false;
