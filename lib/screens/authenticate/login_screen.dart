@@ -4,6 +4,7 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
 import 'package:diction_dash/services/authentication.dart';
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
+import 'package:diction_dash/screens/authenticate/registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formGlobalKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -105,18 +107,28 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 if (_formGlobalKey.currentState!.validate()) {
                   _formGlobalKey.currentState!.save();
+
                   print(_email);
                   print(_password);
-                  await firebaseAuthService.loginUser(
-                    email: _email,
-                    password: _password,
-                  );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AuthManager(),
-                    ),
-                  );
+
+                  try {
+                    await firebaseAuthService.loginUser(
+                      email: _email,
+                      password: _password,
+                    );
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => AuthManager()),
+                    );
+                  }
+                  catch (e) {
+                    print('Login failed: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid email or password. Try again.')),
+                    );
+                  }
+
                 }
               },
               child: const Center(

@@ -20,11 +20,12 @@ class FirebaseAuthenticationService {
 
   // Login User
   Future<void> loginUser({String? email, String? password}) async {
-    print('Registering New User!');
+    print('Logging In User! $email');
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email!, password: password!);
     } on FirebaseAuthException catch (e) {
       print(e.code);
+      rethrow;
     }
   }
 

@@ -7,7 +7,7 @@ class RoundedRectangleButton extends StatelessWidget {
   final Color? color;
   final void Function()? onPressed;
 
-  const RoundedRectangleButton({this.child, this.onPressed, this.color});
+  const RoundedRectangleButton({super.key, this.child, this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
