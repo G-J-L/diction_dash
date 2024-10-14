@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
+import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:diction_dash/services/authentication.dart';
 import 'package:diction_dash/screens/authenticate/auth_manager.dart';
-import 'package:diction_dash/screens/authenticate/registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -110,6 +110,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   print(_email);
                   print(_password);
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const FoxLoadingIndicator();
+                    },
+                  );
 
                   try {
                     await firebaseAuthService.loginUser(

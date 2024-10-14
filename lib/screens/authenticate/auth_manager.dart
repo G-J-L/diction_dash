@@ -1,3 +1,4 @@
+import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/services/firestore.dart';
@@ -44,11 +45,7 @@ class _AuthManagerState extends State<AuthManager> {
                     child: Text('Error loading user data.'),
                   );
                 } else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white70,
-                    ),
-                  );
+                  return const Material(color: Colors.white);
                 } else if (snapshot.hasData) {
 
                   var userData = snapshot.data!.data();

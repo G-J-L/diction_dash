@@ -1,6 +1,6 @@
-import 'package:diction_dash/services/firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:diction_dash/services/firestore.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/screens/game/comprehension/comprehension_screen.dart';
 import 'package:diction_dash/screens/game/grammar/grammar_screen.dart';
@@ -8,6 +8,7 @@ import 'package:diction_dash/screens/game/spelling/spelling_screen.dart';
 import 'package:diction_dash/screens/game/vocabulary/vocabulary_screen.dart';
 import 'package:diction_dash/screens/settings/settings_screen.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
+import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:diction_dash/widgets/cards.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -49,11 +50,7 @@ class HomeScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // TODO: Display fox loading animation
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white70,
-              ),
-            );
+            return const FoxLoadingIndicator();
           } else if (snapshot.hasError) {
             return const Center(child: Text('Error loading user data.'));
           } else if (snapshot.hasData && snapshot.data!.exists) {

@@ -1,7 +1,7 @@
 import 'package:diction_dash/screens/game/vocabulary/vocabulary_question.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
-import 'package:diction_dash/widgets/buttons.dart';
+import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
@@ -73,7 +73,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     return Scaffold(
       body: SafeArea(
         child: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const FoxLoadingIndicator()
         : Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

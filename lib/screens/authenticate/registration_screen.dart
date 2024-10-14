@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
+import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:diction_dash/services/authentication.dart';
 import 'package:diction_dash/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +16,8 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+  final FirebaseAuthenticationService firebaseAuthService =
+      FirebaseAuthenticationService();
   final FirestoreService firestoreService = FirestoreService();
 
   final _formGlobalKey = GlobalKey<FormState>();
@@ -38,7 +40,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Navigator.pop(context); // Navigate back when back arrow is clicked
           },
         ),
-        title: Image(
+        title: const Image(
           image: AssetImage('images/diction_dash.png'),
           width: 220,
         ),
@@ -72,7 +74,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             icon: Icons.person,
                             hintText: 'Username',
                             validator: (value) {
-                              if (value == null || value.isEmpty || value.trim().isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Please provide a username.';
                               } else if (value.length < 3) {
                                 return 'Please provide a longer username';
@@ -90,7 +94,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please provide an email.';
-                              } else if (!RegExp(r'[\w+]*@[\w.]*').hasMatch(value)) {
+                              } else if (!RegExp(r'[\w+]*@[\w.]*')
+                                  .hasMatch(value)) {
                                 return 'Please provide a valid email.';
                               }
                               return null;
@@ -106,7 +111,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please provide a password.';
-                              } else if (value.length < 8 && !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+                              } else if (value.length < 8 &&
+                                  !RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                                      .hasMatch(value)) {
                                 return 'Please provide a valid password.\n'
                                     '- Minimum 8 Characters\n'
                                     '- Minimum 1 Upper case\n'
@@ -164,17 +171,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () async {
-                  if (_formGlobalKey.currentState!.validate()) {
-                      _formGlobalKey.currentState!.save();
+                if (_formGlobalKey.currentState!.validate()) {
+                  _formGlobalKey.currentState!.save();
 
-                      if (_password != _confirmPassword){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Passwords do not match. Try again.'),
-                          ),
-                        );
-                        return;
-                      }
+                  if (_password != _confirmPassword) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Passwords do not match. Try again.'),
+                      ),
+                    );
+                    return;
+                  }
 
                   print(_username);
                   print(_email);
@@ -182,6 +189,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(_confirmPassword);
 
                   FocusScope.of(context).unfocus();
+
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const FoxLoadingIndicator();
+                    },
+                  );
 
                   // Register user in firebase auth
                   User? user = await firebaseAuthService.registerUser(
@@ -196,6 +210,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     username: _username,
                     email: _email,
                   );
+
+                  Navigator.pop(context);
 
                   Navigator.pushReplacement(
                     context,
