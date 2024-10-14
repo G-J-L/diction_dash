@@ -36,6 +36,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
         words = fetchedWords;
         isLoading = false;
       });
+      print(words);
     } catch (e) {
       print('Error fetching words: $e');
       setState(() {

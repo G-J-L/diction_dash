@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/words_api.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -25,8 +26,17 @@ class ComprehensionScreen extends StatefulWidget {
 }
 
 class _ComprehensionScreenState extends State<ComprehensionScreen> {
+  final WordsAPI wordsAPI = WordsAPI();
+  List<Map<String, dynamic>> words = [];
+  bool isLoading = true;
+  int currentIndex = 0;
+  int correctScore = 0;
 
-  int questionNumber = 1;
+  @override
+  void initState() {
+    super.initState();
+    // TODO:
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +73,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: QuestionBar(questionNumber: questionNumber),
+                      child: QuestionBar(questionNumber: currentIndex + 1),
                     ),
                   ),
                   Padding(

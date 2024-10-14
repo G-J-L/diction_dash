@@ -1,4 +1,5 @@
 import 'package:diction_dash/screens/game/vocabulary/vocabulary_question.dart';
+import 'package:diction_dash/services/words_api.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -25,8 +26,36 @@ class VocabularyScreen extends StatefulWidget {
 }
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
+  final WordsAPI wordsAPI = WordsAPI();
+  List<Map<String, dynamic>> questions = [];
+  bool isLoading = true;
+  int currentIndex = 0; // Keep track of current word index
+  int currentScore = 0; // Keep track of correct answers
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: Fetch words with word, choices (including the word), and an answer
+  }
+
+  // Future<void> fetchQuestions() async {
+  //   try {
+  //     List<Map<String, dynamic>> fetchedQuestions = await wordsAPI.fetchVocabularyQuestions();
+  //     setState(() {
+  //       questions = fetchedQuestions;
+  //       isLoading = false;
+  //     });
+  //   } catch (e) {
+  //     print('Error fetching words: $e');
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
+    wordsAPI.fetchSynonym('arse');
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -59,7 +88,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: QuestionBar(questionNumber: 9),
+                      child: QuestionBar(questionNumber: currentIndex + 1),
                     ),
                   ),
                   Padding(

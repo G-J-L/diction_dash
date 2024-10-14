@@ -118,6 +118,7 @@ class WordsAPI {
         } else {
           throw Exception('Definitions not found in response.');
         }
+
       } else {
         throw Exception('Failed to fetch definition. Status code: ${response.statusCode}');
       }
@@ -127,6 +128,48 @@ class WordsAPI {
     }
   }
 
+  // Fetch word synonyms
+  Future<List<dynamic>> fetchSynonym(String word) async {
+    var url = Uri.https(baseURL, '/words/$word/synonyms');
+
+    final headers = {
+      'X-RapidAPI-Key': apiKey,
+      'X-RapidAPI-Host': baseURL,
+      'Accept': 'application/json',
+    };
+
+    List<dynamic> synonyms = [];
+
+    try {
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        var data = await jsonDecode(response.body);
+
+        if (data.containsKey('synonyms')) {
+          synonyms = data['synonyms'];
+          print('Synonyms for $word: ${synonyms.join(', ')}');
+        } else {
+          print('No synonyms for $word');
+        }
+      } else {
+        print('Failed to fetch synonyms. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    return synonyms;
+
+  }
+
+  // Fetch vocabulary question (word, choices, answer)
+  Future<List<Map<String, dynamic>>> fetchVocabularyQuestions({required String cefrLevel, required int level}) async {
+    // Fetch word based on CEFR level and user level (Make sure the word has synonyms)
+    // Fetch an answer based on synonyms for the word. Make sure the synonym is a frequent enough word.
+    // Generate three random words to be used as choices
+    return [{'placeholder': 0}];
+  }
 
 // TODO: Create a method for fetching random words (choices)
 }
