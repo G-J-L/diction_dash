@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:core';
-import 'helper.dart';
 import 'package:http/http.dart' as http;
 
 class WordsAPI {
@@ -17,77 +15,18 @@ class WordsAPI {
     'C1': 2,
   };
 
-  // Fetch words with a certain frequency
-  Future<List<Map<String, dynamic>>> fetchWordsWithFrequency(double frequency) async {
-    var url = Uri.https(baseURL, '/words', {
-      'frequencyMin': (frequency - 1).toString(),
-      'frequencyMax': frequency.toString(),
-    });
-
-    final headers = {
-      'X-RapidAPI-Key': apiKey,
-      'X-RapidAPI-Host': baseURL,
-      'Accept': 'application/json',
-    };
-
-    try {
-      var response = await http.get(url, headers: headers);
-
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-
-        if (data is Map<String, dynamic> && data.containsKey('results')) {
-          List<dynamic> wordsData = data['results']['data'];
-          List<dynamic> validWords = [];
-
-          print(wordsData);
-
-          //Filter invalid words
-          for (var word in wordsData) {
-            // Check that word is a string and has more than 3 letters
-            if (word is String && word.length > 3) {
-              String? definition = await fetchDefinition(word);
-
-              //Check if it has a definition
-              if (definition != null) {
-                validWords.add(word);
-              } else {
-                continue;
-              }
-            } else {
-              print('Unexpected word format: $word');
-            }
-          }
-
-          print(validWords);
-
-          return getRandomWords(validWords, 10); // Return 10 random words
-        } else {
-          throw Exception('Unexpected API response structure.');
-        }
-      } else {
-        throw Exception('Failed to fetch words. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Error: $e');
-    }
-  }
-
-  // Helper method to get 10 random words from the list
-  List<Map<String, dynamic>> getRandomWords(List<dynamic> wordsData, int count) {
-    return List<Map<String, dynamic>>.generate(count, (_) {
-      int index = _random.nextInt(wordsData.length);
-      return {
-        'word': wordsData[index],
-      };
-    });
-  }
-
   // Fetch words based on CEFR Level & User Level
-  Future<List<Map<String, dynamic>>> fetchWord({required String cefrLevel, required int level}) async {
+  Future<List<String>?> fetchWord({required String cefrLevel, required int level, required String game}) async {
     var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
     var finalFrequency = double.parse(frequency.toStringAsFixed(2));
-    return fetchWordsWithFrequency(finalFrequency);
+
+    if (game == 'spelling') {
+      return fetchDefinedWords(finalFrequency, 10);
+    } else if (game == 'vocab'){
+      return fetchRandomWords(finalFrequency, 10);
+    } else {
+      return null;
+    }
   }
 
   // Fetch definition of the word.
@@ -120,7 +59,6 @@ class WordsAPI {
         } else {
           throw Exception('Definitions not found in response.');
         }
-
       } else {
         throw Exception('Failed to fetch definition. Status code: ${response.statusCode}');
       }
@@ -130,61 +68,12 @@ class WordsAPI {
     }
   }
 
-  // Fetch word synonyms
-  Future<List<dynamic>> fetchSynonyms(String word) async {
-    var url = Uri.https(baseURL, '/words/$word/synonyms');
-
-    final headers = {
-      'X-RapidAPI-Key': apiKey,
-      'X-RapidAPI-Host': baseURL,
-      'Accept': 'application/json',
-    };
-
-    List<dynamic> synonyms = [];
-
-    try {
-      var response = await http.get(url, headers: headers);
-
-      if (response.statusCode == 200) {
-        var data = await jsonDecode(response.body);
-
-        if (data.containsKey('synonyms')) {
-          synonyms = data['synonyms'];
-          print('Synonyms for $word: ${synonyms.join(', ')}');
-        } else {
-          print('No synonyms for $word');
-        }
-      } else {
-        print('Failed to fetch synonyms. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-
-    return synonyms;
-
-  }
-
-  // Fetch vocabulary question (word, choices, answer)
-  Future<List<Map<String, dynamic>>> fetchVocabularyQuestions({required String cefrLevel, required int level}) async {
-    // Fetch word based on CEFR level and user level (Make sure the word has synonyms)
-    var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
-    List<Map<String, dynamic>> words = await fetchWordsWithFrequencyAndSynonym(frequency);
-    print(words);
-    // Fetch an answer based on synonyms for the word. Make sure the synonym is a frequent enough word.
-    for (Map<String, dynamic> word in words) {
-      String currentWord = word['word'];
-
-    }
-    // Generate three random words to be used as choices
-    return [{'placeholder': 0}];
-  }
-
-  // Fetch words with a certain frequency
-  Future<List<Map<String, dynamic>>> fetchWordsWithFrequencyAndSynonym(double frequency) async {
+  //Fetch 1 random word
+  Future<String?> fetchRandomWord(double frequency) async {
     var url = Uri.https(baseURL, '/words', {
       'frequencyMin': (frequency - 1).toString(),
       'frequencyMax': frequency.toString(),
+      'random': 'true',
     });
 
     final headers = {
@@ -194,60 +83,169 @@ class WordsAPI {
     };
 
     try {
-      var response = await http.get(url, headers: headers);
+      final response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-
-        if (data is Map<String, dynamic> && data.containsKey('results')) {
-          List<dynamic> wordsData = data['results']['data'];
-          List<dynamic> validWords = [];
-          List<dynamic> validSynonyms = [];
-
-          print(wordsData);
-
-          //Filter invalid words
-          for (var word in wordsData) {
-            // Check that word is a string and has more than 3 letters
-            if (word is String && word.length > 3 && !containsNumbers(word)) {
-              List<dynamic> synonyms = await fetchSynonyms(word);
-
-              //Check if it has a definition
-              if (!synonyms.isEmpty) {
-                validWords.add(word);
-                validSynonyms.add(synonyms);
-              } else {
-                continue;
-              }
-            } else {
-              print('Unexpected word format: $word');
-            }
-          }
-
-          print(validWords);
-          List<Map<String, dynamic>> randomWords =
-          List<Map<String, dynamic>>.generate(10, (_) {
-            int index = _random.nextInt(validWords.length);
-            return {
-              'word': validWords[index],
-              'synonyms': validSynonyms[index],
-            };
-          });
-          print(randomWords);
-
-
-
-          return randomWords; // Return 10 random words
-        } else {
-          throw Exception('Unexpected API response structure.');
-        }
+        // Parse the response
+        Map<String, dynamic> data = json.decode(response.body);
+        String word = data['word'];
+        return word;
       } else {
-        throw Exception('Failed to fetch words. Status code: ${response.statusCode}');
+        print('Failed to load word: ${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      throw Exception('Error: $e');
+      print('Error: $e');
+      return null;
     }
   }
 
-// TODO: Create a method for fetching random words (choices)
-}
+  // Checks if word is valid
+  Future<bool> wordValidator(String word) async {
+    var url = Uri.https(baseURL, '/words/$word');
+
+    final headers = {
+      'X-RapidAPI-Key': apiKey,
+      'X-RapidAPI-Host': baseURL,
+      'Accept': 'application/json',
+    };
+
+    try {
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        // Parse the response
+        Map<String, dynamic> data = json.decode(response.body);
+
+        // Validates word
+        if (data['isProperNoun'] == true || data['isProfane'] == true || word.length <= 3 || RegExp(r'/d').hasMatch(word)) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        print('Failed to load word data: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
+
+  // Fetch 10 defined words (mainly used for spelling)
+  Future<List<String>> fetchDefinedWords(double frequency, int count) async {
+    List<String> words = [];
+
+    // While loop that gets exactly 10 words
+    while (words.length != count) {
+      String? word = await fetchRandomWord(frequency);
+
+      //Checks if a word is already in the list
+      if (words.contains(word) == false) {
+        // Check that word is a string and has more than 3 letters
+        if (await wordValidator(word!) == true) {
+          String? definition = await fetchDefinition(word);
+          //Check if it has a definition
+          if (definition != null) {
+            words.add(word);
+          }
+        } else {
+          print('Unexpected word format: $word'); //When not string and is less than 4 letters
+        }
+      }
+    }
+
+    return words;
+  }
+
+  // Fetch 10 random words with synonyms (mainly used for vocab)
+  Future<List<String>> fetchRandomWords(double frequency, int count) async {
+    Set<String> words = {};
+
+    // While loop that continues until we have the required count of words
+    while (words.length < count) {
+      String? word = await fetchRandomWord(frequency);
+
+      // Word validator
+      if (wordValidator(word!) == true) {
+        // Check if the word is already in the list
+        if (!words.contains(word)) {
+          List<String>? synonyms = await fetchSynonyms(word);
+          // Check if the word has at least 1 synonym
+          if (synonyms != null && synonyms.isNotEmpty) {
+            words.add(word); // Add only if there are synonyms
+          } else {
+            print('No synonyms available for: $word');
+          }
+        } else {
+          print('Word already exists in the list: $word');
+        }
+      } else {
+        print('Unexpected word format: $word'); // When not string and is less than 4 letters
+      }
+    }
+
+    return words.toList();
+  }
+
+  // Fetch synonyms
+  Future<List<String>?> fetchSynonyms(String word) async {
+    var url = Uri.https(baseURL, '/words/$word/synonyms');
+
+    final headers = {
+      'X-RapidAPI-Key': apiKey,
+      'X-RapidAPI-Host': baseURL,
+      'Accept': 'application/json',
+    };
+
+    try {
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        // Parse the response
+        Map<String, dynamic> data = json.decode(response.body);
+
+        // Get the list of synonyms
+        List<dynamic> synonyms = data['synonyms'];
+
+        // Return all synonyms as a list of strings, if available
+        if (synonyms.isNotEmpty) {
+          return List<String>.from(synonyms); // Convert dynamic list to List<String>
+        } else {
+          return null;
+        }
+      } else {
+        print('Failed to load synonyms: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  // Fetch choices for vocab
+  Future<List<String>> fetchChoices(String word, {required String cefrLevel, required int level}) async {
+    var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+    var finalFrequency = double.parse(frequency.toStringAsFixed(2));
+
+    Set<String> choices = {};  // Use Set to prevent duplicates
+    List<String>? synonyms = await fetchSynonyms(word);
+
+    choices.add(synonyms![0]);
+
+    // While loop that gets 3 more words (excluding synonyms)
+    while (choices.length < 4) {
+      String? randomWord = await fetchRandomWord(finalFrequency);
+
+      // Check if the word is already in the list and not synonymous
+      if (randomWord != null && !choices.contains(randomWord) && !synonyms.contains(randomWord) && await wordValidator(randomWord) == true) {
+        choices.add(randomWord);  // Add the random word to choices
+      }
+    }
+
+    return choices.toList();  // Convert Set to List before returning
+  }
+
+} //End of class

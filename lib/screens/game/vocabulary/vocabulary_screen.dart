@@ -1,20 +1,11 @@
 import 'package:diction_dash/screens/game/vocabulary/vocabulary_question.dart';
-import 'package:diction_dash/services/words_api.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
-
-// TODO: TRANSFORM THE VOCABULARY SCREEN INTO A QUESTION MANAGER
-// Calculate word difficulty based on user level and CEFR level
-// Generate 10 words using Words API.
-  // Include a synonym for each word.
-  // Generate random words to be mixed in as choices.
-// Create 10 VocabularyQuestion widgets and store them in a list
-// Return the first question. When the user submits an answer, keep track of it and return the next question
-// When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
+import '../../../services/words_api.dart';
 
 // TODO: ACCOUNT FOR SPACED REPETITION
 
@@ -27,38 +18,63 @@ class VocabularyScreen extends StatefulWidget {
 
 class _VocabularyScreenState extends State<VocabularyScreen> {
   final WordsAPI wordsAPI = WordsAPI();
-  List<Map<String, dynamic>> questions = [];
+  List<String> words = [];
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
-  int currentScore = 0; // Keep track of correct answers
+  int correctScore = 0; // Keep track of correct answers
 
   @override
   void initState() {
     super.initState();
-    // TODO: Fetch words with word, choices (including the word), and an answer
+    fetchWords(); // Fetch words on screen initialization
   }
 
-  // Future<void> fetchQuestions() async {
-  //   try {
-  //     List<Map<String, dynamic>> fetchedQuestions = await wordsAPI.fetchVocabularyQuestions();
-  //     setState(() {
-  //       questions = fetchedQuestions;
-  //       isLoading = false;
-  //     });
-  //   } catch (e) {
-  //     print('Error fetching words: $e');
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
+  Future<void> fetchWords() async {
+    try {
+      // List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
+      List<String>? fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'vocab');
+      setState(() {
+        words = fetchedWords!;
+        print(words);
+        print(words);
+        print(words);
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching words: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void checkAnswer(String userAnswer, String answer) {
+    if (userAnswer.toLowerCase() == answer.toLowerCase()) {
+      correctScore++; // Increment correct score
+    }
+
+    if (currentIndex < words.length - 1) {
+      setState(() {
+        currentIndex++; // Move to the next word
+      });
+    } else {
+      // Navigate to the end game screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EndGameScreen(correctScore: correctScore, onCorrect: () {}),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    wordsAPI.fetchVocabularyQuestions(cefrLevel: 'B1', level: 4);
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator())
+        : Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // TOP BAR
@@ -88,7 +104,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: QuestionBar(questionNumber: currentIndex + 1),
+                      child: QuestionBar(questionNumber: 9),
                     ),
                   ),
                   Padding(
@@ -109,10 +125,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ),
 
             // BODY
-            const VocabularyQuestion(
-              word: 'distinct',
-              choices: ['mystic', 'demure', 'unique', 'exhausted'],
-              answer: 'unique',
+            VocabularyQuestion(
+              word: words[currentIndex],
+              onAnswer: checkAnswer,
             ),
           ],
         ),
