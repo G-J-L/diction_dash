@@ -18,7 +18,7 @@ class SpellingScreen extends StatefulWidget {
 
 class _SpellingScreenState extends State<SpellingScreen> {
   final WordsAPI wordsAPI = WordsAPI();
-  List<Map<String, dynamic>> words = [];
+  List<String> words = [];
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
   int correctScore = 0; // Keep track of correct answers
@@ -31,9 +31,10 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   Future<void> fetchWords() async {
     try {
-      List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
+      // List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
+      List<String>? fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'spelling');
       setState(() {
-        words = fetchedWords;
+        words = fetchedWords!;
         isLoading = false;
       });
       print(words);
@@ -46,7 +47,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
   }
 
   void checkAnswer(String userAnswer) {
-    if (userAnswer.toLowerCase() == words[currentIndex]['word'].toLowerCase()) {
+    if (userAnswer.toLowerCase() == words[currentIndex].toLowerCase()) {
       correctScore++; // Increment correct score
     }
 
@@ -117,7 +118,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
             // BODY: Passing the fetched word to SpellingQuestion
             SpellingQuestion(
-              wordData: words[currentIndex],
+              word: words[currentIndex],
               onAnswer: checkAnswer, // Pass the answer checking function
             ),
           ],

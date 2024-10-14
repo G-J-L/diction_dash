@@ -5,8 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:diction_dash/services/words_api.dart';
 
 class SpellingQuestion extends StatefulWidget {
-  const SpellingQuestion({super.key, required this.wordData, required this.onAnswer});
-  final Map<String, dynamic> wordData;
+  const SpellingQuestion({super.key, required this.word, required this.onAnswer});
+  final String word;
   final Function(String) onAnswer; // Callback to check the answer
 
   @override
@@ -22,7 +22,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
   void initState() {
     super.initState();
     _initializeTts();
-    _getDefinition(widget.wordData['word']); // Fetch the definition on init
+    _getDefinition(widget.word); // Fetch the definition on init
   }
 
   // This method is called whenever the widget is updated
@@ -31,8 +31,8 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
     super.didUpdateWidget(oldWidget);
 
     // Fetch the definition whenever the word data changes
-    if (oldWidget.wordData['word'] != widget.wordData['word']) {
-      _getDefinition(widget.wordData['word']);
+    if (oldWidget.word != widget.word) {
+      _getDefinition(widget.word);
     }
   }
 
@@ -64,7 +64,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    String word = widget.wordData['word'];
+    String word = widget.word;
 
     return Expanded(
       child: Column(
