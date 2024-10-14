@@ -17,41 +17,23 @@ class FirestoreService {
       'username': username!,
       'email': email!,
       'profile_picture': null,
+
       'level': 1,
       'exp': 0,
       'cefr_level': null,
-    });
 
-    // TODO: Assign each minigame with xp and level
-
-    // Spelling Collection
-    final spelling = newUser.collection('spelling');
-    await spelling.add({
       'spelling_level': 1,
       'spelling_exp': 0,
-    });
 
-    // Vocabulary Collection
-    final vocabulary = newUser.collection('vocabulary');
-    await vocabulary.add({
       'vocabulary_level': 1,
       'vocabulary_exp': 0,
-    });
 
-    // Grammar Collection
-    final grammar = newUser.collection('grammar');
-    await grammar.add({
       'grammar_level': 1,
       'grammar_exp': 0,
-    });
 
-    // Comprehension Collection
-    final comprehension = newUser.collection('comprehension');
-    await comprehension.add({
       'comprehension_level': 1,
       'comprehension_exp': 0,
     });
-
   }
 
   // Fetch user data method

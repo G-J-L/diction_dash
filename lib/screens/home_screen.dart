@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/services/firestore.dart';
@@ -55,8 +57,33 @@ class HomeScreen extends StatelessWidget {
             return const Center(child: Text('Error loading user data.'));
           } else if (snapshot.hasData && snapshot.data!.exists) {
             var userData = snapshot.data!.data() as Map<String, dynamic>;
+
+            // Print user data for debugging purposes
+            print('$userData');
+
+            // Fetches username, profile picture url, level, and total exp from firestore
             String username = userData['username'];
             var imageUrl = userData['profile_picture'];
+            int level = userData['level'];
+            int userExp = userData['exp'];
+            int maxExp = 100;
+
+            // Fetches level and exp for spelling from firestore
+            int spellingLevel = userData['spelling_level'];
+            int spellingExp = userData['spelling_exp'];
+
+            // Fetches level and exp for vocabulary from firestore
+            int vocabularyLevel = userData['vocabulary_level'];
+            int vocabularyExp = userData['vocabulary_exp'];
+
+            // Fetches level and exp for grammar from firestore
+            int grammarLevel = userData['grammar_level'];
+            int grammarExp = userData['grammar_exp'];
+
+            // Fetches level and exp for comprehension from firestore
+            int comprehensionLevel = userData['comprehension_level'];
+            int comprehensionExp = userData['comprehension_exp'];
+
             return Stack(
               children: [
                 Align(
@@ -80,11 +107,18 @@ class HomeScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: kOswaldLarge,
                         ),
-                        UserLevelBar(progressValue: progressValue),
+                        UserLevelBar(
+                          level: level,
+                          currentExp: userExp,
+                          maxExp: maxExp,
+                        ),
                         const SizedBox(height: 5.0),
                         StatCard(
                           text: 'SPELLING',
                           image: const AssetImage('images/spelling.png'),
+                          level: spellingLevel,
+                          currentExp: spellingExp,
+                          maxExp: maxExp,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -93,11 +127,13 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          progressValue: progressValue,
                         ),
                         StatCard(
                           text: 'VOCABULARY',
                           image: const AssetImage('images/vocabulary.png'),
+                          level: vocabularyLevel,
+                          currentExp: vocabularyExp,
+                          maxExp: maxExp,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -106,11 +142,13 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          progressValue: progressValue,
                         ),
                         StatCard(
                           text: 'GRAMMAR',
                           image: const AssetImage('images/grammar.png'),
+                          level: grammarLevel,
+                          currentExp: grammarExp,
+                          maxExp: maxExp,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -119,11 +157,13 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          progressValue: progressValue,
                         ),
                         StatCard(
                           text: 'COMPREHENSION',
                           image: const AssetImage('images/comprehension.png'),
+                          level: comprehensionLevel,
+                          currentExp: comprehensionExp,
+                          maxExp: maxExp,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -133,7 +173,6 @@ class HomeScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          progressValue: progressValue,
                         ),
                         const SizedBox(height: 10.0),
                       ],

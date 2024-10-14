@@ -4,10 +4,14 @@ import 'package:diction_dash/services/constants.dart';
 class UserLevelBar extends StatelessWidget {
   const UserLevelBar({
     super.key,
-    required this.progressValue,
+    required this.level,
+    required this.currentExp,
+    required this.maxExp,
   });
 
-  final double progressValue;
+  final int level;
+  final int currentExp;
+  final int maxExp;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,7 @@ class UserLevelBar extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30), // Match the rounded corners
             child: LinearProgressIndicator(
-              value: progressValue,
+              value: currentExp / maxExp,
               backgroundColor: kGrayColor200,
               valueColor: AlwaysStoppedAnimation<Color>(kOrangeColor500),
               minHeight: 30,
@@ -37,8 +41,8 @@ class UserLevelBar extends StatelessWidget {
           ),
         ),
 
-        const Center(
-          child: Text('Level 1', style: kSubtext20),
+        Center(
+          child: Text('Level $level', style: kSubtext20),
         ),
       ],
     );
@@ -48,10 +52,14 @@ class UserLevelBar extends StatelessWidget {
 class MinigameLevelBar extends StatelessWidget {
   const MinigameLevelBar({
     super.key,
-    required this.progressValue,
+    required this.level,
+    required this.currentExp,
+    required this.maxExp,
   });
 
-  final double progressValue;
+  final int level;
+  final int currentExp;
+  final int maxExp;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +68,7 @@ class MinigameLevelBar extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(20), // Clip for rounded corners
           child: LinearProgressIndicator(
-            value: progressValue,
+            value: currentExp / maxExp,
             backgroundColor: kGrayColor100, // Make background transparent
             valueColor: const AlwaysStoppedAnimation<Color>(kOrangeColor300),
             minHeight: 20,
@@ -68,7 +76,7 @@ class MinigameLevelBar extends StatelessWidget {
         ),
         Center(
           child: Text(
-            'Level 1', // Text inside the progress bar
+            'Level $level', // Text inside the progress bar
             style: const TextStyle(color: Colors.black), // Adjust text color
           ),
         ),

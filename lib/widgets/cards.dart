@@ -7,14 +7,18 @@ class StatCard extends StatelessWidget {
     super.key,
     this.text,
     this.image,
+    required this.level,
+    required this.currentExp, // Progress value between 0.0 and 1.0
+    required this.maxExp,
     this.onPressed,
-    required this.progressValue, // Progress value between 0.0 and 1.0
   });
 
   final String? text;
   final ImageProvider<Object>? image;
   final void Function()? onPressed;
-  final double progressValue;
+  final int level;
+  final int currentExp;
+  final int maxExp;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +54,16 @@ class StatCard extends StatelessWidget {
                           width: double.infinity,
                           height: 20, // Set the height for the progress bar
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20), // Set the border radius
-                            color: kGrayColor100, // Background color of the progress bar
+                            borderRadius: BorderRadius.circular(
+                                20), // Set the border radius
+                            color:
+                                kGrayColor100, // Background color of the progress bar
                           ),
-                          child: MinigameLevelBar(progressValue: progressValue),
+                          child: MinigameLevelBar(
+                            level: level,
+                            currentExp: currentExp,
+                            maxExp: maxExp,
+                          ),
                         ),
                       ],
                     ),
@@ -67,5 +77,3 @@ class StatCard extends StatelessWidget {
     );
   }
 }
-
-
