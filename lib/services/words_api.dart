@@ -168,7 +168,14 @@ class WordsAPI {
   // Fetch vocabulary question (word, choices, answer)
   Future<List<Map<String, dynamic>>> fetchVocabularyQuestions({required String cefrLevel, required int level}) async {
     // Fetch word based on CEFR level and user level (Make sure the word has synonyms)
+    var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+    List<Map<String, dynamic>> words = await fetchWordsWithFrequencyAndSynonym(frequency);
+    print(words);
     // Fetch an answer based on synonyms for the word. Make sure the synonym is a frequent enough word.
+    for (Map<String, dynamic> word in words) {
+      String currentWord = word['word'];
+
+    }
     // Generate three random words to be used as choices
     return [{'placeholder': 0}];
   }
@@ -195,6 +202,7 @@ class WordsAPI {
         if (data is Map<String, dynamic> && data.containsKey('results')) {
           List<dynamic> wordsData = data['results']['data'];
           List<dynamic> validWords = [];
+          List<dynamic> validSynonyms = [];
 
           print(wordsData);
 
@@ -207,6 +215,7 @@ class WordsAPI {
               //Check if it has a definition
               if (!synonyms.isEmpty) {
                 validWords.add(word);
+                validSynonyms.add(synonyms);
               } else {
                 continue;
               }
@@ -216,8 +225,18 @@ class WordsAPI {
           }
 
           print(validWords);
-          List<Map<String, dynamic>> randomWords = getRandomWords(validWords, 10);
+          List<Map<String, dynamic>> randomWords =
+          List<Map<String, dynamic>>.generate(10, (_) {
+            int index = _random.nextInt(validWords.length);
+            return {
+              'word': validWords[index],
+              'synonyms': validSynonyms[index],
+            };
+          });
           print(randomWords);
+
+
+
           return randomWords; // Return 10 random words
         } else {
           throw Exception('Unexpected API response structure.');
