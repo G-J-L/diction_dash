@@ -55,7 +55,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    wordsAPI.fetchSynonym('arse');
+    wordsAPI.fetchWordsWithFrequencyAndSynonym(4);
     return Scaffold(
       body: SafeArea(
         child: Column(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:core';
+import 'helper.dart';
 import 'package:http/http.dart' as http;
 
 class WordsAPI {
@@ -129,7 +131,7 @@ class WordsAPI {
   }
 
   // Fetch word synonyms
-  Future<List<dynamic>> fetchSynonym(String word) async {
+  Future<List<dynamic>> fetchSynonyms(String word) async {
     var url = Uri.https(baseURL, '/words/$word/synonyms');
 
     final headers = {
@@ -169,6 +171,63 @@ class WordsAPI {
     // Fetch an answer based on synonyms for the word. Make sure the synonym is a frequent enough word.
     // Generate three random words to be used as choices
     return [{'placeholder': 0}];
+  }
+
+  // Fetch words with a certain frequency
+  Future<List<Map<String, dynamic>>> fetchWordsWithFrequencyAndSynonym(double frequency) async {
+    var url = Uri.https(baseURL, '/words', {
+      'frequencyMin': (frequency - 1).toString(),
+      'frequencyMax': frequency.toString(),
+    });
+
+    final headers = {
+      'X-RapidAPI-Key': apiKey,
+      'X-RapidAPI-Host': baseURL,
+      'Accept': 'application/json',
+    };
+
+    try {
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+
+        if (data is Map<String, dynamic> && data.containsKey('results')) {
+          List<dynamic> wordsData = data['results']['data'];
+          List<dynamic> validWords = [];
+
+          print(wordsData);
+
+          //Filter invalid words
+          for (var word in wordsData) {
+            // Check that word is a string and has more than 3 letters
+            if (word is String && word.length > 3 && !containsNumbers(word)) {
+              List<dynamic> synonyms = await fetchSynonyms(word);
+
+              //Check if it has a definition
+              if (!synonyms.isEmpty) {
+                validWords.add(word);
+              } else {
+                continue;
+              }
+            } else {
+              print('Unexpected word format: $word');
+            }
+          }
+
+          print(validWords);
+          List<Map<String, dynamic>> randomWords = getRandomWords(validWords, 10);
+          print(randomWords);
+          return randomWords; // Return 10 random words
+        } else {
+          throw Exception('Unexpected API response structure.');
+        }
+      } else {
+        throw Exception('Failed to fetch words. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
   }
 
 // TODO: Create a method for fetching random words (choices)
