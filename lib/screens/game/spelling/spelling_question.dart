@@ -64,13 +64,14 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height - kToolbarHeight;
     String word = widget.word;
 
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(),
+          const SizedBox(height: 10,),
           RichText(
             text: TextSpan(
               style: kSubtext20,
@@ -88,7 +89,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
             ),
             textAlign: TextAlign.center,
           ),
-
+          SizedBox(height: height * 0.05),
           // Definition
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -100,7 +101,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
               style: kSubtext20,
             ),
           ),
-
+          SizedBox(height: height * 0.05),
           // Audio Button
           GestureDetector(
             onTap: () {
@@ -122,7 +123,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
               ),
             ),
           ),
-
+          SizedBox(height: height * 0.1),
           // Answer Input and Submit Button
           Padding(
             padding: const EdgeInsets.all(8),
