@@ -69,11 +69,11 @@ class _SpellingScreenState extends State<SpellingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: isLoading
             ? const FoxLoadingIndicator()
-            : Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            : ListView(
           children: [
             // TOP BAR (unchanged)
             Padding(

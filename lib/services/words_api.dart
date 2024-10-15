@@ -118,7 +118,7 @@ class WordsAPI {
         Map<String, dynamic> data = json.decode(response.body);
 
         // Validates word
-        if (data['isProperNoun'] == true || data['isProfane'] == true || word.length <= 3 || RegExp(r'/d').hasMatch(word)) {
+        if (data['isProperNoun'] == true || data['isProfane'] == true || word.length <= 3 || RegExp(r'\d').hasMatch(word)) {
           return false;
         } else {
           return true;
@@ -143,7 +143,7 @@ class WordsAPI {
 
       //Checks if a word is already in the list
       if (words.contains(word) == false) {
-        // Check that word is a string and has more than 3 letters
+        // Word validator
         if (await wordValidator(word!) == true) {
           String? definition = await fetchDefinition(word);
           //Check if it has a definition
@@ -167,19 +167,13 @@ class WordsAPI {
     while (words.length < count) {
       String? word = await fetchRandomWord(frequency);
 
-      // Word validator
-      if (wordValidator(word!) == true) {
-        // Check if the word is already in the list
-        if (!words.contains(word)) {
-          List<String>? synonyms = await fetchSynonyms(word);
-          // Check if the word has at least 1 synonym
-          if (synonyms != null && synonyms.isNotEmpty) {
-            words.add(word); // Add only if there are synonyms
-          } else {
-            print('No synonyms available for: $word');
-          }
+      if (await wordValidator(word!) == true) {
+        List<String>? synonyms = await fetchSynonyms(word);
+        // Check if the word has at least 1 synonym
+        if (synonyms != null && synonyms.isNotEmpty) {
+          words.add(word); // Add only if there are synonyms
         } else {
-          print('Word already exists in the list: $word');
+          print('No synonyms available for: $word');
         }
       } else {
         print('Unexpected word format: $word'); // When not string and is less than 4 letters

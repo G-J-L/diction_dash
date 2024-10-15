@@ -104,7 +104,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         color: kGrayColor300,
                         borderRadius: BorderRadius.circular(90.0),
                       ),
-                      child: QuestionBar(questionNumber: 9),
+                      child: QuestionBar(questionNumber: currentIndex),
                     ),
                   ),
                   Padding(
