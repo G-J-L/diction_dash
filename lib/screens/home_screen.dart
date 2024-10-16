@@ -71,6 +71,7 @@ class HomeScreen extends StatelessWidget {
             // Fetches level and exp for spelling from firestore
             int spellingLevel = userData['spelling_level'];
             int spellingExp = userData['spelling_exp'];
+            String cefrLevel = userData['cefr_level'];
 
             // Fetches level and exp for vocabulary from firestore
             int vocabularyLevel = userData['vocabulary_level'];
@@ -153,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const GrammarScreen(),
+                                builder: (context) => GrammarScreen(cefrLevel: cefrLevel),
                               ),
                             );
                           },

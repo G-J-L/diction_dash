@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -5,10 +6,11 @@ import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
 import 'package:diction_dash/screens/game/grammar/grammar_question.dart';
+import 'package:diction_dash/services/grammar_question_bank.dart';
 
 // TODO: TRANSFORM THE GRAMMAR SCREEN INTO A QUESTION MANAGER
 // Generate 10 phrases
-  // Include whether or not they are grammatically correct or incorrect
+// Include whether or not they are grammatically correct or incorrect
 // Create 10 GrammarQuestion widgets and store them in a list
 // Return the first question. When the user submits an answer, keep track of it and return the next question
 // When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
@@ -16,13 +18,18 @@ import 'package:diction_dash/screens/game/grammar/grammar_question.dart';
 // TODO: ACCOUNT FOR SPACED REPETITION
 
 class GrammarScreen extends StatefulWidget {
-  const GrammarScreen({super.key});
+  const GrammarScreen({super.key, required this.cefrLevel});
+  final String cefrLevel;
 
   @override
   State<GrammarScreen> createState() => _GrammarScreenState();
 }
 
 class _GrammarScreenState extends State<GrammarScreen> {
+
+  FirestoreService firestoreService = FirestoreService();
+
+  final GrammarQuestionBank questionBank = GrammarQuestionBank();
   List<Map<String, dynamic>> questions = [];
   bool isLoading = true;
   int currentIndex = 0;
@@ -31,17 +38,46 @@ class _GrammarScreenState extends State<GrammarScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: FETCH GRAMMAR QUESTIONS
+    print('Grammar Screen: USER CEFR LEVEL IS ${widget.cefrLevel}');
+    questions = questionBank.getRandomQuestions(cefrLevel: widget.cefrLevel, count: 10);
+  }
+
+  void checkAnswer(bool answer) {
+    // Check if user answer is equal to the correct answer
+    if (answer == questions[currentIndex]['isCorrect']) {
+      setState(() {
+        correctScore++;
+      });
+    }
+
+    // Increment question number if we are not at the last question yet
+    if (currentIndex < questions.length - 1) {
+      setState(() {
+        currentIndex++;
+      });
+    } else {
+      // Navigate to end game screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EndGameScreen(
+            correctScore: correctScore,
+            onCorrect: () {},
+            rewardEXP: firestoreService.addGrammarEXP,
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isLoading ? null : AppBar(
+      appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(
@@ -64,8 +100,11 @@ class _GrammarScreenState extends State<GrammarScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: GestureDetector(
-              onTap: (){
-                showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence carefully, and read it more than once to be sure.');
+              onTap: () {
+                showGameDescription(context,
+                    title: 'Grammar',
+                    description:
+                        'Analyze the sentence carefully, and read it more than once to be sure.');
               },
               child: const Icon(
                 Icons.help,
@@ -76,9 +115,10 @@ class _GrammarScreenState extends State<GrammarScreen> {
           ),
         ],
       ),
-      body: const GrammarQuestion(
-        phrase: "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
-        isCorrect: false,
+      body: GrammarQuestion(
+        phrase: questions[currentIndex]['phrase'],
+        isCorrect: questions[currentIndex]['isCorrect'],
+        onAnswer: checkAnswer,
       ),
     );
   }

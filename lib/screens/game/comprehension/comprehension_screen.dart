@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/comprehension_question_bank.dart';
 import 'package:diction_dash/services/words_api.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
@@ -5,6 +6,7 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/comprehension/comprehension_question.dart';
+import 'package:diction_dash/screens/game/end_game_screen.dart';
 
 // TODO: TRANSFORM THE COMPREHENSION SCREEN INTO A QUESTION MANAGER
 // Generate 10 of the following
@@ -26,6 +28,8 @@ class ComprehensionScreen extends StatefulWidget {
 }
 
 class _ComprehensionScreenState extends State<ComprehensionScreen> {
+  ComprehensionQuestionBank questionBank = ComprehensionQuestionBank();
+
   List<Map<String, dynamic>> questions = [];
   bool isLoading = true;
   int currentIndex = 0;
@@ -34,13 +38,40 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: FETCH COMPREHENSION QUESTIONS
+    questions = questionBank.getRandomQuestions(cefrLevel: 'A1', count: 10);
+  }
+
+  void checkAnswer(String? answer) {
+    // Check if user answer is equal to the correct answer
+    if (answer == questions[currentIndex]['answer']) {
+      setState(() {
+        correctScore++;
+      });
+    }
+
+    // Increment question number if we are not at the last question yet
+    if (currentIndex < questions.length - 1) {
+      setState(() {
+        currentIndex++;
+      });
+    } else {
+      // Navigate to end game screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EndGameScreen(
+            correctScore: correctScore,
+            onCorrect: () {},
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isLoading ? null : AppBar(
+      appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: GestureDetector(
@@ -79,16 +110,12 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
           ),
         ],
       ),
-      body: const ComprehensionQuestion(
-        paragraph: 'The cat jumped onto the\nand answer the given question.',
-        question: 'What did the cat do?',
-        choices: [
-          'enjoyed the view',
-          'leaped from a window',
-          'hissed at the dog',
-          'watched the birds',
-        ],
-        answer: 'watched the birds',
+      body: ComprehensionQuestion(
+        paragraph: questions[currentIndex]['paragraph'],
+        question: questions[currentIndex]['question'],
+        choices: questions[currentIndex]['choices'],
+        answer: questions[currentIndex]['answer'],
+        onAnswer: checkAnswer,
       ),
     );
   }

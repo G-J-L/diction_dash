@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:diction_dash/services/firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -9,11 +11,13 @@ import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 class EndGameScreen extends StatefulWidget {
   final int correctScore; // Correct score parameter
   final VoidCallback onCorrect; // Callback function for correct score
+  final Future<void> Function(String, int)? rewardEXP;
 
   const EndGameScreen({
     super.key,
     required this.correctScore,
-    required this.onCorrect, // Require onCorrect parameter
+    required this.onCorrect, //
+    this.rewardEXP,// Require onCorrect parameter
   });
 
   @override
@@ -21,6 +25,10 @@ class EndGameScreen extends StatefulWidget {
 }
 
 class _EndGameScreenState extends State<EndGameScreen> {
+
+  final FirestoreService firestoreService = FirestoreService();
+  final String userID = FirebaseAuth.instance.currentUser!.uid;
+
   late ConfettiController _confettiController;
   List<Color> starColors = []; //Colors of stars in order
 
@@ -149,7 +157,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                       const SizedBox(height: 10),
                       const Text('EXPERIENCE POINTS', style: kOswaldMedium),
                       Text(
-                        '+1028 XP',
+                        '+${widget.correctScore * 10} XP',
                         style: kButtonTextStyleOrange.copyWith(fontSize: 36),
                       ),
                     ],
@@ -170,9 +178,11 @@ class _EndGameScreenState extends State<EndGameScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: RoundedRectangleButton(
                     color: kOrangeColor600,
-                    onPressed: () {
+                    onPressed: () async {
                       print('Continue');
-                      Navigator.push(
+                      await widget.rewardEXP!(userID, widget.correctScore * 10);
+                      await firestoreService.updateLevelAndEXP(userID);
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => HomeScreen(),

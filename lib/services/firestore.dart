@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -41,6 +41,17 @@ class FirestoreService {
     return users.doc(userID).snapshots();
   }
 
+  Future<Map<String, dynamic>> getUserData(String userID) async {
+    Map<String, dynamic>? userData;
+    await users.doc(userID).get().then(
+          (DocumentSnapshot doc) {
+        userData = doc.data() as Map<String, dynamic>;
+      },
+      onError: (e) => print('Error getting document: $e'),
+    );
+    return userData!;
+  }
+
   // Update username method
   Future<void> updateUsername({String? userID, String? newUsername}) async {
     await users.doc(userID).update({
@@ -67,6 +78,55 @@ class FirestoreService {
     print(userID);
     await users.doc(userID).delete();
   }
+
+  Future<void> updateLevelAndEXP(String userID) async {
+    Map<String, dynamic> userData = await getUserData(userID);
+    int nextLevel = int.parse((150 + pow((userData['level'] - 1), 2) * 100).toString());
+    users.doc(userID).update({
+      'exp': userData['spelling_exp'] + userData['vocabulary_exp'] + userData['grammar_exp'] + userData['comprehension_exp'],
+    });
+    userData = await getUserData(userID);
+    if (userData['exp'] >= nextLevel) {
+      int newExp = userData['exp'] - nextLevel;
+      users.doc(userID).update({
+        'level': userData['level'] + 1,
+        'exp': newExp,
+      });
+    }
+  }
+
+  Future<void> addSpellingEXP(String userID, int expReward) async {
+    Map<String, dynamic> userData = await getUserData(userID);
+    int nextLevel = int.parse((150 + pow((userData['spelling_level'] - 1), 2) * 100).toString());
+    users.doc(userID).update({
+      'spelling_exp': userData['spelling_exp'] + expReward,
+    });
+  }
+
+  Future<void> addVocabularyEXP(String userID, int expReward) async {
+    Map<String, dynamic> userData = await getUserData(userID);
+    int nextLevel = int.parse((150 + pow((userData['vocabulary_level'] - 1), 2) * 100).toString());
+    users.doc(userID).update({
+      'vocabulary_exp': userData['vocabulary_exp'] + expReward,
+    });
+  }
+
+  Future<void> addGrammarEXP(String userID, int expReward) async {
+    Map<String, dynamic> userData = await getUserData(userID);
+    int nextLevel = int.parse((150 + pow((userData['grammar_level'] - 1), 2) * 100).toString());
+    users.doc(userID).update({
+      'grammar_exp': userData['grammar_exp'] + expReward,
+    });
+  }
+
+  Future<void> addComprehensionEXP(String userID, int expReward) async {
+    Map<String, dynamic> userData = await getUserData(userID);
+    int nextLevel = int.parse((150 + pow((userData['comprehension_level'] - 1), 2) * 100).toString());
+    users.doc(userID).update({
+      'comprehension_exp': userData['comprehension_exp'] + expReward,
+    });
+  }
+
 
   // TODO: Create add XP method (Overall, Spelling, Grammar, Vocab, Comprehension)
 

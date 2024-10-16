@@ -62,8 +62,10 @@ class _SpellingScreenState extends State<SpellingScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              EndGameScreen(correctScore: correctScore, onCorrect: () {}),
+          builder: (context) => EndGameScreen(
+            correctScore: correctScore,
+            onCorrect: () {},
+          ),
         ),
       );
     }
@@ -73,52 +75,57 @@ class _SpellingScreenState extends State<SpellingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: true,
-      appBar: isLoading ? null : AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: GestureDetector(
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.close,
-              color: kGrayColor500,
-              size: 35,
-            ),
-          ),
-        ),
-        title: Container(
-          width: double.infinity,
-          height: 30,
-          decoration: BoxDecoration(
-            color: kGrayColor300,
-            borderRadius: BorderRadius.circular(90.0),
-          ),
-          child: QuestionBar(questionNumber: currentIndex + 1),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
-            child: GestureDetector(
-              onTap: (){
-                showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully and make sure to type the word in the answer box.');
-              },
-              child: const Icon(
-                Icons.help,
-                color: kGrayColor500,
-                size: 35,
+      appBar: isLoading
+          ? null
+          : AppBar(
+              leading: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.close,
+                    color: kGrayColor500,
+                    size: 35,
+                  ),
+                ),
               ),
+              title: Container(
+                width: double.infinity,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: kGrayColor300,
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
+                child: QuestionBar(questionNumber: currentIndex + 1),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      showGameDescription(context,
+                          title: 'Spelling',
+                          description:
+                              'Listen to the audio carefully and make sure to type the word in the answer box.');
+                    },
+                    child: const Icon(
+                      Icons.help,
+                      color: kGrayColor500,
+                      size: 35,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: isLoading
             ? const FoxLoadingIndicator()
             : SpellingQuestion(
-          word: words[currentIndex],
-          onAnswer: checkAnswer, // Pass the answer checking function
-        ),
+                word: words[currentIndex],
+                onAnswer: checkAnswer, // Pass the answer checking function
+              ),
       ),
     );
   }
