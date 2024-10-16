@@ -23,68 +23,62 @@ class GrammarScreen extends StatefulWidget {
 }
 
 class _GrammarScreenState extends State<GrammarScreen> {
+  List<Map<String, dynamic>> questions = [];
+  bool isLoading = true;
+  int currentIndex = 0;
+  int correctScore = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: FETCH GRAMMAR QUESTIONS
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // TOP BAR
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        color: kGrayColor500,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: kGrayColor300,
-                        borderRadius: BorderRadius.circular(90.0),
-                      ),
-                      child: QuestionBar(questionNumber: 6),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence\ncarefully, and read it more\nthan once to be sure.');
-                      },
-                      child: const Icon(
-                        Icons.help,
-                        color: kGrayColor500,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                ],
+      appBar: isLoading ? null : AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.close,
+              color: kGrayColor500,
+              size: 35,
+            ),
+          ),
+        ),
+        title: Container(
+          width: double.infinity,
+          height: 30,
+          decoration: BoxDecoration(
+            color: kGrayColor300,
+            borderRadius: BorderRadius.circular(90.0),
+          ),
+          child: QuestionBar(questionNumber: currentIndex + 1),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: GestureDetector(
+              onTap: (){
+                showGameDescription(context, title: 'Grammar', description: 'Analyze the sentence carefully, and read it more than once to be sure.');
+              },
+              child: const Icon(
+                Icons.help,
+                color: kGrayColor500,
+                size: 35,
               ),
             ),
-
-            // BODY
-            const GrammarQuestion(
-              phrase: "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
-              isCorrect: false,
-            ),
-
-          ],
-        ),
+          ),
+        ],
+      ),
+      body: const GrammarQuestion(
+        phrase: "She was walking down the\nstreet when she seen a dog\nthat was barking loudly at\nit's owner",
+        isCorrect: false,
       ),
     );
   }

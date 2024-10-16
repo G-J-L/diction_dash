@@ -1,5 +1,6 @@
 import 'package:diction_dash/services/authentication.dart';
 import 'package:diction_dash/services/firestore.dart';
+import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/services/constants.dart';
@@ -8,7 +9,8 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/text_fields.dart';
 
 // Show Game Description
-void showGameDescription(BuildContext context, {String? title, String? description}) {
+void showGameDescription(BuildContext context,
+    {String? title, String? description}) {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -76,7 +78,6 @@ class ChangeUsernameInterface extends StatefulWidget {
 }
 
 class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
-
   final FirestoreService firestoreService = FirestoreService();
 
   final String userID = FirebaseAuth.instance.currentUser!.uid;
@@ -121,7 +122,8 @@ class _ChangeUsernameInterfaceState extends State<ChangeUsernameInterface> {
               color: kOrangeColor600,
               onPressed: () {
                 print(_newUsernameController.text);
-                firestoreService.updateUsername(userID: userID, newUsername: _newUsernameController.text);
+                firestoreService.updateUsername(
+                    userID: userID, newUsername: _newUsernameController.text);
                 Navigator.pop(context);
               },
               child: const Center(
@@ -160,8 +162,8 @@ class ChangePasswordInterface extends StatefulWidget {
 }
 
 class _ChangePasswordInterfaceState extends State<ChangePasswordInterface> {
-
-  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+  final FirebaseAuthenticationService firebaseAuthService =
+      FirebaseAuthenticationService();
 
   final TextEditingController _currentPasswordController =
       TextEditingController();
@@ -266,12 +268,17 @@ class DeleteAccountInterface extends StatefulWidget {
 }
 
 class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
-
-  final FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+  final FirebaseAuthenticationService firebaseAuthService =
+      FirebaseAuthenticationService();
 
   final FirestoreService firestoreService = FirestoreService();
 
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> deleteAccount({String? userID, String? password}) async {
+    await firebaseAuthService.reauthenticateAndDelete(password: password);
+    await firestoreService.deleteUser(userID!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -315,12 +322,14 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
             RoundedRectangleButton(
               color: Colors.redAccent,
               onPressed: () async {
+                FocusScope.of(context).unfocus();
+
+                Navigator.pop(context);
                 // Deletes current user's account and navigates them back to the welcome screen.
                 String? userID = firebaseAuthService.getCurrentUserID();
-                // TODO: FIX DELETE FIRESTORE DOCUMENT
-                // await firestoreService.deleteUser(userID!);
-                await firebaseAuthService.reauthenticateAndDelete(password: _passwordController.text);
-                Navigator.pop(context);
+
+                deleteAccount(userID: userID, password: _passwordController.text);
+
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => AuthManager(),

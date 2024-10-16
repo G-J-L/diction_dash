@@ -190,6 +190,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                   FocusScope.of(context).unfocus();
 
+                  Future.delayed(const Duration(milliseconds: 1000));
+
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -219,6 +221,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       builder: (context) => AuthManager(),
                     ),
                   );
+
+                  print('I still run after pushed!');
                 }
               },
               child: const Center(

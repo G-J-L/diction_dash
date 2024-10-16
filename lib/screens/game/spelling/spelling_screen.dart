@@ -32,7 +32,8 @@ class _SpellingScreenState extends State<SpellingScreen> {
   Future<void> fetchWords() async {
     try {
       // List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
-      List<String>? fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'spelling');
+      List<String>? fetchedWords =
+          await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'spelling');
       setState(() {
         words = fetchedWords!;
         isLoading = false;
@@ -47,6 +48,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
   }
 
   void checkAnswer(String userAnswer) {
+    FocusScope.of(context).unfocus();
     if (userAnswer.toLowerCase() == words[currentIndex].toLowerCase()) {
       correctScore++; // Increment correct score
     }
@@ -60,7 +62,8 @@ class _SpellingScreenState extends State<SpellingScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => EndGameScreen(correctScore: correctScore, onCorrect: () {}),
+          builder: (context) =>
+              EndGameScreen(correctScore: correctScore, onCorrect: () {}),
         ),
       );
     }
@@ -69,59 +72,52 @@ class _SpellingScreenState extends State<SpellingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      // resizeToAvoidBottomInset: true,
+      appBar: isLoading ? null : AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.close,
+              color: kGrayColor500,
+              size: 35,
+            ),
+          ),
+        ),
+        title: Container(
+          width: double.infinity,
+          height: 30,
+          decoration: BoxDecoration(
+            color: kGrayColor300,
+            borderRadius: BorderRadius.circular(90.0),
+          ),
+          child: QuestionBar(questionNumber: currentIndex + 1),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: GestureDetector(
+              onTap: (){
+                showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully and make sure to type the word in the answer box.');
+              },
+              child: const Icon(
+                Icons.help,
+                color: kGrayColor500,
+                size: 35,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: isLoading
             ? const FoxLoadingIndicator()
-            : ListView(
-          children: [
-            // TOP BAR (unchanged)
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.close,
-                      color: kGrayColor500,
-                      size: 35,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: kGrayColor300,
-                        borderRadius: BorderRadius.circular(90.0),
-                      ),
-                      child: QuestionBar(questionNumber: currentIndex + 1), // Display current question
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      showGameDescription(context, title: 'Spelling', description: 'Listen to the audio carefully and make sure to type the word in the answer box.');
-                    },
-                    child: const Icon(
-                      Icons.help,
-                      color: kGrayColor500,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // BODY: Passing the fetched word to SpellingQuestion
-            SpellingQuestion(
-              word: words[currentIndex],
-              onAnswer: checkAnswer, // Pass the answer checking function
-            ),
-          ],
+            : SpellingQuestion(
+          word: words[currentIndex],
+          onAnswer: checkAnswer, // Pass the answer checking function
         ),
       ),
     );

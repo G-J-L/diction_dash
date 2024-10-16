@@ -5,7 +5,8 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:diction_dash/services/words_api.dart';
 
 class SpellingQuestion extends StatefulWidget {
-  const SpellingQuestion({super.key, required this.word, required this.onAnswer});
+  const SpellingQuestion(
+      {super.key, required this.word, required this.onAnswer});
   final String word;
   final Function(String) onAnswer; // Callback to check the answer
 
@@ -67,105 +68,115 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
     final height = MediaQuery.of(context).size.height - kToolbarHeight;
     String word = widget.word;
 
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SizedBox(height: 10,),
-          RichText(
-            text: TextSpan(
-              style: kSubtext20,
-              children: [
-                const TextSpan(
-                  text: 'Spell',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const TextSpan(text: ' the following word: '),
-                TextSpan(
-                  text: ('\n') + ('_ ' * word.length),
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.orange),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: height * 0.05),
-          // Definition
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: definition == null
-                ? const CircularProgressIndicator() // Show loading indicator while fetching the definition
-                : Text(
-              definition!,
-              textAlign: TextAlign.center,
-              style: kSubtext20,
-            ),
-          ),
-          SizedBox(height: height * 0.05),
-          // Audio Button
-          GestureDetector(
-            onTap: () {
-              _playAudio(word);
-            }, // Play audio using TTS
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: kOrangeColor600,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.volume_up,
-                  size: 130,
-                  color: kOrangeColor200,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: height * 0.1),
-          // Answer Input and Submit Button
-          Padding(
-            padding: const EdgeInsets.all(8),
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: kSubtext20,
+                    children: [
+                      const TextSpan(
+                        text: 'Spell',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(text: ' the following word: '),
+                      TextSpan(
+                        text: ('\n') + ('_ ' * word.length),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.orange),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: height * 0.05),
+                // Definition
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _controller,
-                    style: const TextStyle(fontSize: 24),
-                    cursorColor: kOrangeColor500,
-                    decoration: InputDecoration(
-                      hintText: 'Answer',
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(width: 4, color: kOrangeColor600),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 4, color: kOrangeColor600),
-                      ),
-                      contentPadding: const EdgeInsets.all(18),
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: definition == null
+                      ? const CircularProgressIndicator() // Show loading indicator while fetching the definition
+                      : Text(
+                    definition!,
+                    textAlign: TextAlign.center,
+                    style: kSubtext20,
                   ),
                 ),
-                RoundedRectangleButton(
-                  color: kOrangeColor600,
-                  onPressed: () {
-                    widget.onAnswer(_controller.text); // Check the answer
-                    _controller.clear(); // Clear input after submission
-                  },
-                  child: const Center(
-                    child: Text(
-                      'Submit',
-                      style: kButtonTextStyleWhite,
+                SizedBox(height: height * 0.1),
+                // Audio Button
+                GestureDetector(
+                  onTap: () {
+                    _playAudio(word);
+                  }, // Play audio using TTS
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: kOrangeColor600,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.volume_up,
+                        size: 130,
+                        color: kOrangeColor200,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+
+        // Answer Input and Submit Button
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
+                child: TextField(
+                  controller: _controller,
+                  style: const TextStyle(fontSize: 24),
+                  cursorColor: kOrangeColor500,
+                  decoration: const InputDecoration(
+                    hintText: 'Answer',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(width: 4, color: kOrangeColor600),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 4, color: kOrangeColor600),
+                    ),
+                    contentPadding: EdgeInsets.all(18),
+                  ),
+                ),
+              ),
+              RoundedRectangleButton(
+                color: kOrangeColor600,
+                onPressed: () {
+                  widget.onAnswer(_controller.text); // Check the answer
+                  _controller.clear(); // Clear input after submission
+                },
+                child: const Center(
+                  child: Text(
+                    'Submit',
+                    style: kButtonTextStyleWhite,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

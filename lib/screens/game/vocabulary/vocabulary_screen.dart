@@ -71,65 +71,51 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: isLoading ? null : AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.close,
+              color: kGrayColor500,
+              size: 35,
+            ),
+          ),
+        ),
+        title: Container(
+          width: double.infinity,
+          height: 30,
+          decoration: BoxDecoration(
+            color: kGrayColor300,
+            borderRadius: BorderRadius.circular(90.0),
+          ),
+          child: QuestionBar(questionNumber: currentIndex + 1),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: GestureDetector(
+              onTap: (){
+                showGameDescription(context, title: 'Vocabulary', description: 'Select which of the four options you believe to be the best response.');
+              },
+              child: const Icon(
+                Icons.help,
+                color: kGrayColor500,
+                size: 35,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: isLoading
             ? const FoxLoadingIndicator()
-        : Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // TOP BAR
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        color: kGrayColor500,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: kGrayColor300,
-                        borderRadius: BorderRadius.circular(90.0),
-                      ),
-                      child: QuestionBar(questionNumber: currentIndex),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        showGameDescription(context, title: 'Vocabulary', description: 'Select which of the four\noptions you believe to be\nthe best response.');
-                      },
-                      child: const Icon(
-                        Icons.help,
-                        color: kGrayColor500,
-                        size: 35,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // BODY
-            VocabularyQuestion(
-              word: words[currentIndex],
-              onAnswer: checkAnswer,
-            ),
-          ],
+        : VocabularyQuestion(
+          word: words[currentIndex],
+          onAnswer: checkAnswer,
         ),
       ),
     );
