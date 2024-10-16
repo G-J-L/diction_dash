@@ -275,9 +275,43 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
 
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> deleteAccount({String? userID, String? password}) async {
-    await firebaseAuthService.reauthenticateAndDelete(password: password);
-    await firestoreService.deleteUser(userID!);
+  Future<void> deleteAccount(BuildContext context, {String? email, String? password}) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      print("No user is currently signed in.");
+    } else {
+
+      String? userID = user.uid;
+
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const FoxLoadingIndicator(),
+      );
+
+      try {
+        // 1. Re-authenticate the user
+        AuthCredential credential = EmailAuthProvider.credential(email: email!, password: password!);
+        await user.reauthenticateWithCredential(credential);
+
+          await firebaseAuthService.reauthenticateAndDelete(password: password);
+          await firestoreService.deleteUser(userID);
+
+        // Hide loading indicator and navigate to the welcome screen
+        Navigator.of(context).pop(); // Close the loading dialog
+        print("Account deleted successfully.");
+      } catch (e) {
+        // Handle specific errors
+        if (e is FirebaseAuthException && e.code == 'invalid-credential') {
+          print('Invalid user credential!');
+        } else {
+          print("Error deleting account: $e");
+          print('Failed to delete account. Please try again.');
+        }
+      }
+    }
   }
 
   @override
@@ -328,7 +362,10 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
                 // Deletes current user's account and navigates them back to the welcome screen.
                 String? userID = firebaseAuthService.getCurrentUserID();
 
-                deleteAccount(userID: userID, password: _passwordController.text);
+                // deleteAccount(
+                //     userID: userID, password: _passwordController.text);
+
+                deleteAccount(context, email: FirebaseAuth.instance.currentUser!.email, password: _passwordController.text);
 
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

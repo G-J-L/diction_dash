@@ -36,7 +36,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Icons.arrow_back,
             color: Colors.black,
           ),
-          onPressed: () {
+          onPressed: () async {
+            FocusScope.of(context).unfocus();
+            await Future.delayed(const Duration(milliseconds: 500));
             Navigator.pop(context); // Navigate back when back arrow is clicked
           },
         ),
@@ -190,7 +192,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                   FocusScope.of(context).unfocus();
 
-                  Future.delayed(const Duration(milliseconds: 1000));
+                  await Future.delayed(const Duration(milliseconds: 500));
 
                   showDialog(
                     context: context,
@@ -206,12 +208,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     confirmPassword: _confirmPassword,
                   );
 
+                  print('I was run!');
+
                   // Store user data in firestore
                   await firestoreService.addNewUser(
                     userID: user!.uid,
                     username: _username,
                     email: _email,
                   );
+
+                  print('Me too!');
 
                   Navigator.pop(context);
 
@@ -221,8 +227,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       builder: (context) => AuthManager(),
                     ),
                   );
-
-                  print('I still run after pushed!');
                 }
               },
               child: const Center(

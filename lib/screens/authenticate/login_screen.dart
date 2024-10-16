@@ -32,7 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
             Icons.arrow_back,
             color: Colors.black,
           ),
-          onPressed: () {
+          onPressed: () async {
+            FocusScope.of(context).unfocus();
+            await Future.delayed(const Duration(milliseconds: 500));
             Navigator.pop(context); // Navigate back when back arrow is clicked
           },
         ),
@@ -131,6 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                   catch (e) {
                     print('Login failed: $e');
+                    Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Invalid email or password. Try again.')),
                     );
