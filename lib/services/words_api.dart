@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WordsAPI {
   final Random _random = Random();
   final String baseURL = 'wordsapiv1.p.rapidapi.com';
   final String apiKey = '94e9300392msh06f17a2dac509ddp162a8djsnf35e8fe4dc64';
+  List<String> preloadedRandomWords = [];
+  List<String> preloadedDefinedWords = [];
 
   final cefrToFrequency = {
     'A1': 6,
@@ -15,14 +18,41 @@ class WordsAPI {
     'C1': 2,
   };
 
+  // Load words when user is not in-game to cut loading times
+  Future<void> loadPreloadedWords(
+      {required String cefrLevel, required int level}) async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    var frequency =
+        (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+    var finalFrequency = double.parse(frequency.toStringAsFixed(2));
+
+    fetchRandomWords(finalFrequency, 10).then((val) {
+      print('Loading preloaded random words!');
+      print('val');
+      print(val);
+      store.setString('preloadedRandomWords', json.encode(val));
+      print('Done loading preloaded random words!');
+    });
+
+    fetchDefinedWords(finalFrequency, 10).then((val) {
+      print('Loading preloaded defined words!');
+      store.setString('preloadedDefinedWords', json.encode(val));
+      print('Done loading preloaded defined words!');
+    });
+  }
+
   // Fetch words based on CEFR Level & User Level
-  Future<List<String>?> fetchWord({required String cefrLevel, required int level, required String game}) async {
-    var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+  Future<List<String>?> fetchWord(
+      {required String cefrLevel,
+      required int level,
+      required String game}) async {
+    var frequency =
+        (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
     var finalFrequency = double.parse(frequency.toStringAsFixed(2));
 
     if (game == 'spelling') {
       return fetchDefinedWords(finalFrequency, 10);
-    } else if (game == 'vocab'){
+    } else if (game == 'vocab') {
       return fetchRandomWords(finalFrequency, 10);
     } else {
       return null;
@@ -52,7 +82,9 @@ class WordsAPI {
           // If there are definitions, return the first part before ';'
           if (definitionsData.isNotEmpty) {
             String fullDefinition = definitionsData[0]['definition'];
-            return fullDefinition.split(';').first; // Return the part before the first semicolon
+            return fullDefinition
+                .split(';')
+                .first; // Return the part before the first semicolon
           } else {
             throw Exception('No definitions found.');
           }
@@ -60,7 +92,8 @@ class WordsAPI {
           throw Exception('Definitions not found in response.');
         }
       } else {
-        throw Exception('Failed to fetch definition. Status code: ${response.statusCode}');
+        throw Exception(
+            'Failed to fetch definition. Status code: ${response.statusCode}');
       }
     } catch (e) {
       print('Error fetching definition: $e');
@@ -118,7 +151,10 @@ class WordsAPI {
         Map<String, dynamic> data = json.decode(response.body);
 
         // Validates word
-        if (data['isProperNoun'] == true || data['isProfane'] == true || word.length <= 3 || RegExp(r'\d').hasMatch(word)) {
+        if (data['isProperNoun'] == true ||
+            data['isProfane'] == true ||
+            word.length <= 3 ||
+            RegExp(r'\d').hasMatch(word)) {
           return false;
         } else {
           return true;
@@ -151,7 +187,8 @@ class WordsAPI {
             words.add(word);
           }
         } else {
-          print('Unexpected word format: $word'); //When not string and is less than 4 letters
+          print(
+              'Unexpected word format: $word'); //When not string and is less than 4 letters
         }
       }
     }
@@ -176,7 +213,8 @@ class WordsAPI {
           print('No synonyms available for: $word');
         }
       } else {
-        print('Unexpected word format: $word'); // When not string and is less than 4 letters
+        print(
+            'Unexpected word format: $word'); // When not string and is less than 4 letters
       }
     }
 
@@ -205,7 +243,8 @@ class WordsAPI {
 
         // Return all synonyms as a list of strings, if available
         if (synonyms.isNotEmpty) {
-          return List<String>.from(synonyms); // Convert dynamic list to List<String>
+          return List<String>.from(
+              synonyms); // Convert dynamic list to List<String>
         } else {
           return null;
         }
@@ -220,11 +259,13 @@ class WordsAPI {
   }
 
   // Fetch choices for vocab
-  Future<List<String>> fetchChoices(String word, {required String cefrLevel, required int level}) async {
-    var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+  Future<List<String>> fetchChoices(String word,
+      {required String cefrLevel, required int level}) async {
+    var frequency =
+        (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
     var finalFrequency = double.parse(frequency.toStringAsFixed(2));
 
-    Set<String> choices = {};  // Use Set to prevent duplicates
+    Set<String> choices = {}; // Use Set to prevent duplicates
     List<String>? synonyms = await fetchSynonyms(word);
 
     choices.add(synonyms![0]);
@@ -234,12 +275,14 @@ class WordsAPI {
       String? randomWord = await fetchRandomWord(finalFrequency);
 
       // Check if the word is already in the list and not synonymous
-      if (randomWord != null && !choices.contains(randomWord) && !synonyms.contains(randomWord) && await wordValidator(randomWord) == true) {
-        choices.add(randomWord);  // Add the random word to choices
+      if (randomWord != null &&
+          !choices.contains(randomWord) &&
+          !synonyms.contains(randomWord) &&
+          await wordValidator(randomWord) == true) {
+        choices.add(randomWord); // Add the random word to choices
       }
     }
 
-    return choices.toList();  // Convert Set to List before returning
+    return choices.toList(); // Convert Set to List before returning
   }
-
 } //End of class

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:diction_dash/screens/game/spelling/spelling_question.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
@@ -5,6 +7,7 @@ import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/words_api.dart';
 
 // TODO: ACCOUNT FOR SPACED REPETITION
@@ -22,6 +25,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
   int correctScore = 0; // Keep track of correct answers
+  SharedPreferences? store;
 
   @override
   void initState() {
@@ -31,16 +35,26 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   Future<void> fetchWords() async {
     try {
+      store ??= await SharedPreferences.getInstance();
+      List<String>? preloadedWords;
+
+      try {
+        preloadedWords =
+            (json.decode(store?.getString('preloadedDefinedWords') ?? '{}'))
+                .cast<String>();
+      } catch (e) {
+        preloadedWords = null;
+      }
       // List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
-      List<String>? fetchedWords =
+      List<String>? fetchedWords = preloadedWords ??
           await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'spelling');
       setState(() {
         words = fetchedWords!;
-        isLoading = false;
       });
       print(words);
     } catch (e) {
       print('Error fetching words: $e');
+    } finally {
       setState(() {
         isLoading = false;
       });
@@ -120,7 +134,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
               ],
             ),
       body: SafeArea(
-        child: isLoading
+        child: isLoading || words.isEmpty
             ? const FoxLoadingIndicator()
             : SpellingQuestion(
                 word: words[currentIndex],
