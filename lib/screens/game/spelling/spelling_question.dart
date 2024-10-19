@@ -18,6 +18,9 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
   final TextEditingController _controller = TextEditingController();
   final FlutterTts _flutterTts = FlutterTts();
   String? definition; // Definition of the word
+  Color buttonColor = kOrangeColor600;
+  bool isAnswered = false;
+  String result = '';
 
   @override
   void initState() {
@@ -63,6 +66,36 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
     }
   }
 
+  void handleAnswer(String answer, String word) {
+    if (isAnswered) return; // Prevent multiple taps after answering
+
+    //Update button when answered
+    setState(() {
+      isAnswered = true;
+
+      if (answer == word) {
+        buttonColor = Colors.green;
+        result = 'Correct';
+      } else {
+        buttonColor = Colors.red;
+        result = 'Wrong';
+      }
+    });
+
+    // Delay for 2 seconds before resetting and moving to the next question
+    Future.delayed(Duration(seconds: 2), () {
+      widget.onAnswer(answer); // Call onAnswer function
+
+      // Reset the state for the next question
+      setState(() {
+        buttonColor = kOrangeColor600;
+        isAnswered = false;
+        result = '';
+        _controller.clear();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height - kToolbarHeight;
@@ -89,7 +122,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                       ),
                       const TextSpan(text: ' the following word: '),
                       TextSpan(
-                        text: ('\n') + ('_ ' * word.length),
+                        text: isAnswered ? ('\n') + word : ('\n') + ('_ ' * word.length),
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.orange),
                       ),
@@ -161,14 +194,13 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                 ),
               ),
               RoundedRectangleButton(
-                color: kOrangeColor600,
+                color: buttonColor,
                 onPressed: () {
-                  widget.onAnswer(_controller.text); // Check the answer
-                  _controller.clear(); // Clear input after submission
+                  handleAnswer(_controller.text, word);
                 },
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Submit',
+                    isAnswered ? result : 'Submit',
                     style: kButtonTextStyleWhite,
                   ),
                 ),
