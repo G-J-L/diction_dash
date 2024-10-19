@@ -1,11 +1,36 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diction_dash/services/helper.dart';
 
 class FirestoreService {
 
   // Initialize Cloud Firestore Instance For Users
   final CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  // Internal method for fetching user data
+  Future<Map<String, dynamic>> getUserData(String userID) async {
+    Map<String, dynamic>? userData;
+    await users.doc(userID).get().then(
+          (DocumentSnapshot doc) {
+        userData = doc.data() as Map<String, dynamic>;
+      },
+      onError: (e) => print('Error getting document: $e'),
+    );
+    return userData!;
+  }
+
+  // Internal method for fetching game data (spelling_data, vocabulary_data, etc.)
+  Future<Map<String, dynamic>> getGameData({String? userID, String? game}) async {
+    Map<String, dynamic>? gameData;
+    await users.doc(userID).collection(game!).doc('${game}_data').get().then(
+          (DocumentSnapshot doc) {
+        gameData = doc.data() as Map<String, dynamic>;
+      },
+      onError: (e) => print('Error getting document: $e'),
+    );
+    return gameData!;
+  }
 
   // Add new user method
   Future<void> addNewUser({String? userID, String? username, String? email}) async {
@@ -20,19 +45,36 @@ class FirestoreService {
 
       'level': 1,
       'exp': 0,
+      'previous_max_exp': 0,
       'cefr_level': null,
+    });
 
-      'spelling_level': 1,
-      'spelling_exp': 0,
+    final spelling = newUser.collection('spelling').doc('spelling_data');
+    await spelling.set({
+      'level': 1,
+      'exp': 0,
+      'previous_max_exp': 0,
+    });
 
-      'vocabulary_level': 1,
-      'vocabulary_exp': 0,
+    final vocabulary = newUser.collection('vocabulary').doc('vocabulary_data');
+    await vocabulary.set({
+      'level': 1,
+      'exp': 0,
+      'previous_max_exp': 0,
+    });
 
-      'grammar_level': 1,
-      'grammar_exp': 0,
+    final grammar = newUser.collection('grammar').doc('grammar_data');
+    await grammar.set({
+      'level': 1,
+      'exp': 0,
+      'previous_max_exp': 0,
+    });
 
-      'comprehension_level': 1,
-      'comprehension_exp': 0,
+    final comprehension = newUser.collection('comprehension').doc('comprehension_data');
+    await comprehension.set({
+      'level': 1,
+      'exp': 0,
+      'previous_max_exp': 0,
     });
   }
 
@@ -41,15 +83,24 @@ class FirestoreService {
     return users.doc(userID).snapshots();
   }
 
-  Future<Map<String, dynamic>> getUserData(String userID) async {
-    Map<String, dynamic>? userData;
-    await users.doc(userID).get().then(
-          (DocumentSnapshot doc) {
-        userData = doc.data() as Map<String, dynamic>;
-      },
-      onError: (e) => print('Error getting document: $e'),
-    );
-    return userData!;
+  // Fetch user spelling data
+  Stream<DocumentSnapshot<Object?>> fetchSpellingData(String userID) {
+    return users.doc(userID).collection('spelling').doc('spelling_data').snapshots();
+  }
+
+  // Fetch user vocabulary data
+  Stream<DocumentSnapshot<Object?>> fetchVocabularyData(String userID) {
+    return users.doc(userID).collection('vocabulary').doc('vocabulary_data').snapshots();
+  }
+
+  // Fetch user grammar data
+  Stream<DocumentSnapshot<Object?>> fetchGrammarData(String userID) {
+    return users.doc(userID).collection('grammar').doc('grammar_data').snapshots();
+  }
+
+  // Fetch user comprehension data
+  Stream<DocumentSnapshot<Object?>> fetchComprehensionData(String userID) {
+    return users.doc(userID).collection('comprehension').doc('comprehension_data').snapshots();
   }
 
   // Update username method
@@ -80,53 +131,99 @@ class FirestoreService {
   }
 
   Future<void> updateLevelAndEXP(String userID) async {
-    Map<String, dynamic> userData = await getUserData(userID);
-    int nextLevel = int.parse((150 + pow((userData['level'] - 1), 2) * 100).toString());
-    users.doc(userID).update({
-      'exp': userData['spelling_exp'] + userData['vocabulary_exp'] + userData['grammar_exp'] + userData['comprehension_exp'],
+    Map<String, dynamic> spellingData = await getGameData(userID: userID, game: 'spelling');
+    Map<String, dynamic> vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
+    Map<String, dynamic> grammarData = await getGameData(userID: userID, game: 'grammar');
+    Map<String, dynamic> comprehensionData = await getGameData(userID: userID, game: 'comprehension');
+    await users.doc(userID).update({
+      'exp': spellingData['exp'] + vocabularyData['exp'] + grammarData['exp'] + comprehensionData['exp'],
     });
-    userData = await getUserData(userID);
-    if (userData['exp'] >= nextLevel) {
-      int newExp = userData['exp'] - nextLevel;
-      users.doc(userID).update({
-        'level': userData['level'] + 1,
-        'exp': newExp,
+    Map<String, dynamic> userData = await getUserData(userID);
+    int userLevel = userData['level'];
+    int userExp = userData['exp'];
+    if (userExp > calculateMaxEXP(userLevel)) {
+      await users.doc(userID).update({
+        'level' : userLevel + 1,
+        'previous_max_exp': calculateMaxEXP(userLevel),
       });
     }
   }
 
+  // Increment spelling exp by a given amount
   Future<void> addSpellingEXP(String userID, int expReward) async {
-    Map<String, dynamic> userData = await getUserData(userID);
-    int nextLevel = int.parse((150 + pow((userData['spelling_level'] - 1), 2) * 100).toString());
-    users.doc(userID).update({
-      'spelling_exp': userData['spelling_exp'] + expReward,
+    Map<String, dynamic> spellingData = await getGameData(userID: userID, game: 'spelling');
+    DocumentReference spelling = users.doc(userID).collection('spelling').doc('spelling_data');
+    int spellingExp = spellingData['exp'];
+    await spelling.update({
+      'exp': spellingExp + expReward,
     });
+    spellingData = await getGameData(userID: userID, game: 'spelling');
+    int spellingLevel = spellingData['level'];
+    spellingExp = spellingData['exp'];
+    if (spellingData['exp'] > calculateMaxEXP(spellingData['level'])) {
+      await spelling.update({
+        'level': spellingLevel + 1,
+        'previous_max_exp': calculateMaxEXP(spellingLevel),
+      });
+    }
   }
 
+  // Increment vocabulary exp by a given amount
   Future<void> addVocabularyEXP(String userID, int expReward) async {
-    Map<String, dynamic> userData = await getUserData(userID);
-    int nextLevel = int.parse((150 + pow((userData['vocabulary_level'] - 1), 2) * 100).toString());
-    users.doc(userID).update({
-      'vocabulary_exp': userData['vocabulary_exp'] + expReward,
+    Map<String, dynamic> vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
+    DocumentReference vocabulary = users.doc(userID).collection('vocabulary').doc('vocabulary_data');
+    int vocabularyExp = vocabularyData['exp'];
+    await vocabulary.update({
+      'exp': vocabularyExp + expReward,
     });
+    vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
+    int vocabularyLevel = vocabularyData['level'];
+    vocabularyExp = vocabularyData['exp'];
+    if (vocabularyExp > calculateMaxEXP(vocabularyLevel)) {
+      await vocabulary.update({
+        'level': vocabularyLevel + 1,
+        'previous_max_exp': calculateMaxEXP(vocabularyLevel),
+      });
+    }
   }
 
+  // Increment grammar exp by a given amount
   Future<void> addGrammarEXP(String userID, int expReward) async {
-    Map<String, dynamic> userData = await getUserData(userID);
-    int nextLevel = int.parse((150 + pow((userData['grammar_level'] - 1), 2) * 100).toString());
-    users.doc(userID).update({
-      'grammar_exp': userData['grammar_exp'] + expReward,
+    Map<String, dynamic> grammarData = await getGameData(userID: userID, game: 'grammar');
+    DocumentReference grammar = users.doc(userID).collection('grammar').doc('grammar_data');
+    int grammarExp = grammarData['exp'];
+    await grammar.update({
+      'exp': grammarData['exp'] + expReward,
     });
+    grammarData = await getGameData(userID: userID, game: 'grammar');
+    int grammarLevel = grammarData['level'];
+    grammarExp = grammarData['exp'];
+    if (grammarExp > calculateMaxEXP(grammarLevel)) {
+      await grammar.update({
+        'level': grammarLevel + 1,
+        'previous_max_exp': calculateMaxEXP(grammarLevel),
+      });
+    }
   }
 
+  // Increment comprehension exp by a given amount
   Future<void> addComprehensionEXP(String userID, int expReward) async {
-    Map<String, dynamic> userData = await getUserData(userID);
-    int nextLevel = int.parse((150 + pow((userData['comprehension_level'] - 1), 2) * 100).toString());
-    users.doc(userID).update({
-      'comprehension_exp': userData['comprehension_exp'] + expReward,
+    Map<String, dynamic> comprehensionData = await getGameData(userID: userID, game: 'comprehension');
+    DocumentReference comprehension = users.doc(userID).collection('comprehension').doc('comprehension_data');
+    int comprehensionExp = comprehensionData['exp'];
+    await comprehension.update({
+      'exp': comprehensionExp + expReward,
     });
+    comprehensionData = await getGameData(userID: userID, game: 'comprehension');
+    int comprehensionLevel = comprehensionData['level'];
+    comprehensionExp = comprehensionData['exp'];
+    if (comprehensionExp > calculateMaxEXP(comprehensionLevel)) {
+      await comprehension.update({
+        'level': comprehensionLevel + 1,
+        'previous_max_exp': calculateMaxEXP(comprehensionLevel),
+      });
+    }
   }
-
 
   // TODO: Create add XP method (Overall, Spelling, Grammar, Vocab, Comprehension)
 

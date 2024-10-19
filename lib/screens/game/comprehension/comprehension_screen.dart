@@ -1,4 +1,5 @@
 import 'package:diction_dash/services/comprehension_question_bank.dart';
+import 'package:diction_dash/services/firestore.dart';
 import 'package:diction_dash/services/words_api.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
@@ -21,15 +22,18 @@ import 'package:diction_dash/screens/game/end_game_screen.dart';
 // TODO: ACCOUNT FOR SPACED REPETITION
 
 class ComprehensionScreen extends StatefulWidget {
-  const ComprehensionScreen({super.key});
+  const ComprehensionScreen({super.key, this.cefrLevel});
+  final String? cefrLevel;
 
   @override
   State<ComprehensionScreen> createState() => _ComprehensionScreenState();
 }
 
 class _ComprehensionScreenState extends State<ComprehensionScreen> {
-  ComprehensionQuestionBank questionBank = ComprehensionQuestionBank();
 
+  final FirestoreService firestoreService = FirestoreService();
+
+  ComprehensionQuestionBank questionBank = ComprehensionQuestionBank();
   List<Map<String, dynamic>> questions = [];
   bool isLoading = true;
   int currentIndex = 0;
@@ -38,7 +42,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
   @override
   void initState() {
     super.initState();
-    questions = questionBank.getRandomQuestions(cefrLevel: 'A1', count: 10);
+    questions = questionBank.getRandomQuestions(cefrLevel: widget.cefrLevel, count: 10);
   }
 
   void checkAnswer(String? answer) {
@@ -62,6 +66,7 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
           builder: (context) => EndGameScreen(
             correctScore: correctScore,
             onCorrect: () {},
+            rewardEXP: firestoreService.addComprehensionEXP,
           ),
         ),
       );

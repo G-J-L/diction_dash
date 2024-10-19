@@ -1,4 +1,5 @@
 import 'package:diction_dash/screens/game/spelling/spelling_question.dart';
+import 'package:diction_dash/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/fox_loading_indicator.dart';
@@ -17,6 +18,9 @@ class SpellingScreen extends StatefulWidget {
 }
 
 class _SpellingScreenState extends State<SpellingScreen> {
+
+  final FirestoreService firestoreService = FirestoreService();
+
   final WordsAPI wordsAPI = WordsAPI();
   List<String> words = [];
   bool isLoading = true;
@@ -65,6 +69,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
           builder: (context) => EndGameScreen(
             correctScore: correctScore,
             onCorrect: () {},
+            rewardEXP: firestoreService.addSpellingEXP,
           ),
         ),
       );

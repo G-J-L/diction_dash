@@ -77,3 +77,22 @@ class StatCard extends StatelessWidget {
     );
   }
 }
+
+class LoadingCard extends StatelessWidget {
+  const LoadingCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: kGrayColor200,
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    );
+  }
+}

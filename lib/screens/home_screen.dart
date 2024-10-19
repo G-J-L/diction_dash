@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:diction_dash/services/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:diction_dash/services/firestore.dart';
@@ -58,32 +58,17 @@ class HomeScreen extends StatelessWidget {
           } else if (snapshot.hasData && snapshot.data!.exists) {
             var userData = snapshot.data!.data() as Map<String, dynamic>;
 
-            // Print user data for debugging purposes
-            print('$userData');
-
             // Fetches username, profile picture url, level, and total exp from firestore
             String username = userData['username'];
             var imageUrl = userData['profile_picture'];
-            int level = userData['level'];
-            int userExp = userData['exp'];
-            int maxExp = 100;
-
-            // Fetches level and exp for spelling from firestore
-            int spellingLevel = userData['spelling_level'];
-            int spellingExp = userData['spelling_exp'];
             String cefrLevel = userData['cefr_level'];
 
-            // Fetches level and exp for vocabulary from firestore
-            int vocabularyLevel = userData['vocabulary_level'];
-            int vocabularyExp = userData['vocabulary_exp'];
+            int level = userData['level'];
+            int userExp = userData['exp'];
+            int prevMaxExp = userData['previous_max_exp'];
+            int maxExp = calculateMaxEXP(level);
 
-            // Fetches level and exp for grammar from firestore
-            int grammarLevel = userData['grammar_level'];
-            int grammarExp = userData['grammar_exp'];
-
-            // Fetches level and exp for comprehension from firestore
-            int comprehensionLevel = userData['comprehension_level'];
-            int comprehensionExp = userData['comprehension_exp'];
+            print(maxExp);
 
             return Stack(
               children: [
@@ -110,69 +95,167 @@ class HomeScreen extends StatelessWidget {
                         ),
                         UserLevelBar(
                           level: level,
-                          currentExp: userExp,
-                          maxExp: maxExp,
+                          currentExp: prevMaxExp - userExp,
+                          maxExp: prevMaxExp - maxExp,
                         ),
                         const SizedBox(height: 5.0),
-                        StatCard(
-                          text: 'SPELLING',
-                          image: const AssetImage('images/spelling.png'),
-                          level: spellingLevel,
-                          currentExp: spellingExp,
-                          maxExp: maxExp,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SpellingScreen(),
-                              ),
-                            );
+                        StreamBuilder(
+                          stream: firestoreService.fetchSpellingData(userID),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              // TODO: Display fox loading animation
+                              return const LoadingCard();
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                  child: Text('Error loading user data.'));
+                            } else if (snapshot.hasData &&
+                                snapshot.data!.exists) {
+                              var spellingData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                              int spellingLevel = spellingData['level'];
+                              int spellingExp = spellingData['exp'];
+                              int spellingPrevMaxExp = spellingData['previous_max_exp'];
+                              int spellingMaxExp = calculateMaxEXP(spellingLevel);
+                              return StatCard(
+                                text: 'SPELLING',
+                                image: const AssetImage('images/spelling.png'),
+                                level: spellingLevel,
+                                currentExp: spellingPrevMaxExp - spellingExp,
+                                maxExp: spellingPrevMaxExp - spellingMaxExp,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                      const SpellingScreen(),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const Center(child: Text('Data not found.'));
+                            }
                           },
                         ),
-                        StatCard(
-                          text: 'VOCABULARY',
-                          image: const AssetImage('images/vocabulary.png'),
-                          level: vocabularyLevel,
-                          currentExp: vocabularyExp,
-                          maxExp: maxExp,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const VocabularyScreen(),
-                              ),
-                            );
+                        StreamBuilder(
+                          stream: firestoreService.fetchVocabularyData(userID),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              // TODO: Display fox loading animation
+                              return const LoadingCard();
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                  child: Text('Error loading user data.'));
+                            } else if (snapshot.hasData &&
+                                snapshot.data!.exists) {
+                              var vocabularyData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                              int vocabularyLevel = vocabularyData['level'];
+                              int vocabularyExp = vocabularyData['exp'];
+                              int vocabularyPrevMaxExp = vocabularyData['previous_max_exp'];
+                              int vocabularyMaxExp = calculateMaxEXP(vocabularyLevel);
+                              return StatCard(
+                                text: 'VOCABULARY',
+                                image: const AssetImage('images/vocabulary.png'),
+                                level: vocabularyLevel,
+                                currentExp: vocabularyPrevMaxExp - vocabularyExp,
+                                maxExp: vocabularyPrevMaxExp - vocabularyMaxExp,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                      const VocabularyScreen(),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const Center(child: Text('Data not found.'));
+                            }
                           },
                         ),
-                        StatCard(
-                          text: 'GRAMMAR',
-                          image: const AssetImage('images/grammar.png'),
-                          level: grammarLevel,
-                          currentExp: grammarExp,
-                          maxExp: maxExp,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GrammarScreen(cefrLevel: cefrLevel),
-                              ),
-                            );
+                        StreamBuilder(
+                          stream: firestoreService.fetchGrammarData(userID),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              // TODO: Display fox loading animation
+                              return const LoadingCard();
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                  child: Text('Error loading user data.'));
+                            } else if (snapshot.hasData &&
+                                snapshot.data!.exists) {
+                              var grammarData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                              int grammarLevel = grammarData['level'];
+                              int grammarExp = grammarData['exp'];
+                              int grammarPrevMaxExp = grammarData['previous_max_exp'];
+                              int grammarMaxExp = calculateMaxEXP(grammarLevel);
+                              return StatCard(
+                                text: 'GRAMMAR',
+                                image: const AssetImage('images/grammar.png'),
+                                level: grammarLevel,
+                                currentExp: grammarPrevMaxExp - grammarExp,
+                                maxExp: grammarPrevMaxExp - grammarMaxExp,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          GrammarScreen(cefrLevel: cefrLevel),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const Center(child: Text('Data not found.'));
+                            }
                           },
                         ),
-                        StatCard(
-                          text: 'COMPREHENSION',
-                          image: const AssetImage('images/comprehension.png'),
-                          level: comprehensionLevel,
-                          currentExp: comprehensionExp,
-                          maxExp: maxExp,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ComprehensionScreen(),
-                              ),
-                            );
+                        StreamBuilder(
+                          stream:
+                              firestoreService.fetchComprehensionData(userID),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              // TODO: Display fox loading animation
+                              return const LoadingCard();
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                  child: Text('Error loading user data.'));
+                            } else if (snapshot.hasData &&
+                                snapshot.data!.exists) {
+                              var comprehensionData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                              int comprehensionLevel =
+                              comprehensionData['level'];
+                              int comprehensionExp = comprehensionData['exp'];
+                              int comprehensionPrevMaxExp = comprehensionData['previous_max_exp'];
+                              int comprehensionMaxExp = calculateMaxEXP(comprehensionLevel);
+                              return StatCard(
+                                text: 'COMPREHENSION',
+                                image:
+                                const AssetImage('images/comprehension.png'),
+                                level: comprehensionLevel,
+                                currentExp: comprehensionPrevMaxExp - comprehensionExp,
+                                maxExp: comprehensionPrevMaxExp - comprehensionMaxExp,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ComprehensionScreen(
+                                          cefrLevel: cefrLevel),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return const Center(child: Text('Data not found.'));
+                            }
                           },
                         ),
                         const SizedBox(height: 10.0),
