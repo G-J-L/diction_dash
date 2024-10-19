@@ -45,21 +45,19 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   Future<void> fetchWords() async {
     try {
-      store ??= await SharedPreferences.getInstance();
+      store = await SharedPreferences.getInstance();
       List<String>? preloadedWords;
-      // Try to fetch preloadedWords.
       try {
-        preloadedWords =
-            (json.decode(store?.getString('preloadedRandomWords') ?? '{}'))
-                .cast<String>();
+        preloadedWords = (json.decode(store?.getString('preloadedRandomWords') ?? '{}')).cast<String>();
       } catch (e) {
         preloadedWords = null;
       }
-      // Assign fetched words to preloaded words if they exist, otherwise fetch new words
+
       List<String>? fetchedWords = preloadedWords ??
           await wordsAPI.fetchWord(cefrLevel: widget.cefrLevel, level: widget.level, game: 'vocabulary');
+      await fetchChoicesAndAnswer(fetchedWords!);
       setState(() {
-        words = fetchedWords!;
+        words = fetchedWords;
       });
       print(words);
     } catch (e) {
@@ -70,6 +68,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       });
     }
   }
+
 
   Future<void> fetchChoicesAndAnswer(List<String> words) async {
       for (int i = 0; i < words.length; i++) {

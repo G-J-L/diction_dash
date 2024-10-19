@@ -263,30 +263,33 @@ class WordsAPI {
   }
 
   // Fetch choices for vocab
-  Future<List<String>> fetchChoices(String word,
-      {required String cefrLevel, required int level}) async {
-    var frequency =
-        (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+  // Fetch choices for vocab
+  Future<List<String>> fetchChoices(String word, {required String cefrLevel, required int level}) async {
+    var frequency = (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
     var finalFrequency = double.parse(frequency.toStringAsFixed(2));
 
     Set<String> choices = {}; // Use Set to prevent duplicates
     List<String>? synonyms = await fetchSynonyms(word);
 
-    choices.add(synonyms![0]);
-
-    // While loop that gets 3 more words (excluding synonyms)
-    while (choices.length < 4) {
+    // While loop that gets 4 random words (excluding synonyms)
+    while (choices.length < 3) { // Reduced to 3 since synonym is added later
       String? randomWord = await fetchRandomWord(finalFrequency);
 
       // Check if the word is already in the list and not synonymous
       if (randomWord != null &&
           !choices.contains(randomWord) &&
-          !synonyms.contains(randomWord) &&
+          !synonyms!.contains(randomWord) &&
           await wordValidator(randomWord) == true) {
         choices.add(randomWord); // Add the random word to choices
       }
     }
 
-    return choices.toList(); // Convert Set to List before returning
+    choices.add(synonyms![0]);
+
+    List<String> finalChoices = choices.toList();
+    finalChoices.shuffle(); // Shuffle to randomize order
+
+    return finalChoices; // Return shuffled list
   }
+
 } //End of class
