@@ -22,7 +22,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   final FirestoreService firestoreService = FirestoreService();
 
   final WordsAPI wordsAPI = WordsAPI();
-  List<String> words = [];
+  List<String> words = []; // Word list
+  List<List<String>> choices = []; // Choices
+  List<String> answers = []; // Answers
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
   int correctScore = 0; // Keep track of correct answers
@@ -38,11 +40,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       // List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
       List<String>? fetchedWords =
           await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'vocab');
+
+      await fetchChoicesAndAnswer(fetchedWords!);
+
       setState(() {
-        words = fetchedWords!;
-        print(words);
-        print(words);
-        print(words);
+        words = fetchedWords;
         isLoading = false;
       });
     } catch (e) {
@@ -51,6 +53,17 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         isLoading = false;
       });
     }
+  }
+
+  Future<void> fetchChoicesAndAnswer(List<String> words) async {
+      for (int i = 0; i < words.length; i++) {
+        String word = words[i];
+        List<String> choiceWord = await wordsAPI.fetchChoices(word, cefrLevel: 'A1', level: 3);
+        List<String>? fetchedSynonyms = await wordsAPI.fetchSynonyms(word);
+
+        choices.add(choiceWord);
+        answers.add(fetchedSynonyms![0]);
+      }
   }
 
   void checkAnswer(String userAnswer, String answer) {
@@ -129,6 +142,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ? const FoxLoadingIndicator()
             : VocabularyQuestion(
                 word: words[currentIndex],
+                choices: choices[currentIndex],
+                answer: answers[currentIndex],
                 onAnswer: checkAnswer,
               ),
       ),

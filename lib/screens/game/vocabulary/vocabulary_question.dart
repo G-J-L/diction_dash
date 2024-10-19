@@ -5,57 +5,17 @@ import 'package:diction_dash/screens/game/end_game_screen.dart';
 import '../../../services/words_api.dart';
 
 class VocabularyQuestion extends StatefulWidget {
-  const VocabularyQuestion({super.key, required this.word, required this.onAnswer});
+  const VocabularyQuestion({super.key, required this.word, required this.choices, required this.onAnswer, required this.answer});
   final String word;
   final Function(String, String) onAnswer;
+  final List<String> choices;
+  final String answer;
 
   @override
   State<VocabularyQuestion> createState() => _VocabularyQuestionState();
 }
 
 class _VocabularyQuestionState extends State<VocabularyQuestion> {
-  List<String> choices = [];
-  String? answer;
-
-  @override
-  void initState() {
-    super.initState();
-    _getChoices(widget.word);
-    _getAnswer(widget.word);
-  }
-
-  // This method is called whenever the widget is updated
-  @override
-  void didUpdateWidget(VocabularyQuestion oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    // Fetch the choices and answer whenever the word data changes
-    if (oldWidget.word != widget.word) {
-      _getChoices(widget.word);
-      _getAnswer(widget.word);
-    }
-  }
-
-  // Get choices
-  Future<void> _getChoices(String word) async {
-    WordsAPI api = WordsAPI();
-    List<String> fetchedChoices = await api.fetchChoices(word, cefrLevel: 'A1', level: 3);
-
-    setState(() {
-      choices = fetchedChoices;
-    });
-  }
-
-  // Get answer
-  Future<void> _getAnswer(String word) async {
-    WordsAPI api = WordsAPI();
-    List<String>? fetchedSynonyms = await api.fetchSynonyms(word);
-
-    setState(() {
-      answer = fetchedSynonyms![0];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,11 +48,11 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
               OvalButton(
                 color: kOrangeColor600,
                 onPressed: () {
-                  widget.onAnswer(choices[0], answer!);
+                  widget.onAnswer(widget.choices[0], widget.answer);
                 },
                 child: Center(
                   child: Text(
-                    choices[0],
+                    widget.choices[0],
                     style: kButtonTextStyleWhite,
                   ),
                 ),
@@ -100,11 +60,11 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
               OvalButton(
                 color: kOrangeColor600,
                 onPressed: () {
-                  widget.onAnswer(choices[1], answer!);
+                  widget.onAnswer(widget.choices[1], widget.answer);
                 },
                 child: Center(
                   child: Text(
-                    choices[1],
+                    widget.choices[1],
                     style: kButtonTextStyleWhite,
                   ),
                 ),
@@ -112,12 +72,11 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
               OvalButton(
                 color: kOrangeColor600,
                 onPressed: () {
-                  widget.onAnswer(choices[2], answer!);
+                  widget.onAnswer(widget.choices[2], widget.answer);
                 },
                 child: Center(
-                  // TODO: CHECK IF WORD MATCHES WITH ANSWER
                   child: Text(
-                    choices[2],
+                    widget.choices[2],
                     style: kButtonTextStyleWhite,
                   ),
                 ),
@@ -125,11 +84,11 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
               OvalButton(
                 color: kOrangeColor600,
                 onPressed: () {
-                  widget.onAnswer(choices[3], answer!);
+                  widget.onAnswer(widget.choices[3], widget.answer);
                 },
                 child: Center(
                   child: Text(
-                    choices[3],
+                    widget.choices[3],
                     style: kButtonTextStyleWhite,
                   ),
                 ),
