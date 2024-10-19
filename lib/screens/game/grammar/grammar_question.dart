@@ -44,7 +44,7 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
           correctButton['style'] = kButtonTextStyleWhite;
         });
       }
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 3, milliseconds: 500));
     } else {
       if (widget.isCorrect == false) {
         setState(() {
@@ -59,7 +59,7 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
           incorrectButton['style'] = kButtonTextStyleWhite;
         });
       }
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 3, milliseconds: 500));
     }
     setState(() {
       correctButton = {
