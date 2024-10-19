@@ -30,7 +30,9 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   SharedPreferences? store; // References local persistent storage containing preloaded words
 
   final WordsAPI wordsAPI = WordsAPI();
-  List<String> words = [];
+  List<String> words = []; // Word list
+  List<List<String>> choices = []; // Choices
+  List<String> answers = []; // Answers
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
   int correctScore = 0; // Keep track of correct answers
@@ -67,6 +69,17 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         isLoading = false;
       });
     }
+  }
+
+  Future<void> fetchChoicesAndAnswer(List<String> words) async {
+      for (int i = 0; i < words.length; i++) {
+        String word = words[i];
+        List<String> choiceWord = await wordsAPI.fetchChoices(word, cefrLevel: 'A1', level: 3);
+        List<String>? fetchedSynonyms = await wordsAPI.fetchSynonyms(word);
+
+        choices.add(choiceWord);
+        answers.add(fetchedSynonyms![0]);
+      }
   }
 
   void checkAnswer(String userAnswer, String answer) {
@@ -146,6 +159,8 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ? const FoxLoadingIndicator()
             : VocabularyQuestion(
                 word: words[currentIndex],
+                choices: choices[currentIndex],
+                answer: answers[currentIndex],
                 onAnswer: checkAnswer,
               ),
       ),
