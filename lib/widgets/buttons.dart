@@ -208,15 +208,16 @@ class ProfileEditButton extends StatelessWidget {
 
 class ChoiceButton extends StatelessWidget {
 
-  const ChoiceButton({super.key, this.text, this.onPressed});
+  const ChoiceButton({super.key, this.text, this.color, this.onPressed});
 
   final String? text;
   final void Function()? onPressed;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return OvalButton(
-      color: kOrangeColor600,
+      color: color,
       onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.only(left: 18.0),
