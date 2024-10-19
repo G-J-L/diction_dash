@@ -52,7 +52,9 @@ class _AuthManagerState extends State<AuthManager> {
                   if (userData != null) {
                     userData = userData as Map<String, dynamic>;
                     String? cefrLevel = userData['cefr_level'];
+                    int level = userData['level'];
                     if (cefrLevel != null) {
+                      wordsAPI.loadPreloadedWords(cefrLevel: cefrLevel, level: level);
                       return HomeScreen();
                     } else {
                       return FluencyScreen();
