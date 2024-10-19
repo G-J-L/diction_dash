@@ -29,7 +29,7 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
         if (widget.choices[i] == widget.answer) {
           buttonColors[i] = Colors.green; // Correct answer in green
         } else if (widget.choices[i] == selectedChoice) {
-          buttonColors[i] = Colors.red; // Selected incorrect answer in red
+          buttonColors[i] = Colors.redAccent; // Selected incorrect answer in red
         }
       }
     });

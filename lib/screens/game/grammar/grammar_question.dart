@@ -15,6 +15,66 @@ class GrammarQuestion extends StatefulWidget {
 
 class _GrammarQuestionState extends State<GrammarQuestion> {
 
+  bool? answer;
+
+  Map<String, dynamic> correctButton = {
+    'color': kOrangeColor600,
+    'borderColor': kOrangeColor600,
+    'style': kButtonTextStyleWhite,
+  };
+
+  Map<String, dynamic> incorrectButton = {
+    'color': Colors.white,
+    'borderColor': kOrangeColor600,
+    'style': kButtonTextStyleOrange,
+  };
+
+  Future<void> showAnswer(bool answer) async {
+    if (answer) {
+      if (widget.isCorrect == true) {
+        setState(() {
+          correctButton['color'] = Colors.green;
+          correctButton['borderColor'] = Colors.green;
+          correctButton['style'] = kButtonTextStyleWhite;
+        });
+      } else {
+        setState(() {
+          correctButton['color'] = Colors.redAccent;
+          correctButton['borderColor'] = Colors.redAccent;
+          correctButton['style'] = kButtonTextStyleWhite;
+        });
+      }
+      await Future.delayed(const Duration(seconds: 2));
+    } else {
+      if (widget.isCorrect == false) {
+        setState(() {
+          incorrectButton['color'] = Colors.green;
+          incorrectButton['borderColor'] = Colors.green;
+          incorrectButton['style'] = kButtonTextStyleWhite;
+        });
+      } else {
+        setState(() {
+          incorrectButton['color'] = Colors.redAccent;
+          incorrectButton['borderColor'] = Colors.redAccent;
+          incorrectButton['style'] = kButtonTextStyleWhite;
+        });
+      }
+      await Future.delayed(const Duration(seconds: 2));
+    }
+    setState(() {
+      correctButton = {
+        'color': kOrangeColor600,
+        'borderColor': kOrangeColor600,
+        'style': kButtonTextStyleWhite,
+      };
+      incorrectButton = {
+        'color': Colors.white,
+        'borderColor': kOrangeColor600,
+        'style': kButtonTextStyleOrange,
+      };
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,7 +95,7 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
           textAlign: TextAlign.center,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             widget.phrase!,
             style: kSubtext20,
@@ -48,29 +108,30 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               OvalButton(
-                color: kOrangeColor600,
-                onPressed: () {
-                  // Check if 'CORRECT' is the right answer
+                color: correctButton['color'],
+                borderColor: correctButton['borderColor'],
+                onPressed: () async {
+                  await showAnswer(true);
                   widget.onAnswer!(true);
                 },
-                child: const Center(
+                child: Center(
                   child: Text(
                     'CORRECT',
-                    style: kButtonTextStyleWhite,
+                    style: correctButton['style'],
                   ),
                 ),
               ),
               OvalButton(
-                color: Colors.white,
-                borderColor: kOrangeColor600,
-                onPressed: () {
-                  // Check if 'INCORRECT' is the right answer
+                color: incorrectButton['color'],
+                borderColor: incorrectButton['borderColor'],
+                onPressed: () async {
+                  await showAnswer(false);
                   widget.onAnswer!(false);
                 },
-                child: const Center(
+                child: Center(
                   child: Text(
                     'INCORRECT',
-                    style: kButtonTextStyleOrange,
+                    style: incorrectButton['style'],
                   ),
                 ),
               ),

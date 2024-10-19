@@ -19,7 +19,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
   List<Color>? buttonColors = [kOrangeColor600, kOrangeColor600, kOrangeColor600, kOrangeColor600];
 
   // TODO: CHANGE BUTTON COLOR FUNCTION
-  Future<void> revealAnswers(int index) async {
+  Future<void> showAnswers(int index) async {
     setState(() {
       buttonColors![index] = Colors.redAccent;
     });
@@ -76,7 +76,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 color: buttonColors![0],
                 onPressed: () async {
                   // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
-                  await revealAnswers(0);
+                  await showAnswers(0);
                   widget.onAnswer!(widget.choices![0]);
                 },
               ),
@@ -85,7 +85,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 color: buttonColors![1],
                 onPressed: () async {
                   // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
-                  await revealAnswers(1);
+                  await showAnswers(1);
                   widget.onAnswer!(widget.choices![1]);
                 },
               ),
@@ -94,7 +94,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 color: buttonColors![2],
                 onPressed: () async {
                   // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
-                  await revealAnswers(2);
+                  await showAnswers(2);
                   widget.onAnswer!(widget.choices![2]);
                 },
               ),
@@ -103,7 +103,7 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 color: buttonColors![3],
                 onPressed: () async {
                   // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
-                  await revealAnswers(3);
+                  await showAnswers(3);
                   widget.onAnswer!(widget.choices![3]);
                 },
               ),
