@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:diction_dash/screens/game/spelling/spelling_question.dart';
 import 'package:diction_dash/services/firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,20 +7,25 @@ import 'package:diction_dash/widgets/fox_loading_indicator.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/words_api.dart';
 
 // TODO: ACCOUNT FOR SPACED REPETITION
 
 class SpellingScreen extends StatefulWidget {
-  const SpellingScreen({super.key});
+  const SpellingScreen({super.key, required this.cefrLevel, required this.level});
+
+  final String cefrLevel;
+  final int level;
 
   @override
   State<SpellingScreen> createState() => _SpellingScreenState();
 }
 
 class _SpellingScreenState extends State<SpellingScreen> {
-
   final FirestoreService firestoreService = FirestoreService();
+
+  SharedPreferences? store; // References local persistent storage containing preloaded words
 
   final WordsAPI wordsAPI = WordsAPI();
   List<String> words = [];
@@ -35,16 +41,26 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   Future<void> fetchWords() async {
     try {
-      // List<Map<String, dynamic>> fetchedWords = await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3);
-      List<String>? fetchedWords =
-          await wordsAPI.fetchWord(cefrLevel: 'A1', level: 3, game: 'spelling');
+      store ??= await SharedPreferences.getInstance();
+      List<String>? preloadedWords;
+      // Try to fetch preloadedWords.
+      try {
+        preloadedWords =
+            (json.decode(store?.getString('preloadedDefinedWords') ?? '{}'))
+                .cast<String>();
+      } catch (e) {
+        preloadedWords = null;
+      }
+      // Assign fetched words to preloaded words if they exist, otherwise fetch new words
+      List<String>? fetchedWords = preloadedWords ??
+          await wordsAPI.fetchWord(cefrLevel: widget.cefrLevel, level: widget.level, game: 'spelling');
       setState(() {
         words = fetchedWords!;
-        isLoading = false;
       });
       print(words);
     } catch (e) {
-      print('Error fetching words: $e');
+      print('Error Fetching Words: $e');
+    } finally {
       setState(() {
         isLoading = false;
       });
@@ -78,6 +94,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    wordsAPI.loadPreloadedWords(cefrLevel: widget.cefrLevel, level: widget.level);
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       appBar: isLoading

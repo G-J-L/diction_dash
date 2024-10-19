@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                      const SpellingScreen(),
+                                      SpellingScreen(cefrLevel: cefrLevel, level: level),
                                     ),
                                   );
                                 },
@@ -167,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                      const VocabularyScreen(),
+                                      VocabularyScreen(cefrLevel: cefrLevel, level: level),
                                     ),
                                   );
                                 },
