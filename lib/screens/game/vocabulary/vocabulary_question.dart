@@ -58,88 +58,86 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SizedBox(),
-          RichText(
-            text: const TextSpan(
-              style: kSubtext20,
-              children: [
-                TextSpan(text: 'Select the appropriate\n'),
-                TextSpan(
-                  text: 'synonym.',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            textAlign: TextAlign.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(),
+        RichText(
+          text: const TextSpan(
+            style: kSubtext20,
+            children: [
+              TextSpan(text: 'Select the appropriate\n'),
+              TextSpan(
+                text: 'synonym.',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
-          Text(
-            widget.word,
-            style: kOswaldLarge,
-            textAlign: TextAlign.center,
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          widget.word,
+          style: kOswaldLarge,
+          textAlign: TextAlign.center,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OvalButton(
+                color: kOrangeColor600,
+                onPressed: () {
+                  widget.onAnswer(choices[0], answer!);
+                },
+                child: Center(
+                  child: Text(
+                    choices[0],
+                    style: kButtonTextStyleWhite,
+                  ),
+                ),
+              ),
+              OvalButton(
+                color: kOrangeColor600,
+                onPressed: () {
+                  widget.onAnswer(choices[1], answer!);
+                },
+                child: Center(
+                  child: Text(
+                    choices[1],
+                    style: kButtonTextStyleWhite,
+                  ),
+                ),
+              ),
+              OvalButton(
+                color: kOrangeColor600,
+                onPressed: () {
+                  widget.onAnswer(choices[2], answer!);
+                },
+                child: Center(
+                  // TODO: CHECK IF WORD MATCHES WITH ANSWER
+                  child: Text(
+                    choices[2],
+                    style: kButtonTextStyleWhite,
+                  ),
+                ),
+              ),
+              OvalButton(
+                color: kOrangeColor600,
+                onPressed: () {
+                  widget.onAnswer(choices[3], answer!);
+                },
+                child: Center(
+                  child: Text(
+                    choices[3],
+                    style: kButtonTextStyleWhite,
+                  ),
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OvalButton(
-                  color: kOrangeColor600,
-                  onPressed: () {
-                    widget.onAnswer(choices[0], answer!);
-                  },
-                  child: Center(
-                    child: Text(
-                      choices[0],
-                      style: kButtonTextStyleWhite,
-                    ),
-                  ),
-                ),
-                OvalButton(
-                  color: kOrangeColor600,
-                  onPressed: () {
-                    widget.onAnswer(choices[1], answer!);
-                  },
-                  child: Center(
-                    child: Text(
-                      choices[1],
-                      style: kButtonTextStyleWhite,
-                    ),
-                  ),
-                ),
-                OvalButton(
-                  color: kOrangeColor600,
-                  onPressed: () {
-                    widget.onAnswer(choices[2], answer!);
-                  },
-                  child: Center(
-                    // TODO: CHECK IF WORD MATCHES WITH ANSWER
-                    child: Text(
-                      choices[2],
-                      style: kButtonTextStyleWhite,
-                    ),
-                  ),
-                ),
-                OvalButton(
-                  color: kOrangeColor600,
-                  onPressed: () {
-                    widget.onAnswer(choices[3], answer!);
-                  },
-                  child: Center(
-                    child: Text(
-                      choices[3],
-                      style: kButtonTextStyleWhite,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
