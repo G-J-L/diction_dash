@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/game_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -16,6 +17,7 @@ class ComprehensionQuestion extends StatefulWidget {
 
 class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
 
+  final GameAudio gameAudio = GameAudio();
   List<Color>? buttonColors = [kOrangeColor600, kOrangeColor600, kOrangeColor600, kOrangeColor600];
 
   // TODO: CHANGE BUTTON COLOR FUNCTION
@@ -75,7 +77,11 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 text: widget.choices![0],
                 color: buttonColors![0],
                 onPressed: () async {
-                  // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
+                  if (widget.choices![0] == widget.answer) {
+                    gameAudio.correctAnswer();
+                  } else {
+                    gameAudio.incorrectAnswer();
+                  }
                   await showAnswers(0);
                   widget.onAnswer!(widget.choices![0]);
                 },
@@ -84,7 +90,11 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 text: widget.choices![1],
                 color: buttonColors![1],
                 onPressed: () async {
-                  // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
+                  if (widget.choices![1] == widget.answer) {
+                    gameAudio.correctAnswer();
+                  } else {
+                    gameAudio.incorrectAnswer();
+                  }
                   await showAnswers(1);
                   widget.onAnswer!(widget.choices![1]);
                 },
@@ -93,7 +103,11 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 text: widget.choices![2],
                 color: buttonColors![2],
                 onPressed: () async {
-                  // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
+                  if (widget.choices![2] == widget.answer) {
+                    gameAudio.correctAnswer();
+                  } else {
+                    gameAudio.incorrectAnswer();
+                  }
                   await showAnswers(2);
                   widget.onAnswer!(widget.choices![2]);
                 },
@@ -102,7 +116,11 @@ class _ComprehensionQuestionState extends State<ComprehensionQuestion> {
                 text: widget.choices![3],
                 color: buttonColors![3],
                 onPressed: () async {
-                  // TODO: CHECK IF CHOICE MATCHES WITH ANSWER
+                  if (widget.choices![3] == widget.answer) {
+                    gameAudio.correctAnswer();
+                  } else {
+                    gameAudio.incorrectAnswer();
+                  }
                   await showAnswers(3);
                   widget.onAnswer!(widget.choices![3]);
                 },

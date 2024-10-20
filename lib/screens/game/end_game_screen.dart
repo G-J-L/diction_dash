@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:diction_dash/services/firestore.dart';
+import 'package:diction_dash/services/game_audio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
@@ -30,14 +31,31 @@ class _EndGameScreenState extends State<EndGameScreen> {
   final String userID = FirebaseAuth.instance.currentUser!.uid;
 
   late ConfettiController _confettiController;
+  String? performance;
   List<Color> starColors = []; //Colors of stars in order
 
-  @override
-  void initState() {
-    super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
-    _confettiController.play();
+  void playJingle() {
+    final GameAudio gameAudio = GameAudio();
+    if (widget.correctScore > 0) {
+      gameAudio.congratulations();
+    } else {
+      gameAudio.flop();
+    }
+  }
 
+  void getPerformance() {
+    if (widget.correctScore == 0) {
+      performance = 'TRY AGAIN!';
+    } else if (widget.correctScore <= 4) {
+      performance = 'GOOD EFFORT!';
+    } else if (widget.correctScore <= 8) {
+      performance = 'WELL DONE!';
+    } else {
+      performance = 'EXCELLENT!';
+    }
+  }
+
+  void getStarColors() {
     // Set star colors based on score
     if (widget.correctScore == 0) {
       starColors = [Colors.grey, Colors.grey, Colors.grey];
@@ -48,6 +66,22 @@ class _EndGameScreenState extends State<EndGameScreen> {
     } else {
       starColors = [Colors.yellow, Colors.yellow, Colors.yellow];
     }
+  }
+
+  void playConfetti() {
+    if (widget.correctScore > 0) {
+      _confettiController.play();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    playJingle();
+    playConfetti();
+    getPerformance();
+    getStarColors();
 
     // Call onCorrect if the score is correct
     if (widget.correctScore == 10) {
@@ -114,7 +148,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                   ),
                 ),
 
-                const Text('EXCELLENT!', style: kOswaldExtraLarge),
+                Text(performance!, style: kOswaldExtraLarge),
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),

@@ -16,33 +16,68 @@ class WordsAPI {
     'C1': 2,
   };
 
-  // Load words when user is not in-game to cut loading times
-  Future<void> loadPreloadedWords(
+  // Load spelling questions when user is not in-game to cut loading times
+  Future<void> loadSpellingQuestionData(
       {required String cefrLevel, required int level}) async {
     SharedPreferences store = await SharedPreferences.getInstance();
     var frequency =
         (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
     var finalFrequency = double.parse(frequency.toStringAsFixed(2));
 
-    fetchRandomWords(finalFrequency, 10).then(
-      (randomWords) {
+    fetchDefinedWords(finalFrequency, 10).then(
+      (definedWords) {
+        print('Loading preloaded defined words...');
+        print('Spelling Words: $definedWords');
+        print('JSON DATA: ${json.encode(definedWords)}');
+        store.setString('spellingQuestionWords', json.encode(definedWords));
+        print('Done loading preloaded defined words!');
+      },
+    );
+  }
+
+  // Load words when user is not in-game to cut loading times
+  Future<void> loadVocabularyQuestionData(
+      {required String cefrLevel, required int level}) async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    var frequency =
+        (cefrToFrequency[cefrLevel]! + _random.nextDouble()) - (level * 0.05);
+    var finalFrequency = double.parse(frequency.toStringAsFixed(2));
+
+    List<String>? words;
+
+    await fetchRandomWords(finalFrequency, 10).then(
+          (randomWords) {
         print('Loading preloaded random words...');
-        print('Random Words: $randomWords');
+        print('Vocabulary Words: $randomWords');
+        words = randomWords;
         print('JSON DATA: ${json.encode(randomWords)}');
-        store.setString('preloadedRandomWords', json.encode(randomWords));
+        store.setString('vocabularyQuestionWords', json.encode(randomWords));
         print('Done loading preloaded random words!');
       },
     );
 
-    fetchDefinedWords(finalFrequency, 10).then(
-      (definedWords) {
-        print('Loading preloaded defined words...');
-        print('Defined Words: $definedWords');
-        print('JSON DATA: ${json.encode(definedWords)}');
-        store.setString('preloadedDefinedWords', json.encode(definedWords));
-        print('Done loading preloaded defined words!');
-      },
-    );
+    List<List<String>> choices = []; // Choices
+    List<String> answers = []; // Answers
+
+    print('Fetching choices and answers...');
+    for (int i = 0; i < words!.length; i++) {
+      print('Fetched ${i+1} choice and answer!');
+      String word = words![i];
+      List<String> choiceWord = await fetchChoices(word, cefrLevel: cefrLevel, level: level);
+      List<String>? fetchedSynonyms = await fetchSynonyms(word);
+
+      choices.add(choiceWord);
+      answers.add(fetchedSynonyms![0]);
+    }
+    print('Finished fetching choices and answers...');
+
+    print('Vocabulary Choices: $choices');
+    store.setString('vocabularyQuestionChoices', json.encode(choices));
+    print('Vocabulary Choices: ${json.encode(choices)}');
+    print('Vocabulary Answers: $answers');
+    store.setString('vocabularyQuestionAnswers', json.encode(answers));
+    print('Vocabulary Answers: ${json.encode(answers)}');
+
   }
 
   // Fetch words based on CEFR Level & User Level

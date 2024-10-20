@@ -46,7 +46,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
       // Try to fetch preloadedWords.
       try {
         preloadedWords =
-            (json.decode(store?.getString('preloadedDefinedWords') ?? '{}'))
+            (json.decode(store?.getString('spellingQuestionWords') ?? '{}'))
                 .cast<String>();
       } catch (e) {
         preloadedWords = null;
@@ -94,7 +94,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    wordsAPI.loadPreloadedWords(cefrLevel: widget.cefrLevel, level: widget.level);
+    wordsAPI.loadSpellingQuestionData(cefrLevel: widget.cefrLevel, level: widget.level);
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       appBar: isLoading

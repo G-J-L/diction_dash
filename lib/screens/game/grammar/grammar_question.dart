@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/game_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -15,6 +16,7 @@ class GrammarQuestion extends StatefulWidget {
 
 class _GrammarQuestionState extends State<GrammarQuestion> {
 
+  final GameAudio gameAudio = GameAudio();
   bool? answer;
 
   Map<String, dynamic> correctButton = {
@@ -37,12 +39,14 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
           correctButton['borderColor'] = Colors.green;
           correctButton['style'] = kButtonTextStyleWhite;
         });
+        gameAudio.correctAnswer();
       } else {
         setState(() {
           correctButton['color'] = Colors.redAccent;
           correctButton['borderColor'] = Colors.redAccent;
           correctButton['style'] = kButtonTextStyleWhite;
         });
+        gameAudio.incorrectAnswer();
       }
       await Future.delayed(const Duration(seconds: 3, milliseconds: 500));
     } else {
@@ -52,12 +56,14 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
           incorrectButton['borderColor'] = Colors.green;
           incorrectButton['style'] = kButtonTextStyleWhite;
         });
+        gameAudio.correctAnswer();
       } else {
         setState(() {
           incorrectButton['color'] = Colors.redAccent;
           incorrectButton['borderColor'] = Colors.redAccent;
           incorrectButton['style'] = kButtonTextStyleWhite;
         });
+        gameAudio.incorrectAnswer();
       }
       await Future.delayed(const Duration(seconds: 3, milliseconds: 500));
     }

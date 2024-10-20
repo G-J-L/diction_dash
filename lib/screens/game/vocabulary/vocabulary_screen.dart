@@ -9,7 +9,7 @@ import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 import 'package:diction_dash/widgets/bottom_sheets.dart';
 import 'package:diction_dash/screens/game/end_game_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../services/words_api.dart';
+import 'package:diction_dash/services/words_api.dart';
 
 // TODO: ACCOUNT FOR SPACED REPETITION
 
@@ -48,17 +48,37 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       store = await SharedPreferences.getInstance();
       List<String>? preloadedWords;
       try {
-        preloadedWords = (json.decode(store?.getString('preloadedRandomWords') ?? '{}')).cast<String>();
+        preloadedWords = (json.decode(store?.getString('vocabularyQuestionWords') ?? '{}')).cast<String>();
       } catch (e) {
+        print('NO PRELOADED WORDS');
         preloadedWords = null;
       }
 
       List<String>? fetchedWords = preloadedWords ??
           await wordsAPI.fetchWord(cefrLevel: widget.cefrLevel, level: widget.level, game: 'vocabulary');
-      await fetchChoicesAndAnswer(fetchedWords!);
+
       setState(() {
-        words = fetchedWords;
+        words = fetchedWords!;
       });
+
+      List<List<String>>? preloadedChoices; // Preloaded Choices
+      List<String>? preloadedAnswers; // Preloaded Answers
+      try {
+        preloadedChoices = (json.decode(store?.getString('vocabularyQuestionChoices') ?? '{}')).cast<List<List<String>>>();
+        preloadedAnswers = (json.decode(store?.getString('vocabularyQuestionAnswers') ?? '{}')).cast<String>();
+      } catch (e) {
+        print('NO PRELOADED WORDS AND CHOICES : $e');
+        preloadedChoices = null;
+      }
+
+      if (preloadedChoices == null || preloadedAnswers == null) {
+        await fetchChoicesAndAnswer(fetchedWords!);
+      } else {
+        setState(() {
+          choices = preloadedChoices!;
+          answers = preloadedAnswers!;
+        });
+      }
       print(words);
     } catch (e) {
       print('Error Fetching Words: $e');
@@ -73,7 +93,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   Future<void> fetchChoicesAndAnswer(List<String> words) async {
       for (int i = 0; i < words.length; i++) {
         String word = words[i];
-        List<String> choiceWord = await wordsAPI.fetchChoices(word, cefrLevel: 'A1', level: 3);
+        List<String> choiceWord = await wordsAPI.fetchChoices(word, cefrLevel: widget.cefrLevel, level: widget.level);
         List<String>? fetchedSynonyms = await wordsAPI.fetchSynonyms(word);
 
         choices.add(choiceWord);
@@ -107,7 +127,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    wordsAPI.loadPreloadedWords(cefrLevel: widget.cefrLevel, level: widget.level);
+    wordsAPI.loadVocabularyQuestionData(cefrLevel: widget.cefrLevel, level: widget.level);
     return Scaffold(
       appBar: isLoading
           ? null
