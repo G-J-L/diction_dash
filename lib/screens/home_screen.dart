@@ -29,6 +29,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: kOrangeColor600,
       appBar: AppBar(
         backgroundColor: kOrangeColor600,
+        leading: const SizedBox(), // TODO: Temporary fix to Login back button bug
         actions: [
           TextButton(
             onPressed: () {

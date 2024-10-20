@@ -14,13 +14,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  FirebaseAuthenticationService firebaseAuthService = FirebaseAuthenticationService();
+  FirebaseAuthenticationService firebaseAuthService =
+      FirebaseAuthenticationService();
 
   final _formGlobalKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
-  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40.0, vertical: 30.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -74,7 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please provide an email.';
-                              } else if (!RegExp(r'[\w+]*@[\w.]*').hasMatch(value)) {
+                              } else if (!RegExp(r'[\w+]*@[\w.]*')
+                                  .hasMatch(value)) {
                                 return 'Please provide a valid email.';
                               }
                               return null;
@@ -107,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () async {
+                // Validate user input & navigate to home screen
                 if (_formGlobalKey.currentState!.validate()) {
                   _formGlobalKey.currentState!.save();
 
@@ -120,25 +122,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   );
 
+                  // Attempt to login user
                   try {
                     await firebaseAuthService.loginUser(
                       email: _email,
                       password: _password,
                     );
 
+                    // Destory loading indicator
+                    Navigator.pop(context);
+
+                    // Navigate user to authentication manager
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => AuthManager()),
+                      MaterialPageRoute(
+                        builder: (context) => AuthManager(),
+                      ),
                     );
-                  }
-                  catch (e) {
-                    print('Login failed: $e');
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Invalid email or password. Try again.')),
-                    );
-                  }
 
+                    // If login is unsuccessful display error message and navigate to welcome screen
+                  } catch (e) {
+                    print('Login failed: $e');
+                    // Destory loading indicator
+                    Navigator.pop(context);
+
+                    // Display error message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Invalid email or password. Try again.'),
+                      ),
+                    );
+                  }
                 }
               },
               child: const Center(

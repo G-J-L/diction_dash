@@ -39,13 +39,17 @@ class FluencyScreen extends StatelessWidget {
           ),
           const Text('HOW FLUENT ARE\nYOU IN ENGLISH?', style: kOswaldMedium),
           const SizedBox(height: 15),
+
+          // Beginner Button
           OvalInfoButton(
             text: 'BEGINNER',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){
-              print('BEGINNER');
+              // Assign user's CEFR Level to A1
               firestoreService.updateCEFR(userID: userID, newLevel: 'A1');
+
+              // Navigate user to the feedback screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -56,13 +60,17 @@ class FluencyScreen extends StatelessWidget {
             infoTitle: 'BEGINNER',
             infoDescription: 'I know a few words and phrases but struggle with basic sentences.',
           ),
+
+          // Elementary Button
           OvalInfoButton(
             text: 'ELEMENTARY',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){
-              print('ELEMENTARY');
+              // Assign user's CEFR Level to A1
               firestoreService.updateCEFR(userID: userID, newLevel: 'A2');
+
+              // Navigate user to the feedback screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -73,13 +81,17 @@ class FluencyScreen extends StatelessWidget {
             infoTitle: 'ELEMENTARY',
             infoDescription: 'I can understand simple spoken English and basic written texts.',
           ),
+
+          // Intermediate Button
           OvalInfoButton(
             text: 'INTERMEDIATE',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){
+              // Assign user's CEFR Level to B1
               firestoreService.updateCEFR(userID: userID, newLevel: 'B1');
-              print('INTERMEDIATE');
+
+              // Navigate user to the feedback screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -90,13 +102,17 @@ class FluencyScreen extends StatelessWidget {
             infoTitle: 'INTERMEDIATE',
             infoDescription: 'I can hold basic conversations, read, and write with some errors.',
           ),
+
+          // Advanced Button
           OvalInfoButton(
             text: 'ADVANCED',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){
-              print('ADVANCED');
+              // Assign user's CEFR Level to B2
               firestoreService.updateCEFR(userID: userID, newLevel: 'B2');
+
+              // Navigate user to the feedback screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -107,13 +123,17 @@ class FluencyScreen extends StatelessWidget {
             infoTitle: 'ADVANCED',
             infoDescription: 'I can understand and engage in various topics, and read and write effectively with minimal errors.',
           ),
+
+          // Expert Button
           OvalInfoButton(
             text: 'EXPERT',
             textStyle: kButtonTextStyleWhite,
             color: kOrangeColor600,
             onPressed: (){
-              print('EXPERT');
+              // Assign user's CEFR Level to C1
               firestoreService.updateCEFR(userID: userID, newLevel: 'C1');
+
+              // Navigate user to the feedback screen
               Navigator.push(
                 context,
                 MaterialPageRoute(

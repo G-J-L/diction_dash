@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diction_dash/services/helper.dart';
 
@@ -49,6 +47,7 @@ class FirestoreService {
       'cefr_level': null,
     });
 
+    // Initializes spelling subcollection to store game data
     final spelling = newUser.collection('spelling').doc('spelling_data');
     await spelling.set({
       'level': 1,
@@ -56,6 +55,7 @@ class FirestoreService {
       'previous_max_exp': 0,
     });
 
+    // Initializes vocabulary subcollection to store game data
     final vocabulary = newUser.collection('vocabulary').doc('vocabulary_data');
     await vocabulary.set({
       'level': 1,
@@ -63,6 +63,7 @@ class FirestoreService {
       'previous_max_exp': 0,
     });
 
+    // Initializes grammar subcollection to store game data
     final grammar = newUser.collection('grammar').doc('grammar_data');
     await grammar.set({
       'level': 1,
@@ -70,6 +71,7 @@ class FirestoreService {
       'previous_max_exp': 0,
     });
 
+    // Initializes comprehension subcollection to store game data
     final comprehension = newUser.collection('comprehension').doc('comprehension_data');
     await comprehension.set({
       'level': 1,
@@ -135,9 +137,13 @@ class FirestoreService {
     Map<String, dynamic> vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
     Map<String, dynamic> grammarData = await getGameData(userID: userID, game: 'grammar');
     Map<String, dynamic> comprehensionData = await getGameData(userID: userID, game: 'comprehension');
+
+    // Assigns the summation of each game exp to user's overall exp
     await users.doc(userID).update({
       'exp': spellingData['exp'] + vocabularyData['exp'] + grammarData['exp'] + comprehensionData['exp'],
     });
+
+    // Retrieve user data and adjust level accordingly
     Map<String, dynamic> userData = await getUserData(userID);
     int userLevel = userData['level'];
     int userExp = userData['exp'];
@@ -149,7 +155,7 @@ class FirestoreService {
     }
   }
 
-  // Increment spelling exp by a given amount
+  // Increment spelling exp by a given amount and adjust game level if necessary
   Future<void> addSpellingEXP(String userID, int expReward) async {
     Map<String, dynamic> spellingData = await getGameData(userID: userID, game: 'spelling');
     DocumentReference spelling = users.doc(userID).collection('spelling').doc('spelling_data');
@@ -168,7 +174,7 @@ class FirestoreService {
     }
   }
 
-  // Increment vocabulary exp by a given amount
+  // Increment vocabulary exp by a given amount and adjust game level if necessary
   Future<void> addVocabularyEXP(String userID, int expReward) async {
     Map<String, dynamic> vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
     DocumentReference vocabulary = users.doc(userID).collection('vocabulary').doc('vocabulary_data');
@@ -187,7 +193,7 @@ class FirestoreService {
     }
   }
 
-  // Increment grammar exp by a given amount
+  // Increment grammar exp by a given amount and adjust game level if necessary
   Future<void> addGrammarEXP(String userID, int expReward) async {
     Map<String, dynamic> grammarData = await getGameData(userID: userID, game: 'grammar');
     DocumentReference grammar = users.doc(userID).collection('grammar').doc('grammar_data');
@@ -206,7 +212,7 @@ class FirestoreService {
     }
   }
 
-  // Increment comprehension exp by a given amount
+  // Increment comprehension exp by a given amount and adjust game level if necessary
   Future<void> addComprehensionEXP(String userID, int expReward) async {
     Map<String, dynamic> comprehensionData = await getGameData(userID: userID, game: 'comprehension');
     DocumentReference comprehension = users.doc(userID).collection('comprehension').doc('comprehension_data');
@@ -224,9 +230,4 @@ class FirestoreService {
       });
     }
   }
-
-  // TODO: Create add XP method (Overall, Spelling, Grammar, Vocab, Comprehension)
-
-  // TODO: Create update level method
-
 }

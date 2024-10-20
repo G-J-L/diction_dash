@@ -1,3 +1,4 @@
+import 'package:diction_dash/services/game_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
@@ -17,6 +18,7 @@ class SpellingQuestion extends StatefulWidget {
 class _SpellingQuestionState extends State<SpellingQuestion> {
   final TextEditingController _controller = TextEditingController();
   final FlutterTts _flutterTts = FlutterTts();
+  final GameAudio gameAudio = GameAudio();
   String? definition; // Definition of the word
   Color buttonColor = kOrangeColor600;
   bool isAnswered = false;
@@ -74,9 +76,11 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
       isAnswered = true;
 
       if (answer == word) {
+        gameAudio.correctAnswer();
         buttonColor = Colors.green;
         result = 'Correct';
       } else {
+        gameAudio.incorrectAnswer();
         buttonColor = Colors.red;
         result = 'Wrong';
       }
@@ -196,7 +200,8 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
               RoundedRectangleButton(
                 color: buttonColor,
                 onPressed: () {
-                  handleAnswer(_controller.text, word);
+                  FocusScope.of(context).unfocus();
+                   handleAnswer(_controller.text, word);
                 },
                 child: Center(
                   child: Text(

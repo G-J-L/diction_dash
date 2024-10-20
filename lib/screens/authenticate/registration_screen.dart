@@ -137,26 +137,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               if (value == null || value.isEmpty) {
                                 return 'Please confirm password.';
                               }
-
-                              // else if (_password != value && value.isNotEmpty){
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //       const SnackBar(
-                              //           content: Text('Passwords not matching!'),
-                              //       ),
-                              //   );
-                              // }
-                              //  else if (_password != value && _password.isNotEmpty) {
-                              //   return 'Passwords are not matching.';
-                              // } changing to snackbar
-
-                              // else if (value.length < 8 || RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
-                              //   return 'Please provide a valid password.\n'
-                              //       '- Minimum 8 Characters\n'
-                              //       '- Minimum 1 Upper case\n'
-                              //       '- Minimum 1 Lowercase\n'
-                              //       '- Minimum 1 Number\n'
-                              //       '- Minimum 1 Special Character';
-                              // } removed cs no need in confirm.
                               return null;
                             },
                             onSaved: (value) {
@@ -173,9 +153,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             RoundedRectangleButton(
               color: kOrangeColor600,
               onPressed: () async {
+                // Validate user input & navigate to home screen
                 if (_formGlobalKey.currentState!.validate()) {
                   _formGlobalKey.currentState!.save();
 
+                  // Check if passwords match
                   if (_password != _confirmPassword) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -190,10 +172,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(_password);
                   print(_confirmPassword);
 
+
+                  // Collapse the keyboard
                   FocusScope.of(context).unfocus();
 
                   await Future.delayed(const Duration(milliseconds: 500));
 
+                  // Display loading indicator
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -208,8 +193,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     confirmPassword: _confirmPassword,
                   );
 
-                  print('I was run!');
-
                   // Store user data in firestore
                   await firestoreService.addNewUser(
                     userID: user!.uid,
@@ -217,10 +200,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     email: _email,
                   );
 
-                  print('Me too!');
-
+                  // Destroy loading indicator
                   Navigator.pop(context);
 
+                  // Navigate to the home screen
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

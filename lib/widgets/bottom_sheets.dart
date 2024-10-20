@@ -292,7 +292,7 @@ class _DeleteAccountInterfaceState extends State<DeleteAccountInterface> {
       );
 
       try {
-        // 1. Re-authenticate the user
+        // Re-authenticate the user
         AuthCredential credential = EmailAuthProvider.credential(email: email!, password: password!);
         await user.reauthenticateWithCredential(credential);
 

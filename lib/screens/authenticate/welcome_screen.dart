@@ -72,6 +72,8 @@ class WelcomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
+                  // Navigate user to the login screen
                   OvalButton(
                     color: Colors.white,
                     onPressed: () {
@@ -90,6 +92,8 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  // Navigate user to the registration screen
                   OvalButton(
                     color: kOrangeColor600,
                     borderColor: Colors.white,
