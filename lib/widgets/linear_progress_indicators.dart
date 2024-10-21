@@ -142,18 +142,35 @@ class CountdownProgressIndicator extends StatefulWidget {
 }
 
 class _CountdownProgressIndicatorState extends State<CountdownProgressIndicator>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
 
   @override
   void initState() {
     super.initState();
+    _initController();
+    _startTimer();
+  }
 
-    // Initialize the AnimationController
+  void _initController() {
+    // Initialize the AnimationController without starting it automatically
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: widget.durationInSeconds),
     );
+
+    // Define the color transitions from green to orange to red
+    _colorAnimation = TweenSequence<Color?>([
+      TweenSequenceItem(
+        tween: ColorTween(begin: Colors.red, end: Colors.orange.shade100),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: ColorTween(begin: Colors.orange.shade100, end: Colors.green),
+        weight: 50,
+      ),
+    ]).animate(_controller);
 
     // Add a listener to trigger the callback when the timer finishes
     _controller.addStatusListener((status) {
@@ -161,9 +178,6 @@ class _CountdownProgressIndicatorState extends State<CountdownProgressIndicator>
         widget.onTimerComplete!();
       }
     });
-
-    // Start the countdown animation
-    _controller.reverse(from: 1.0);
   }
 
   @override
@@ -174,15 +188,27 @@ class _CountdownProgressIndicatorState extends State<CountdownProgressIndicator>
     if (widget.isStopped != oldWidget.isStopped) {
       if (widget.isStopped) {
         _controller.stop();
+        _resetTimer();
       } else {
-        _controller.reverse(from: _controller.value);
+        // Start the timer again (from where it left off)
+        _startTimer();
       }
     }
   }
 
+  void _startTimer() {
+    // Explicitly start the countdown when called
+    _controller.reverse(from: 1.0);
+  }
+
+  void _resetTimer() {
+    // Dispose of the old controller and reinitialize the timer
+    _controller.dispose();
+    _initController();
+  }
+
   @override
   void dispose() {
-    // Dispose of the controller when the widget is removed from the widget tree
     _controller.dispose();
     super.dispose();
   }
@@ -194,12 +220,10 @@ class _CountdownProgressIndicatorState extends State<CountdownProgressIndicator>
       builder: (context, child) {
         return LinearProgressIndicator(
           value: _controller.value,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-          backgroundColor: Colors.orange.shade100,
+          valueColor: _colorAnimation,
+          backgroundColor: Colors.green.shade100,
         );
       },
     );
   }
 }
-
-

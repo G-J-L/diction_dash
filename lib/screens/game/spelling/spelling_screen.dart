@@ -10,8 +10,6 @@ import 'package:diction_dash/screens/game/end_game_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/words_api.dart';
 
-// TODO: ACCOUNT FOR SPACED REPETITION
-
 class SpellingScreen extends StatefulWidget {
   const SpellingScreen({super.key, required this.cefrLevel, required this.level});
 

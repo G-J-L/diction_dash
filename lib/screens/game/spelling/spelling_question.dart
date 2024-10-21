@@ -5,6 +5,8 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:diction_dash/services/words_api.dart';
 
+import '../../../widgets/linear_progress_indicators.dart';
+
 class SpellingQuestion extends StatefulWidget {
   const SpellingQuestion(
       {super.key, required this.word, required this.onAnswer});
@@ -22,6 +24,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
   String? definition; // Definition of the word
   Color buttonColor = kOrangeColor600;
   bool isAnswered = false;
+  bool isTimerStopped = false; // To control the timer
   String result = '';
 
   @override
@@ -73,6 +76,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
 
     //Update button when answered
     setState(() {
+      isTimerStopped = true;
       isAnswered = true;
 
       if (answer == word) {
@@ -96,6 +100,32 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
         isAnswered = false;
         result = '';
         _controller.clear();
+        isTimerStopped = false;
+      });
+    });
+  }
+
+  void showAnswer(String answer) {
+    setState(() {
+      isTimerStopped = true;
+
+      // Show correct answer
+      gameAudio.incorrectAnswer();
+      buttonColor = Colors.red;
+      result = 'Out of Time';
+    });
+
+    // Delay for 2 seconds before resetting and moving to the next question
+    Future.delayed(Duration(seconds: 2), () {
+      widget.onAnswer(answer); // Call onAnswer function
+
+      // Reset the state for the next question
+      setState(() {
+        buttonColor = kOrangeColor600;
+        isAnswered = false;
+        result = '';
+        _controller.clear();
+        isTimerStopped = false; // Restart the timer
       });
     });
   }
@@ -113,6 +143,15 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                CountdownProgressIndicator(
+                  durationInSeconds: 15,
+                  isStopped: isTimerStopped, // Pass the timer state
+                  onTimerComplete: () {
+                    if (!isAnswered) {
+                      showAnswer(_controller.text);
+                    }
+                  },
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -128,7 +167,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                       TextSpan(
                         text: isAnswered ? ('\n') + word : ('\n') + ('_ ' * word.length),
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.orange),
+                            fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 26),
                       ),
                     ],
                   ),

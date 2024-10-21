@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
 
+import '../../../widgets/linear_progress_indicators.dart';
+
 class VocabularyQuestion extends StatefulWidget {
   const VocabularyQuestion({super.key, required this.word, required this.choices, required this.onAnswer, required this.answer});
   final String word;
@@ -16,20 +18,22 @@ class VocabularyQuestion extends StatefulWidget {
 class _VocabularyQuestionState extends State<VocabularyQuestion> {
   List<Color> buttonColors = [kOrangeColor600, kOrangeColor600, kOrangeColor600, kOrangeColor600];
   bool isAnswered = false; // Prevent multiple selections
+  bool isTimerStopped = false; // To control the timer
 
   // Handle user's answer
   void handleAnswer(String selectedChoice) {
     if (isAnswered) return; // Prevent multiple taps after answering
 
     setState(() {
-      isAnswered = true; // Lock the answers after one selection
+      isAnswered = true;
+      isTimerStopped = true;
 
       // Update button colors: red for incorrect, green for correct
       for (int i = 0; i < widget.choices.length; i++) {
         if (widget.choices[i] == widget.answer) {
-          buttonColors[i] = Colors.green; // Correct answer in green
+          buttonColors[i] = Colors.green;
         } else if (widget.choices[i] == selectedChoice) {
-          buttonColors[i] = Colors.redAccent; // Selected incorrect answer in red
+          buttonColors[i] = Colors.redAccent;
         }
       }
     });
@@ -40,9 +44,38 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
 
       // Reset the state for the next question
       setState(() {
-        // Reset button colors and unlock the buttons for the next question
         buttonColors = [kOrangeColor600, kOrangeColor600, kOrangeColor600, kOrangeColor600];
-        isAnswered = false; // Allow buttons to be pressed again
+        isAnswered = false;
+        isTimerStopped = false;
+      });
+    });
+  }
+
+  void showAnswer() {
+    String wrongAns = '';
+
+    setState(() {
+      isTimerStopped = true;
+
+      // Show correct answers in red button
+      for (int i = 0; i < widget.choices.length; i++) {
+        if (widget.choices[i] == widget.answer) {
+          buttonColors[i] = Colors.red;
+        } else {
+          wrongAns = widget.choices[i];
+        }
+      }
+    });
+
+    // Delay for 2 seconds before resetting and moving to the next question
+    Future.delayed(Duration(seconds: 2), () {
+      widget.onAnswer(wrongAns, widget.answer); // Call onAnswer function
+
+      // Reset the state for the next question
+      setState(() {
+        buttonColors = [kOrangeColor600, kOrangeColor600, kOrangeColor600, kOrangeColor600];
+        isAnswered = false;
+        isTimerStopped = false; // Restart the timer
       });
     });
   }
@@ -52,6 +85,15 @@ class _VocabularyQuestionState extends State<VocabularyQuestion> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        CountdownProgressIndicator(
+          durationInSeconds: 15,
+          isStopped: isTimerStopped, // Pass the timer state
+          onTimerComplete: () {
+            if (!isAnswered) {
+              showAnswer();
+            }
+          },
+        ),
         const SizedBox(),
         RichText(
           text: const TextSpan(
