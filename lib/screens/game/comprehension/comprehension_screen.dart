@@ -20,8 +20,6 @@ import 'package:diction_dash/screens/game/end_game_screen.dart';
 // Return the first question. When the user submits an answer, keep track of it and return the next question
 // When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
 
-// TODO: ACCOUNT FOR SPACED REPETITION
-
 class ComprehensionScreen extends StatefulWidget {
   const ComprehensionScreen({super.key, this.cefrLevel});
   final String? cefrLevel;

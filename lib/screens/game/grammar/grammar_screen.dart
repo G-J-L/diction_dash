@@ -14,8 +14,6 @@ import 'package:diction_dash/services/grammar_question_bank.dart';
 // Return the first question. When the user submits an answer, keep track of it and return the next question
 // When the user makes it to the last question in the SpellingQuestion list, display end_game_screen.dart instead with the appropriate xp rewards
 
-// TODO: ACCOUNT FOR SPACED REPETITION
-
 class GrammarScreen extends StatefulWidget {
   const GrammarScreen({super.key, required this.cefrLevel});
   final String cefrLevel;

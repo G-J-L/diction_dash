@@ -5,11 +5,13 @@ import 'package:diction_dash/widgets/buttons.dart';
 import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 
 class GrammarQuestion extends StatefulWidget {
-  const GrammarQuestion(
-      {super.key,
-      required this.phrase,
-      required this.isCorrect,
-      required this.onAnswer});
+  const GrammarQuestion({
+    super.key,
+    required this.phrase,
+    required this.isCorrect,
+    required this.onAnswer,
+  });
+
   final String? phrase;
   final bool? isCorrect;
   final void Function(bool)? onAnswer;
@@ -21,6 +23,7 @@ class GrammarQuestion extends StatefulWidget {
 class _GrammarQuestionState extends State<GrammarQuestion> {
   final GameAudio gameAudio = GameAudio();
   bool? answer;
+  bool isTimerStopped = false; // To track if the timer is stopped
 
   Map<String, dynamic> correctButton = {
     'color': kOrangeColor600,
@@ -35,6 +38,11 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
   };
 
   Future<void> showAnswer(bool answer) async {
+    // Stop the timer when an answer is selected
+    setState(() {
+      isTimerStopped = true;
+    });
+
     if (answer) {
       if (widget.isCorrect == true) {
         setState(() {
@@ -81,6 +89,9 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
         'borderColor': kOrangeColor600,
         'style': kButtonTextStyleOrange,
       };
+
+      // Reset for the next question
+      isTimerStopped = false;
     });
   }
 
@@ -91,9 +102,9 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
       children: [
         CountdownProgressIndicator(
           durationInSeconds: 15,
-          isStopped: false,
-          onTimerComplete: (){
-            showAnswer(!widget.isCorrect!);
+          isStopped: isTimerStopped, // Timer stops when user answers
+          onTimerComplete: () {
+            showAnswer(!widget.isCorrect!); // Auto answer if time is up
             widget.onAnswer!(!widget.isCorrect!);
           },
         ),
