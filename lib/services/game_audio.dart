@@ -1,23 +1,43 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GameAudio {
 
   final player = AudioPlayer();
+  bool soundsEnabled = true;
+
+  GameAudio() {
+    _init();
+  }
+
+  void _init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    soundsEnabled = prefs.getBool('soundsEnabled') ?? true;
+    print(soundsEnabled);
+  }
   
   void correctAnswer() {
-    player.play(AssetSource('correct.wav'));
+    if (soundsEnabled) {
+      player.play(AssetSource('correct.wav'));
+    }
   }
 
   void incorrectAnswer() {
-    player.play(AssetSource('incorrect.wav'));
+    if (soundsEnabled) {
+      player.play(AssetSource('incorrect.wav'));
+    }
   }
 
   void congratulations() {
-    player.play(AssetSource('congratulations.wav'));
+    if (soundsEnabled) {
+      player.play(AssetSource('congratulations.wav'));
+    }
   }
 
   void flop() {
-    player.play(AssetSource('flop.ogg'));
+    if (soundsEnabled) {
+      player.play(AssetSource('flop.ogg'));
+    }
   }
   
 }

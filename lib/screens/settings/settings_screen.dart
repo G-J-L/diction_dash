@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/screens/settings/profile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -12,6 +13,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _notifications = true;
   bool _autoCapsLock = true;
   bool _sounds = true;
+
+  Future<void> _loadSoundPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _sounds = prefs.getBool('soundsEnabled')!;
+    });
+  }
+
+  Future<void> _setSoundPreferences(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('soundsEnabled', value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSoundPreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +110,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 setState(() {
                   _sounds = value;
                 });
+                _setSoundPreferences(_sounds);
               },
               activeTrackColor: kOrangeColor300,
               inactiveThumbColor: Colors.grey,

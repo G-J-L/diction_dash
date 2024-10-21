@@ -30,12 +30,14 @@ class _EndGameScreenState extends State<EndGameScreen> {
   final FirestoreService firestoreService = FirestoreService();
   final String userID = FirebaseAuth.instance.currentUser!.uid;
 
+  final GameAudio gameAudio = GameAudio();
+
   late ConfettiController _confettiController;
   String? performance;
   List<Color> starColors = []; //Colors of stars in order
 
-  void playJingle() {
-    final GameAudio gameAudio = GameAudio();
+  Future<void> playJingle() async {
+    await Future.delayed(const Duration(milliseconds: 1500));
     if (widget.correctScore > 0) {
       gameAudio.congratulations();
     } else {
