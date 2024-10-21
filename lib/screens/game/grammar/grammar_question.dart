@@ -2,10 +2,14 @@ import 'package:diction_dash/services/game_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:diction_dash/services/constants.dart';
 import 'package:diction_dash/widgets/buttons.dart';
-import 'package:diction_dash/screens/game/end_game_screen.dart';
+import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 
 class GrammarQuestion extends StatefulWidget {
-  const GrammarQuestion({super.key, required this.phrase, required this.isCorrect, required this.onAnswer});
+  const GrammarQuestion(
+      {super.key,
+      required this.phrase,
+      required this.isCorrect,
+      required this.onAnswer});
   final String? phrase;
   final bool? isCorrect;
   final void Function(bool)? onAnswer;
@@ -15,7 +19,6 @@ class GrammarQuestion extends StatefulWidget {
 }
 
 class _GrammarQuestionState extends State<GrammarQuestion> {
-
   final GameAudio gameAudio = GameAudio();
   bool? answer;
 
@@ -86,6 +89,14 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        CountdownProgressIndicator(
+          durationInSeconds: 15,
+          isStopped: false,
+          onTimerComplete: (){
+            showAnswer(!widget.isCorrect!);
+            widget.onAnswer!(!widget.isCorrect!);
+          },
+        ),
         const SizedBox(),
         RichText(
           text: const TextSpan(

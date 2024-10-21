@@ -125,4 +125,81 @@ class QuestionBar extends StatelessWidget {
   }
 }
 
+class CountdownProgressIndicator extends StatefulWidget {
+  final int durationInSeconds;
+  final bool isStopped;
+  final void Function()? onTimerComplete;
+
+  const CountdownProgressIndicator({
+    Key? key,
+    required this.durationInSeconds,
+    required this.isStopped,
+    this.onTimerComplete,
+  }) : super(key: key);
+
+  @override
+  _CountdownProgressIndicatorState createState() => _CountdownProgressIndicatorState();
+}
+
+class _CountdownProgressIndicatorState extends State<CountdownProgressIndicator>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the AnimationController
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: widget.durationInSeconds),
+    );
+
+    // Add a listener to trigger the callback when the timer finishes
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.dismissed && widget.onTimerComplete != null) {
+        widget.onTimerComplete!();
+      }
+    });
+
+    // Start the countdown animation
+    _controller.reverse(from: 1.0);
+  }
+
+  @override
+  void didUpdateWidget(covariant CountdownProgressIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if the isStopped value has changed
+    if (widget.isStopped != oldWidget.isStopped) {
+      if (widget.isStopped) {
+        _controller.stop();
+      } else {
+        _controller.reverse(from: _controller.value);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the controller when the widget is removed from the widget tree
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return LinearProgressIndicator(
+          value: _controller.value,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+          backgroundColor: Colors.orange.shade100,
+        );
+      },
+    );
+  }
+}
+
 

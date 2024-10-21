@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diction_dash/services/helper.dart';
 
 class FirestoreService {
-
   // Initialize Cloud Firestore Instance For Users
-  final CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
 
   // Internal method for fetching user data
   Future<Map<String, dynamic>> getUserData(String userID) async {
     Map<String, dynamic>? userData;
     await users.doc(userID).get().then(
-          (DocumentSnapshot doc) {
+      (DocumentSnapshot doc) {
         userData = doc.data() as Map<String, dynamic>;
       },
       onError: (e) => print('Error getting document: $e'),
@@ -19,10 +19,11 @@ class FirestoreService {
   }
 
   // Internal method for fetching game data (spelling_data, vocabulary_data, etc.)
-  Future<Map<String, dynamic>> getGameData({String? userID, String? game}) async {
+  Future<Map<String, dynamic>> getGameData(
+      {String? userID, String? game}) async {
     Map<String, dynamic>? gameData;
     await users.doc(userID).collection(game!).doc('${game}_data').get().then(
-          (DocumentSnapshot doc) {
+      (DocumentSnapshot doc) {
         gameData = doc.data() as Map<String, dynamic>;
       },
       onError: (e) => print('Error getting document: $e'),
@@ -31,7 +32,8 @@ class FirestoreService {
   }
 
   // Add new user method
-  Future<void> addNewUser({String? userID, String? username, String? email}) async {
+  Future<void> addNewUser(
+      {String? userID, String? username, String? email}) async {
     // Initialize new user document
     final newUser = users.doc(userID);
 
@@ -40,7 +42,6 @@ class FirestoreService {
       'username': username!,
       'email': email!,
       'profile_picture': null,
-
       'level': 1,
       'exp': 0,
       'previous_max_exp': 0,
@@ -72,7 +73,8 @@ class FirestoreService {
     });
 
     // Initializes comprehension subcollection to store game data
-    final comprehension = newUser.collection('comprehension').doc('comprehension_data');
+    final comprehension =
+        newUser.collection('comprehension').doc('comprehension_data');
     await comprehension.set({
       'level': 1,
       'exp': 0,
@@ -87,22 +89,38 @@ class FirestoreService {
 
   // Fetch user spelling data
   Stream<DocumentSnapshot<Object?>> fetchSpellingData(String userID) {
-    return users.doc(userID).collection('spelling').doc('spelling_data').snapshots();
+    return users
+        .doc(userID)
+        .collection('spelling')
+        .doc('spelling_data')
+        .snapshots();
   }
 
   // Fetch user vocabulary data
   Stream<DocumentSnapshot<Object?>> fetchVocabularyData(String userID) {
-    return users.doc(userID).collection('vocabulary').doc('vocabulary_data').snapshots();
+    return users
+        .doc(userID)
+        .collection('vocabulary')
+        .doc('vocabulary_data')
+        .snapshots();
   }
 
   // Fetch user grammar data
   Stream<DocumentSnapshot<Object?>> fetchGrammarData(String userID) {
-    return users.doc(userID).collection('grammar').doc('grammar_data').snapshots();
+    return users
+        .doc(userID)
+        .collection('grammar')
+        .doc('grammar_data')
+        .snapshots();
   }
 
   // Fetch user comprehension data
   Stream<DocumentSnapshot<Object?>> fetchComprehensionData(String userID) {
-    return users.doc(userID).collection('comprehension').doc('comprehension_data').snapshots();
+    return users
+        .doc(userID)
+        .collection('comprehension')
+        .doc('comprehension_data')
+        .snapshots();
   }
 
   // Update username method
@@ -133,14 +151,21 @@ class FirestoreService {
   }
 
   Future<void> updateLevelAndEXP(String userID) async {
-    Map<String, dynamic> spellingData = await getGameData(userID: userID, game: 'spelling');
-    Map<String, dynamic> vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
-    Map<String, dynamic> grammarData = await getGameData(userID: userID, game: 'grammar');
-    Map<String, dynamic> comprehensionData = await getGameData(userID: userID, game: 'comprehension');
+    Map<String, dynamic> spellingData =
+        await getGameData(userID: userID, game: 'spelling');
+    Map<String, dynamic> vocabularyData =
+        await getGameData(userID: userID, game: 'vocabulary');
+    Map<String, dynamic> grammarData =
+        await getGameData(userID: userID, game: 'grammar');
+    Map<String, dynamic> comprehensionData =
+        await getGameData(userID: userID, game: 'comprehension');
 
     // Assigns the summation of each game exp to user's overall exp
     await users.doc(userID).update({
-      'exp': spellingData['exp'] + vocabularyData['exp'] + grammarData['exp'] + comprehensionData['exp'],
+      'exp': spellingData['exp'] +
+          vocabularyData['exp'] +
+          grammarData['exp'] +
+          comprehensionData['exp'],
     });
 
     // Retrieve user data and adjust level accordingly
@@ -149,7 +174,7 @@ class FirestoreService {
     int userExp = userData['exp'];
     if (userExp > calculateMaxEXP(userLevel)) {
       await users.doc(userID).update({
-        'level' : userLevel + 1,
+        'level': userLevel + 1,
         'previous_max_exp': calculateMaxEXP(userLevel),
       });
     }
@@ -157,8 +182,10 @@ class FirestoreService {
 
   // Increment spelling exp by a given amount and adjust game level if necessary
   Future<void> addSpellingEXP(String userID, int expReward) async {
-    Map<String, dynamic> spellingData = await getGameData(userID: userID, game: 'spelling');
-    DocumentReference spelling = users.doc(userID).collection('spelling').doc('spelling_data');
+    Map<String, dynamic> spellingData =
+        await getGameData(userID: userID, game: 'spelling');
+    DocumentReference spelling =
+        users.doc(userID).collection('spelling').doc('spelling_data');
     int spellingExp = spellingData['exp'];
     await spelling.update({
       'exp': spellingExp + expReward,
@@ -176,8 +203,10 @@ class FirestoreService {
 
   // Increment vocabulary exp by a given amount and adjust game level if necessary
   Future<void> addVocabularyEXP(String userID, int expReward) async {
-    Map<String, dynamic> vocabularyData = await getGameData(userID: userID, game: 'vocabulary');
-    DocumentReference vocabulary = users.doc(userID).collection('vocabulary').doc('vocabulary_data');
+    Map<String, dynamic> vocabularyData =
+        await getGameData(userID: userID, game: 'vocabulary');
+    DocumentReference vocabulary =
+        users.doc(userID).collection('vocabulary').doc('vocabulary_data');
     int vocabularyExp = vocabularyData['exp'];
     await vocabulary.update({
       'exp': vocabularyExp + expReward,
@@ -195,8 +224,10 @@ class FirestoreService {
 
   // Increment grammar exp by a given amount and adjust game level if necessary
   Future<void> addGrammarEXP(String userID, int expReward) async {
-    Map<String, dynamic> grammarData = await getGameData(userID: userID, game: 'grammar');
-    DocumentReference grammar = users.doc(userID).collection('grammar').doc('grammar_data');
+    Map<String, dynamic> grammarData =
+        await getGameData(userID: userID, game: 'grammar');
+    DocumentReference grammar =
+        users.doc(userID).collection('grammar').doc('grammar_data');
     int grammarExp = grammarData['exp'];
     await grammar.update({
       'exp': grammarData['exp'] + expReward,
@@ -214,13 +245,16 @@ class FirestoreService {
 
   // Increment comprehension exp by a given amount and adjust game level if necessary
   Future<void> addComprehensionEXP(String userID, int expReward) async {
-    Map<String, dynamic> comprehensionData = await getGameData(userID: userID, game: 'comprehension');
-    DocumentReference comprehension = users.doc(userID).collection('comprehension').doc('comprehension_data');
+    Map<String, dynamic> comprehensionData =
+        await getGameData(userID: userID, game: 'comprehension');
+    DocumentReference comprehension =
+        users.doc(userID).collection('comprehension').doc('comprehension_data');
     int comprehensionExp = comprehensionData['exp'];
     await comprehension.update({
       'exp': comprehensionExp + expReward,
     });
-    comprehensionData = await getGameData(userID: userID, game: 'comprehension');
+    comprehensionData =
+        await getGameData(userID: userID, game: 'comprehension');
     int comprehensionLevel = comprehensionData['level'];
     comprehensionExp = comprehensionData['exp'];
     if (comprehensionExp > calculateMaxEXP(comprehensionLevel)) {
@@ -229,5 +263,57 @@ class FirestoreService {
         'previous_max_exp': calculateMaxEXP(comprehensionLevel),
       });
     }
+  }
+
+  // Store spelling question for spaced repetition
+  Future<void> storeSpellingQuestion(
+      {String? userID,
+      String? word,
+      int? correctScore,
+      int? wrongScore,
+      Timestamp? nextReview,
+      int? repetition,
+      }) async {
+    final user = users.doc(userID);
+    final spellingQuestions = user
+        .collection('spelling')
+        .doc('spelling_data')
+        .collection('spelling_questions');
+    await spellingQuestions.add({
+      'word': word,
+      'correct_score': correctScore,
+      'wrong_score': wrongScore,
+      'last_review': Timestamp.now(),
+      'next_review': nextReview,
+      'repetition': repetition,
+      'quality_score': 4,
+      'ease_score': 2.25,
+    });
+  }
+
+  // Store vocabulary question for spaced repetition
+  Future<void> storeVocabularyQuestion(
+      {String? userID,
+        String? word,
+        int? correctScore,
+        int? wrongScore,
+        Timestamp? nextReview,
+        int? repetition,
+      }) async {
+    final user = users.doc(userID);
+    final vocabularyQuestions = user
+        .collection('vocabulary')
+        .doc('vocabulary_data')
+        .collection('vocabulary_questions');
+    await vocabularyQuestions.add({
+      'word': word,
+      'correct_score': correctScore,
+      'wrong_score': wrongScore,
+      'last_review': Timestamp.now(),
+      'next_review': nextReview,
+      'repetition': repetition,
+      'quality_score': 4,
+      'ease_score': 2.25,
+    });
   }
 }
