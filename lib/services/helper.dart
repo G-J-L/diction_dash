@@ -16,5 +16,6 @@ List<int> getRandomNumbers({int? max, int? count}) {
 }
 
 int calculateMaxEXP(int level) {
-  return int.parse((150 + pow((level - 1), 2) * 100).toString());
+  // return int.parse((150 + pow((level - 1), 2) * 100).toString());
+  return int.parse((150 * level).toString());
 }

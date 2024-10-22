@@ -31,6 +31,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
   bool isLoading = true;
   int currentIndex = 0;
   int correctScore = 0;
+  int timePoints = 0;
 
   @override
   void initState() {
@@ -39,15 +40,14 @@ class _GrammarScreenState extends State<GrammarScreen> {
     questions = questionBank.getRandomQuestions(cefrLevel: widget.cefrLevel, count: 10);
   }
 
-  void checkAnswer(bool answer) {
+  void checkAnswer(bool answer, int points) {
     // Check if user answer is equal to the correct answer
     if (answer == questions[currentIndex]['isCorrect']) {
+      timePoints += points;
       setState(() {
         correctScore++;
       });
     }
-
-
     // Increment question number if we are not at the last question yet
     if (currentIndex < questions.length - 1) {
       setState(() {
@@ -60,6 +60,7 @@ class _GrammarScreenState extends State<GrammarScreen> {
         MaterialPageRoute(
           builder: (context) => EndGameScreen(
             correctScore: correctScore,
+            timePoints: timePoints,
             onCorrect: () {},
             rewardEXP: firestoreService.addGrammarEXP,
           ),

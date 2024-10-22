@@ -11,7 +11,7 @@ class SpellingQuestion extends StatefulWidget {
   const SpellingQuestion(
       {super.key, required this.word, required this.onAnswer});
   final String word;
-  final Function(String) onAnswer; // Callback to check the answer
+  final Function(String, int) onAnswer; // Callback to check the answer
 
   @override
   State<SpellingQuestion> createState() => _SpellingQuestionState();
@@ -26,18 +26,24 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
   bool isAnswered = false;
   bool isTimerStopped = false; // To control the timer
   String result = '';
+  DateTime? startTime;
+  DateTime? endTime;
+  int? timePoints;
 
   @override
   void initState() {
     super.initState();
     _initializeTts();
     _getDefinition(widget.word); // Fetch the definition on init
+    startTime = DateTime.now();
   }
 
   // This method is called whenever the widget is updated
   @override
   void didUpdateWidget(SpellingQuestion oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    startTime = DateTime.now();
 
     // Fetch the definition whenever the word data changes
     if (oldWidget.word != widget.word) {
@@ -74,6 +80,8 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
   void handleAnswer(String answer, String word) {
     if (isAnswered) return; // Prevent multiple taps after answering
 
+
+
     //Update button when answered
     setState(() {
       isTimerStopped = true;
@@ -92,7 +100,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
 
     // Delay for 2 seconds before resetting and moving to the next question
     Future.delayed(Duration(seconds: 2), () {
-      widget.onAnswer(answer); // Call onAnswer function
+      widget.onAnswer(answer, timePoints!); // Call onAnswer function
 
       // Reset the state for the next question
       setState(() {
@@ -117,7 +125,7 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
 
     // Delay for 2 seconds before resetting and moving to the next question
     Future.delayed(Duration(seconds: 2), () {
-      widget.onAnswer(answer); // Call onAnswer function
+      widget.onAnswer(answer, timePoints!); // Call onAnswer function
 
       // Reset the state for the next question
       setState(() {
@@ -128,6 +136,13 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
         isTimerStopped = false; // Restart the timer
       });
     });
+  }
+
+  void calculateTimePoints(DateTime startTime) {
+    endTime = DateTime.now();
+    double points = (20 - endTime!.difference(startTime).inSeconds) / 4;
+    print('Time Points: ${points.ceil()}');
+    timePoints = points.ceil();
   }
 
   @override
@@ -165,9 +180,13 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                       ),
                       const TextSpan(text: ' the following word: '),
                       TextSpan(
-                        text: isAnswered ? ('\n') + word : ('\n') + ('_ ' * word.length),
+                        text: isAnswered
+                            ? ('\n') + word
+                            : ('\n') + ('_ ' * word.length),
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 26),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange,
+                            fontSize: 26),
                       ),
                     ],
                   ),
@@ -180,10 +199,10 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                   child: definition == null
                       ? const CircularProgressIndicator() // Show loading indicator while fetching the definition
                       : Text(
-                    definition!,
-                    textAlign: TextAlign.center,
-                    style: kSubtext20,
-                  ),
+                          definition!,
+                          textAlign: TextAlign.center,
+                          style: kSubtext20,
+                        ),
                 ),
                 SizedBox(height: height * 0.1),
                 // Audio Button
@@ -219,7 +238,8 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
+                padding:
+                    const EdgeInsets.only(right: 8.0, bottom: 8.0, left: 8.0),
                 child: TextField(
                   controller: _controller,
                   style: const TextStyle(fontSize: 24),
@@ -240,7 +260,8 @@ class _SpellingQuestionState extends State<SpellingQuestion> {
                 color: buttonColor,
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                   handleAnswer(_controller.text, word);
+                  calculateTimePoints(startTime!);
+                  handleAnswer(_controller.text, word);
                 },
                 child: Center(
                   child: Text(
