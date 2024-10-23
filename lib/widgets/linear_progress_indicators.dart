@@ -221,8 +221,7 @@ class _CountdownProgressIndicatorState extends State<CountdownProgressIndicator>
         return LinearProgressIndicator(
           value: _controller.value,
           valueColor: _colorAnimation,
-          // backgroundColor: Colors.green.shade100,
-          backgroundColor: kGrayColor200,
+          backgroundColor: Colors.green.shade100,
         );
       },
     );

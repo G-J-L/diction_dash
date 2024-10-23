@@ -37,7 +37,6 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
   bool isLoading = true;
   int currentIndex = 0;
   int correctScore = 0;
-  int timePoints = 0;
 
   @override
   void initState() {
@@ -45,9 +44,8 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
     questions = questionBank.getRandomQuestions(cefrLevel: widget.cefrLevel, count: 10);
   }
 
-  void checkAnswer(String? answer, int points) {
+  void checkAnswer(String? answer) {
     // Check if user answer is equal to the correct answer
-    timePoints += points;
     if (answer == questions[currentIndex]['answer']) {
       setState(() {
         correctScore++;
@@ -66,7 +64,6 @@ class _ComprehensionScreenState extends State<ComprehensionScreen> {
         MaterialPageRoute(
           builder: (context) => EndGameScreen(
             correctScore: correctScore,
-            timePoints: timePoints,
             onCorrect: () {},
             rewardEXP: firestoreService.addComprehensionEXP,
           ),

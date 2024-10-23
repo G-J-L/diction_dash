@@ -30,13 +30,11 @@ class _SpellingScreenState extends State<SpellingScreen> {
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
   int correctScore = 0; // Keep track of correct answers
-  int timePoints = 0;
 
   @override
   void initState() {
     super.initState();
     fetchWords(); // Fetch words on screen initialization
-    wordsAPI.loadSpellingQuestionData(cefrLevel: widget.cefrLevel, level: widget.level);
   }
 
   Future<void> fetchWords() async {
@@ -67,11 +65,10 @@ class _SpellingScreenState extends State<SpellingScreen> {
     }
   }
 
-  void checkAnswer(String userAnswer, int points) {
+  void checkAnswer(String userAnswer) {
     FocusScope.of(context).unfocus();
     if (userAnswer.toLowerCase() == words[currentIndex].toLowerCase()) {
       correctScore++; // Increment correct score
-      timePoints += points;
     }
 
     if (currentIndex < words.length - 1) {
@@ -85,7 +82,6 @@ class _SpellingScreenState extends State<SpellingScreen> {
         MaterialPageRoute(
           builder: (context) => EndGameScreen(
             correctScore: correctScore,
-            timePoints: timePoints,
             onCorrect: () {},
             rewardEXP: firestoreService.addSpellingEXP,
           ),
@@ -96,6 +92,7 @@ class _SpellingScreenState extends State<SpellingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    wordsAPI.loadSpellingQuestionData(cefrLevel: widget.cefrLevel, level: widget.level);
     return Scaffold(
       // resizeToAvoidBottomInset: true,
       appBar: isLoading

@@ -14,7 +14,7 @@ class GrammarQuestion extends StatefulWidget {
 
   final String? phrase;
   final bool? isCorrect;
-  final void Function(bool, int)? onAnswer;
+  final void Function(bool)? onAnswer;
 
   @override
   State<GrammarQuestion> createState() => _GrammarQuestionState();
@@ -23,11 +23,7 @@ class GrammarQuestion extends StatefulWidget {
 class _GrammarQuestionState extends State<GrammarQuestion> {
   final GameAudio gameAudio = GameAudio();
   bool? answer;
-  bool isAnswered = false;
   bool isTimerStopped = false; // To track if the timer is stopped
-  DateTime? startTime;
-  DateTime? endTime;
-  int? timePoints;
 
   Map<String, dynamic> correctButton = {
     'color': kOrangeColor600,
@@ -44,7 +40,6 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
   Future<void> showAnswer(bool answer) async {
     // Stop the timer when an answer is selected
     setState(() {
-      isAnswered = true;
       isTimerStopped = true;
     });
 
@@ -97,106 +92,75 @@ class _GrammarQuestionState extends State<GrammarQuestion> {
 
       // Reset for the next question
       isTimerStopped = false;
-      isAnswered = false;
     });
-  }
-
-  void calculateTimePoints(DateTime startTime) {
-    endTime = DateTime.now();
-    double points = (15 - endTime!.difference(startTime).inSeconds) / 3;
-    timePoints = points.ceil();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startTime = DateTime.now();
-  }
-
-  @override
-  void didUpdateWidget(covariant GrammarQuestion oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    startTime = DateTime.now();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CountdownProgressIndicator(
           durationInSeconds: 15,
           isStopped: isTimerStopped, // Timer stops when user answers
           onTimerComplete: () {
             showAnswer(!widget.isCorrect!); // Auto answer if time is up
-            widget.onAnswer!(!widget.isCorrect!, 0);
+            widget.onAnswer!(!widget.isCorrect!);
           },
         ),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        const SizedBox(),
+        RichText(
+          text: const TextSpan(
+            style: kSubtext20,
             children: [
-              const SizedBox(),
-              RichText(
-                text: const TextSpan(
-                  style: kSubtext20,
-                  children: [
-                    TextSpan(text: 'Identify if the sentence\nis '),
-                    TextSpan(
-                      text: ' grammatically correct.',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+              TextSpan(text: 'Identify if the sentence\nis '),
+              TextSpan(
+                text: ' grammatically correct.',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  widget.phrase!,
-                  style: kSubtext20,
-                  textAlign: TextAlign.center,
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Text(
+            widget.phrase!,
+            style: kSubtext20,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OvalButton(
+                color: correctButton['color'],
+                borderColor: correctButton['borderColor'],
+                onPressed: () async {
+                  await showAnswer(true);
+                  widget.onAnswer!(true);
+                },
+                child: Center(
+                  child: Text(
+                    'CORRECT',
+                    style: correctButton['style'],
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OvalButton(
-                      color: correctButton['color'],
-                      borderColor: correctButton['borderColor'],
-                      onPressed: (!isAnswered)
-                          ? () async {
-                              await showAnswer(true);
-                              calculateTimePoints(startTime!);
-                              widget.onAnswer!(true, timePoints!);
-                            }
-                          : null,
-                      child: Center(
-                        child: Text(
-                          'CORRECT',
-                          style: correctButton['style'],
-                        ),
-                      ),
-                    ),
-                    OvalButton(
-                      color: incorrectButton['color'],
-                      borderColor: incorrectButton['borderColor'],
-                      onPressed: (!isAnswered)
-                          ? () async {
-                              await showAnswer(false);
-                              calculateTimePoints(startTime!);
-                              widget.onAnswer!(false, timePoints!);
-                            }
-                          : null,
-                      child: Center(
-                        child: Text(
-                          'INCORRECT',
-                          style: incorrectButton['style'],
-                        ),
-                      ),
-                    ),
-                  ],
+              OvalButton(
+                color: incorrectButton['color'],
+                borderColor: incorrectButton['borderColor'],
+                onPressed: () async {
+                  await showAnswer(false);
+                  widget.onAnswer!(false);
+                },
+                child: Center(
+                  child: Text(
+                    'INCORRECT',
+                    style: incorrectButton['style'],
+                  ),
                 ),
               ),
             ],

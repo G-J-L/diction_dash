@@ -11,14 +11,12 @@ import 'package:diction_dash/widgets/linear_progress_indicators.dart';
 
 class EndGameScreen extends StatefulWidget {
   final int correctScore; // Correct score parameter
-  final int timePoints;
   final VoidCallback onCorrect; // Callback function for correct score
   final Future<void> Function(String, int)? rewardEXP;
 
   const EndGameScreen({
     super.key,
     required this.correctScore,
-    this.timePoints=0,
     required this.onCorrect, //
     this.rewardEXP,// Require onCorrect parameter
   });
@@ -102,7 +100,6 @@ class _EndGameScreenState extends State<EndGameScreen> {
   @override
   Widget build(BuildContext context) {
     double progVal = widget.correctScore * 0.1;
-    int totalEXP = (widget.correctScore * 10) + widget.timePoints;
 
     return Scaffold(
       body: SafeArea(
@@ -158,9 +155,8 @@ class _EndGameScreenState extends State<EndGameScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('SCORE', style: kOswaldMedium),
+                      const Text('SCORE: ', style: kOswaldMedium),
                       // Linear Progress Indicator for Score
                       Container(
                         width: double.infinity,
@@ -194,10 +190,10 @@ class _EndGameScreenState extends State<EndGameScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       const Text('EXPERIENCE POINTS', style: kOswaldMedium),
                       Text(
-                        '+$totalEXP XP',
+                        '+${widget.correctScore * 10} XP',
                         style: kButtonTextStyleOrange.copyWith(fontSize: 36),
                       ),
                     ],
@@ -220,7 +216,7 @@ class _EndGameScreenState extends State<EndGameScreen> {
                     color: kOrangeColor600,
                     onPressed: () async {
                       print('Continue');
-                      await widget.rewardEXP!(userID, totalEXP);
+                      await widget.rewardEXP!(userID, widget.correctScore * 10);
                       await firestoreService.updateLevelAndEXP(userID);
                       Navigator.pushReplacement(
                         context,

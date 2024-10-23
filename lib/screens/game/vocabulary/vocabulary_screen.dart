@@ -34,13 +34,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   bool isLoading = true;
   int currentIndex = 0; // Keep track of current word index
   int correctScore = 0; // Keep track of correct answers
-  int timePoints = 0;
 
   @override
   void initState() {
     super.initState();
     fetchWords(); // Fetch words on screen initialization
-    wordsAPI.loadVocabularyQuestionData(cefrLevel: widget.cefrLevel, level: widget.level);
   }
 
   Future<void> fetchWords() async {
@@ -64,9 +62,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       List<List<String>>? preloadedChoices; // Preloaded Choices
       List<String>? preloadedAnswers; // Preloaded Answers
       try {
-        preloadedChoices = (json.decode(store?.getString('vocabularyQuestionChoices') ?? '[]') as List)
-            .map((e) => (e as List).map((item) => item as String).toList())
-            .toList();
+        preloadedChoices = (json.decode(store?.getString('vocabularyQuestionChoices') ?? '{}')).cast<List<List<String>>>();
         preloadedAnswers = (json.decode(store?.getString('vocabularyQuestionAnswers') ?? '{}')).cast<String>();
       } catch (e) {
         print('NO PRELOADED WORDS AND CHOICES : $e');
@@ -103,12 +99,11 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
       }
   }
 
-  void checkAnswer(String userAnswer, String answer, int points) {
+  void checkAnswer(String userAnswer, String answer) {
     if (userAnswer.toLowerCase() == answer.toLowerCase()) {
-      timePoints += points;
       correctScore++; // Increment correct score
     }
-    print('Total Time Points: ${timePoints}');
+
     if (currentIndex < words.length - 1) {
       setState(() {
         currentIndex++; // Move to the next word
@@ -120,7 +115,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
         MaterialPageRoute(
           builder: (context) => EndGameScreen(
             correctScore: correctScore,
-            timePoints: timePoints,
             onCorrect: () {},
             rewardEXP: firestoreService.addVocabularyEXP,
           ),
@@ -131,6 +125,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    wordsAPI.loadVocabularyQuestionData(cefrLevel: widget.cefrLevel, level: widget.level);
     return Scaffold(
       appBar: isLoading
           ? null
